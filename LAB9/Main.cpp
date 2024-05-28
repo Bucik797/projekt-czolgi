@@ -117,7 +117,7 @@ void setBasicText(Text& playText, Text& settingsText, Text& closeText, Text& tit
 
 void setMapsGraphics(Sprite& map1_sprite, Texture& map1_texture, Sprite& map2_sprite, Texture& map2_texture, Sprite& map3_sprite, Texture& map3_texture, Sprite& map4_sprite, Texture& map4_texture)
 {
-    if (!map1_texture.loadFromFile("map1.png")||
+    if (!map1_texture.loadFromFile("map11.png")||
         !map2_texture.loadFromFile("map1.png") ||
         !map3_texture.loadFromFile("map1.png") ||
         !map4_texture.loadFromFile("map1.png"))
@@ -477,7 +477,28 @@ void playMusic(Sound& music, SoundBuffer& music_buffer)
     music.setBuffer(music_buffer);
 }
 
+void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_sprite, Sprite& map3Background_sprite, Sprite& map4Background_sprite, Texture& map1Background_texture, Texture& map2Background_texture, Texture& map3Background_texture, Texture& map4Background_texture)
+{
+    if (!map1Background_texture.loadFromFile("map11.png")
+        || !map2Background_texture.loadFromFile("map1.png")
+        || !map3Background_texture.loadFromFile("map1.png")
+        || !map4Background_texture.loadFromFile("map1.png"))
+    {
+        cout << "Failed to load textures" << endl;
+    }
 
+    map1Background_sprite.setTexture(map1Background_texture);
+    map1Background_sprite.setScale(2,2);
+    map1Background_sprite.setPosition(0,0);
+
+
+    map2Background_sprite.setTexture(map2Background_texture);
+
+    map3Background_sprite.setTexture(map3Background_texture);
+
+    map4Background_sprite.setTexture(map4Background_texture);
+
+}
 
 
 int main() {
@@ -486,8 +507,9 @@ int main() {
     RenderWindow loadingScreen(VideoMode(1300,700), "Loading screen", Style::None);
     RenderWindow basicWindow;
     RenderWindow settingsWindow;
-    RenderWindow mapWindow;
+    RenderWindow mapsWindow;
     RenderWindow playerWindow;
+    RenderWindow battleWindow;
     bool isFullscreen = false;
     bool loaded = false;
     Clock clock;
@@ -497,6 +519,8 @@ int main() {
     RectangleShape closeButton, settingsButton, playButton, fullscreenONButton, fullscreenOFFButton, battleButton;
     RectangleShape  music0Button, music25Button, music50Button, music75Button, music100Button, sfx0Button, sfx25Button, sfx50Button, sfx75Button, sfx100Button;
     Sprite background_sprite, bucik_sprite, lajcior_sprite, map1_sprite, map2_sprite, map3_sprite, map4_sprite, P1L_sprite, P1R_sprite, P2L_sprite, P2R_sprite, player1_sprite, player2_sprite;
+    Sprite map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite;
+    Texture map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture;
     Text playText, settingsText, closeText, titleText, mapsText, backText, map1Text, map2Text, map3Text, map4Text, player1Text, player2Text, battleText;
     Text fullscreenText, musicText, sfxText, fullscreenONText, fullscreenOFFText, music0Text, music25Text, music50Text, music75Text, music100Text, sfx0Text, sfx25Text, sfx50Text, sfx75Text, sfx100Text;
     Texture background_texture, lajt_texture, bucior_texture, map1_texture, map2_texture, map3_texture, map4_texture, P1L_texture, P1R_texture, P2L_texture, P2R_texture, player1_texture, player2_texture;
@@ -515,19 +539,19 @@ int main() {
     setSettingsGraphics(fullscreenONButton, fullscreenOFFButton, music0Button, music25Button, music50Button, music75Button, music100Button, sfx0Button, sfx25Button, sfx50Button, sfx75Button, sfx100Button);
     setPlayersText(player1Text, player2Text, font, battleText);
     setPlayersGraphics(P1L_sprite, P1R_sprite, P2L_sprite, P2R_sprite, player1_sprite, player2_sprite, P1L_texture, P1R_texture, P2L_texture, P2R_texture, player1_texture, player2_texture, battleButton);
-    
+    setBattleGraphics(map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture);
     
     playMusic(music, music_buffer);
-    music.play();
+    //music.play();
 
     while (loadingScreen.isOpen())
     {
         Time elapsed = clock.getElapsedTime();
         Event loadingEvent;
-        cout << elapsed.asSeconds() << endl;
+        //cout << elapsed.asSeconds() << endl;
 
         
-        if (elapsed.asSeconds() > 10.0f)
+        if (elapsed.asSeconds() > 6.0f)
         {
 
             basicWindow.create(VideoMode(window_width, window_height), "basicWindow", Style::Fullscreen);
@@ -536,15 +560,11 @@ int main() {
 
 
         }
-        //DODODODO
+        
 
         while (loadingScreen.pollEvent(loadingEvent))
         {
             if (loadingEvent.type == Event::Closed) loadingScreen.close();
-            
-            
-            
-
         }
 
         loadingScreen.clear();
@@ -554,6 +574,9 @@ int main() {
         loadingScreen.display();
 
     }
+
+
+    
 
 
     
@@ -579,12 +602,14 @@ int main() {
                     }
                     if (buttonClicked(basicWindow, playButton))
                     {
-                        mapWindow.create(VideoMode(window_width, window_height), "mapWindow",Style::Fullscreen);
-                        basicWindow.setVisible(false);
+                        mapsWindow.create(VideoMode(window_width, window_height), "mapsWindow",Style::Fullscreen);
+                        //basicWindow.setVisible(false);
+                        basicWindow.close();
                     }
                 }
             }
         }
+
 
         while (settingsWindow.isOpen())
         {
@@ -592,7 +617,7 @@ int main() {
             while (settingsWindow.pollEvent(event2))
             {
                 if (event2.type == Event::Closed) {
-                    
+
                     basicWindow.setVisible(true);
                     settingsWindow.close();
                 }
@@ -676,45 +701,49 @@ int main() {
             settingsWindow.display();
         }
 
-        while (mapWindow.isOpen())
+
+
+        
+
+        while (mapsWindow.isOpen())
         {
             Event event3;
-            while (mapWindow.pollEvent(event3))
+            while (mapsWindow.pollEvent(event3))
             {
                 if (event3.type == Event::Closed) {
-                    mapWindow.close();
+                    mapsWindow.close();
                     basicWindow.setVisible(true);
                 }
 
                 if (event3.type == Event::MouseButtonPressed) {
                     if (event3.mouseButton.button == Mouse::Left) {
-                        if (buttonClicked(mapWindow, closeButton))
+                        if (buttonClicked(mapsWindow, closeButton))
                         {
-                            basicWindow.setVisible(true);
-                            mapWindow.close();
+                            basicWindow.create(VideoMode(window_width, window_height), "basicWindow", Style::Fullscreen);
+                            mapsWindow.close();
                             
                         }
-                        if (selectedSprite(mapWindow, map1_sprite))
+                        if (selectedSprite(mapsWindow, map1_sprite))
                         {
                             playerWindow.create(VideoMode(window_width, window_height), "playerWindow", Style::Fullscreen);
-                            //mapWindow.setVisible(false);
-                            mapWindow.close();
+                            //mapsWindow.setVisible(false);
+                            mapsWindow.close();
                             
                         }
-                        if (selectedSprite(mapWindow, map2_sprite))
+                        if (selectedSprite(mapsWindow, map2_sprite))
                         {
                             playerWindow.create(VideoMode(window_width, window_height), "playerWindow", Style::Fullscreen);
-                            mapWindow.setVisible(false);
+                            mapsWindow.close();
                         }
-                        if (selectedSprite(mapWindow, map3_sprite))
+                        if (selectedSprite(mapsWindow, map3_sprite))
                         {
                             playerWindow.create(VideoMode(window_width, window_height), "playerWindow", Style::Fullscreen);
-                            mapWindow.setVisible(false);
+                            mapsWindow.close();
                         }
-                        if (selectedSprite(mapWindow, map4_sprite))
+                        if (selectedSprite(mapsWindow, map4_sprite))
                         {
                             playerWindow.create(VideoMode(window_width, window_height), "playerWindow", Style::Fullscreen);
-                            mapWindow.setVisible(false);
+                            mapsWindow.close();
                         }
                     }
                 }
@@ -727,7 +756,7 @@ int main() {
                 {
                     if (event4.type == Event::Closed)
                     {
-                        mapWindow.setVisible(true);
+                        mapsWindow.create(VideoMode(window_width, window_height), "fff", Style::Fullscreen);
                         playerWindow.close();
                         
                     }
@@ -735,11 +764,16 @@ int main() {
                         if (event4.mouseButton.button == Mouse::Left) {
                             if (buttonClicked(playerWindow, closeButton))
                             {
-                                mapWindow.setVisible(true);
-                                mapWindow.create(VideoMode(window_width, window_height), "fff", Style::Fullscreen);
+                                //mapsWindow.setVisible(true);
+                                mapsWindow.create(VideoMode(window_width, window_height), "fff", Style::Fullscreen);
                                 playerWindow.close();
                                 
                                 
+                            }
+                            if (buttonClicked(playerWindow, battleButton))
+                            {
+                                battleWindow.create(VideoMode(window_width, window_height), "map1", Style::Fullscreen);
+                                playerWindow.close();
                             }
                             
                         }
@@ -761,25 +795,63 @@ int main() {
                 playerWindow.draw(player2Text);
                 playerWindow.draw(backText);
                 playerWindow.display();
+
+
+                while (battleWindow.isOpen())
+                {
+                    Event event5;
+                    while (battleWindow.pollEvent(event5))
+                    {
+                        if (event5.type == Event::Closed)
+                        {
+                            playerWindow.create(VideoMode(window_width, window_height), "fff", Style::Fullscreen);
+                            battleWindow.close();
+
+                        }
+                        if (event5.type == Event::MouseButtonPressed) {
+                            if (event5.mouseButton.button == Mouse::Left) {
+                                if (buttonClicked(battleWindow, closeButton))
+                                {
+                                    
+                                    playerWindow.create(VideoMode(window_width, window_height), "fff", Style::Fullscreen);
+                                    battleWindow.close();
+
+
+                                }
+                                
+
+                            }
+                        }
+
+                    }
+                    battleWindow.clear();
+                    battleWindow.draw(map1Background_sprite);
+                    battleWindow.draw(closeButton);
+                    battleWindow.draw(closeText);
+                    battleWindow.display();
+                }
+
+
+
             }
 
 
 
 
-            mapWindow.clear();
-            mapWindow.draw(background_sprite);
-            mapWindow.draw(mapsText);
-            mapWindow.draw(closeButton);
-            mapWindow.draw(backText);
-            mapWindow.draw(map1_sprite);
-            mapWindow.draw(map2_sprite);
-            mapWindow.draw(map3_sprite);
-            mapWindow.draw(map4_sprite);
-            mapWindow.draw(map1Text);
-            mapWindow.draw(map2Text);
-            mapWindow.draw(map3Text);
-            mapWindow.draw(map4Text);
-            mapWindow.display();
+            mapsWindow.clear();
+            mapsWindow.draw(background_sprite);
+            mapsWindow.draw(mapsText);
+            mapsWindow.draw(closeButton);
+            mapsWindow.draw(backText);
+            mapsWindow.draw(map1_sprite);
+            mapsWindow.draw(map2_sprite);
+            mapsWindow.draw(map3_sprite);
+            mapsWindow.draw(map4_sprite);
+            mapsWindow.draw(map1Text);
+            mapsWindow.draw(map2Text);
+            mapsWindow.draw(map3Text);
+            mapsWindow.draw(map4Text);
+            mapsWindow.display();
         }
 
 
@@ -798,6 +870,11 @@ int main() {
         basicWindow.display();
         
     }
+
+    
+
+
+
 
     return 0;
 }
