@@ -520,7 +520,6 @@ int main() {
     playMusic(music, music_buffer);
     music.play();
 
-    
     while (loadingScreen.isOpen())
     {
         Time elapsed = clock.getElapsedTime();
@@ -537,7 +536,7 @@ int main() {
 
 
         }
-
+        //DODODODO
 
         while (loadingScreen.pollEvent(loadingEvent))
         {
