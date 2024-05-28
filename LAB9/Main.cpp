@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include "Tank.h"
 
 using namespace sf;
 using namespace std;
@@ -477,12 +478,13 @@ void playMusic(Sound& music, SoundBuffer& music_buffer)
     music.setBuffer(music_buffer);
 }
 
-void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_sprite, Sprite& map3Background_sprite, Sprite& map4Background_sprite, Texture& map1Background_texture, Texture& map2Background_texture, Texture& map3Background_texture, Texture& map4Background_texture)
+void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_sprite, Sprite& map3Background_sprite, Sprite& map4Background_sprite, Texture& map1Background_texture, Texture& map2Background_texture, Texture& map3Background_texture, Texture& map4Background_texture, Sprite& tank1Icon_sprite, Texture& tank1Icon_texture)
 {
     if (!map1Background_texture.loadFromFile("map11.png")
         || !map2Background_texture.loadFromFile("map1.png")
         || !map3Background_texture.loadFromFile("map1.png")
-        || !map4Background_texture.loadFromFile("map1.png"))
+        || !map4Background_texture.loadFromFile("map1.png")
+        || !tank1Icon_texture.loadFromFile("tank1_icon.png"))
     {
         cout << "Failed to load textures" << endl;
     }
@@ -497,6 +499,11 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
     map3Background_sprite.setTexture(map3Background_texture);
 
     map4Background_sprite.setTexture(map4Background_texture);
+
+
+    //tank1Icon_sprite.setTexture(tank1Icon_texture);
+    //tank1Icon_sprite.setScale(0.3, 0.3);
+    //tank1Icon_sprite.setPosition(200, 800);
 
 }
 
@@ -519,8 +526,8 @@ int main() {
     RectangleShape closeButton, settingsButton, playButton, fullscreenONButton, fullscreenOFFButton, battleButton;
     RectangleShape  music0Button, music25Button, music50Button, music75Button, music100Button, sfx0Button, sfx25Button, sfx50Button, sfx75Button, sfx100Button;
     Sprite background_sprite, bucik_sprite, lajcior_sprite, map1_sprite, map2_sprite, map3_sprite, map4_sprite, P1L_sprite, P1R_sprite, P2L_sprite, P2R_sprite, player1_sprite, player2_sprite;
-    Sprite map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite;
-    Texture map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture;
+    Sprite map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, tank1Icon_sprite;
+    Texture map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_texture;
     Text playText, settingsText, closeText, titleText, mapsText, backText, map1Text, map2Text, map3Text, map4Text, player1Text, player2Text, battleText;
     Text fullscreenText, musicText, sfxText, fullscreenONText, fullscreenOFFText, music0Text, music25Text, music50Text, music75Text, music100Text, sfx0Text, sfx25Text, sfx50Text, sfx75Text, sfx100Text;
     Texture background_texture, lajt_texture, bucior_texture, map1_texture, map2_texture, map3_texture, map4_texture, P1L_texture, P1R_texture, P2L_texture, P2R_texture, player1_texture, player2_texture;
@@ -539,10 +546,16 @@ int main() {
     setSettingsGraphics(fullscreenONButton, fullscreenOFFButton, music0Button, music25Button, music50Button, music75Button, music100Button, sfx0Button, sfx25Button, sfx50Button, sfx75Button, sfx100Button);
     setPlayersText(player1Text, player2Text, font, battleText);
     setPlayersGraphics(P1L_sprite, P1R_sprite, P2L_sprite, P2R_sprite, player1_sprite, player2_sprite, P1L_texture, P1R_texture, P2L_texture, P2R_texture, player1_texture, player2_texture, battleButton);
-    setBattleGraphics(map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture);
+    setBattleGraphics(map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_sprite, tank1Icon_texture);
     
     playMusic(music, music_buffer);
     //music.play();
+
+    Tank tank(100, 100, 1.0f, 100, tank1Icon_texture);
+
+
+
+
 
     while (loadingScreen.isOpen())
     {
@@ -822,10 +835,26 @@ int main() {
 
                             }
                         }
+                        if (Keyboard::isKeyPressed(Keyboard::Up)) {
+                            tank.move(0, -10);
+                        }
+                        if (Keyboard::isKeyPressed(Keyboard::Down)) {
+                            tank.move(0, 10);
+                        }
+                        if (Keyboard::isKeyPressed(Keyboard::Left)) {
+                            tank.move(-10, 0);
+                        }
+                        if (Keyboard::isKeyPressed(Keyboard::Right)) {
+                            tank.move(10, 0);
+                        }
+
+
+
 
                     }
                     battleWindow.clear();
                     battleWindow.draw(map1Background_sprite);
+                    battleWindow.draw(tank);
                     battleWindow.draw(closeButton);
                     battleWindow.draw(closeText);
                     battleWindow.display();
