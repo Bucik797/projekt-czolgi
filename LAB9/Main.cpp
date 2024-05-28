@@ -518,7 +518,7 @@ int main() {
     
     
     playMusic(music, music_buffer);
-    //music.play();
+    music.play();
 
     
     while (loadingScreen.isOpen())
