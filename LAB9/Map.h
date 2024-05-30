@@ -17,4 +17,10 @@ private:
     Texture shortWall_texture;
     Texture block1_texture;
     Texture block2_texture;
+
+    vector<Sprite> walls;
+    vector<Sprite> blocks;
+
+    void initializeMap();
+
 };
