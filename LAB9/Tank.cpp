@@ -1,9 +1,12 @@
 #include "Tank.h"
 #include <iostream>
 
+using namespace sf;
+using namespace std;
+
 // Konstruktor
-Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture)
-    : speed(speed), health(health) 
+Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture, float rs)
+    : speed(speed), health(health), rotation_speed(rs)
 {
     setPosition(x, y);
     setTexture(texture);
@@ -11,9 +14,18 @@ Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture
 }
 
 // Metody
-void Tank::move(float dx, float dy) {
-    sf::Vector2f movement(dx * speed, dy * speed);
-    sf::Sprite::move(movement); // U¿ycie funkcji move z klasy sf::Sprite
+void Tank::move(int d) {
+
+    current_angle = (Sprite::getRotation() - 90) * (3.14159265f / 180.0f);
+    Vector2f movement(cos(current_angle) * speed*d, sin(current_angle) * speed*d);
+    Sprite::move(movement); // U¿ycie funkcji move z klasy sf::Sprite
+}
+
+
+void Tank::rotate(int angle)
+{
+    this->setOrigin(this->getLocalBounds().width / 2, this->getLocalBounds().height / 2);
+    Sprite::rotate(this->rotation_speed*angle);
 }
 
 void Tank::shoot() {
@@ -44,4 +56,9 @@ void Tank::setSpeed(float speed) {
 
 void Tank::setHealth(int health) {
     this->health = health;
+}
+
+void Tank::setRotation_speed(float rs)
+{
+    this->rotation_speed = rs;
 }

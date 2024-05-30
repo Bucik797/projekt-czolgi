@@ -6,6 +6,16 @@
 using namespace sf;
 using namespace std;
 
+
+enum Direction
+{
+    right_rotation=1,
+    left_rotation=-1
+};
+
+
+
+
 bool buttonClicked(RenderWindow& window, RectangleShape& button) {
     float mouseX = Mouse::getPosition(window).x;
     float mouseY = Mouse::getPosition(window).y;
@@ -519,8 +529,9 @@ int main() {
     RenderWindow battleWindow;
     bool isFullscreen = false;
     bool loaded = false;
+    bool driving_backwards;
     Clock clock;
-    
+    Direction angle;
 
 
     RectangleShape closeButton, settingsButton, playButton, fullscreenONButton, fullscreenOFFButton, battleButton;
@@ -551,7 +562,8 @@ int main() {
     playMusic(music, music_buffer);
     //music.play();
 
-    Tank tank(100, 100, 1.0f, 100, tank1Icon_texture);
+    Tank tank(100, 100, 1.0f, 100, tank1Icon_texture,0.2);
+    //tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height / 2);
     
 
 
@@ -598,6 +610,21 @@ int main() {
 
         while (basicWindow.pollEvent(event))
         {
+
+            if (Keyboard::isKeyPressed(Keyboard::Up)) {
+                playButton.move(0, -10);
+            }
+            if (Keyboard::isKeyPressed(Keyboard::Down)) {
+                playButton.move(0, 10);
+            }
+            if (Keyboard::isKeyPressed(Keyboard::Left)) {
+                playButton.move(-10, 0);
+            }
+            if (Keyboard::isKeyPressed(Keyboard::Right)) {
+                playButton.move(10, 0);
+            }
+
+
             if (event.type == Event::Closed) basicWindow.close();
 
             if (event.type == Event::MouseButtonPressed) {
@@ -619,6 +646,12 @@ int main() {
                         //basicWindow.setVisible(false);
                         basicWindow.close();
                     }
+
+                    
+
+
+
+
                 }
             }
         }
@@ -814,6 +847,58 @@ int main() {
                 {
                     Event event5;
                     
+                    
+
+                    if (Keyboard::isKeyPressed(Keyboard::Up)) {
+                        
+                        tank.move(1);
+                    }
+                    if (Keyboard::isKeyPressed(Keyboard::Down)) {
+
+                        driving_backwards = true;
+                        tank.move(-1);
+                    }
+                    else
+                    {
+                        driving_backwards = false;
+                    }
+                    
+                    if (Keyboard::isKeyPressed(Keyboard::Left)) {
+                        
+                        
+                        if (driving_backwards)
+                        {
+                            angle = right_rotation;
+                            tank.rotate(angle);
+                        }
+                        else
+                        {
+                            angle = left_rotation;
+                            tank.rotate(angle);
+                        }
+                        
+                        
+                    }
+                    if (Keyboard::isKeyPressed(Keyboard::Right)) {
+                        
+
+                        if (driving_backwards)
+                        {
+                            angle = left_rotation;
+                            tank.rotate(angle);
+                        }
+                        else
+                        {
+                            angle = right_rotation;
+                            tank.rotate(angle);
+                        }
+                        
+                    }
+
+
+
+
+
                     while (battleWindow.pollEvent(event5))
                     {
                         if (event5.type == Event::Closed)
@@ -836,18 +921,7 @@ int main() {
 
                             }
                         }
-                        if (Keyboard::isKeyPressed(Keyboard::Up)) {
-                            tank.move(0, -10);
-                        }
-                        if (Keyboard::isKeyPressed(Keyboard::Down)) {
-                            tank.move(0, 10);
-                        }
-                        if (Keyboard::isKeyPressed(Keyboard::Left)) {
-                            tank.move(-10, 0);
-                        }
-                        if (Keyboard::isKeyPressed(Keyboard::Right)) {
-                            tank.move(10, 0);
-                        }
+                        
 
                         
 
