@@ -2,6 +2,7 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include "Tank.h"
+#include "Map.h"
 
 using namespace sf;
 using namespace std;
@@ -514,8 +515,8 @@ void playMusic(Sound& music, SoundBuffer& music_buffer)
 
 void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_sprite, Sprite& map3Background_sprite, Sprite& map4Background_sprite, Texture& map1Background_texture, Texture& map2Background_texture, Texture& map3Background_texture, Texture& map4Background_texture, Sprite& tank1Icon_sprite, Texture& tank1Icon_texture)
 {
-    if (!map1Background_texture.loadFromFile("map11.png")
-        || !map2Background_texture.loadFromFile("map1.png")
+    if (//!map1Background_texture.loadFromFile("map11.png")
+         !map2Background_texture.loadFromFile("map1.png")
         || !map3Background_texture.loadFromFile("map1.png")
         || !map4Background_texture.loadFromFile("map1.png")
         || !tank1Icon_texture.loadFromFile("tank1_icon.png"))
@@ -526,6 +527,9 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
     map1Background_sprite.setTexture(map1Background_texture);
     map1Background_sprite.setScale(2,2);
     map1Background_sprite.setPosition(0,0);
+
+
+
 
 
     map2Background_sprite.setTexture(map2Background_texture);
@@ -571,6 +575,8 @@ int main() {
     RectangleShape  music0Button, music25Button, music50Button, music75Button, music100Button, sfx0Button, sfx25Button, sfx50Button, sfx75Button, sfx100Button;
     Sprite background_sprite, bucik_sprite, lajcior_sprite, map1_sprite, map2_sprite, map3_sprite, map4_sprite, P1L_sprite, P1R_sprite, P2L_sprite, P2R_sprite, player1_sprite, player2_sprite;
     Sprite map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, tank1Icon_sprite;
+    Sprite longWall1_sprite, shortWall_sprite, block1_sprite, block2_sprite;
+    Texture longWall_texture, shortWall_texture, block1_texture, block2_texture;
     Texture map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_texture;
     Text playText, settingsText, closeText, titleText, mapsText, backText, map1Text, map2Text, map3Text, map4Text, player1Text, player2Text, battleText;
     Text fullscreenText, musicText, sfxText, fullscreenONText, fullscreenOFFText, music0Text, music25Text, music50Text, music75Text, music100Text, sfx0Text, sfx25Text, sfx50Text, sfx75Text, sfx100Text;
@@ -596,6 +602,7 @@ int main() {
     //music.play();
 
     Tank tank(100, 100, 1.0f, 100, tank1Icon_texture,0.2);
+    Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
     //tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height / 2);
     
 
@@ -966,7 +973,8 @@ int main() {
 
                     }
                     battleWindow.clear();
-                    battleWindow.draw(map1Background_sprite);
+                    //battleWindow.draw(map1Background_sprite);
+                    map1.drawGraphics(battleWindow);
                     battleWindow.draw(tank);
                     battleWindow.draw(closeButton);
                     battleWindow.draw(closeText);

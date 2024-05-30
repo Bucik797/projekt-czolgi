@@ -8,6 +8,8 @@ using namespace std;
 Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture, float rs)
     : speed(speed), health(health), rotation_speed(rs)
 {
+    
+
     setPosition(x, y);
     setTexture(texture);
     setScale(0.3, 0.3);

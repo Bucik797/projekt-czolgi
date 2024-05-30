@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 class Tank : public sf::Sprite {
 public:
@@ -26,6 +27,7 @@ private:
     int health;     // Zdrowie
     float rotation_speed;
     float current_angle;
+    
 };
 
 
