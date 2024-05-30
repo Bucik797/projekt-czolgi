@@ -38,6 +38,30 @@ bool selectedSprite(RenderWindow& window, Sprite& sprite) {
 }
 
 
+void setLoadingGraphics(float& baseRadius, CircleShape& loadingCircleSH, Sprite& loadingBackgroundSPR, Sprite& logoSPR, Texture& logoTXT, Texture& loadingBackgroundTXT)
+{
+    if (!loadingBackgroundTXT.loadFromFile("loadingTanks.png")
+        || (!logoTXT.loadFromFile("gameLogo.png")))
+    {
+        cout << "Failed to load textures" << endl;
+    }
+
+    Image logoImage = logoTXT.copyToImage();
+    logoImage.createMaskFromColor(Color::Black, 0);
+    logoTXT.loadFromImage(logoImage);
+
+    loadingBackgroundSPR.setTexture(loadingBackgroundTXT);
+    logoSPR.setTexture(logoTXT);
+
+    logoSPR.setPosition(550, 50);
+    logoSPR.setScale(0.2, 0.2);
+
+    loadingCircleSH.setFillColor(Color::Transparent);
+    loadingCircleSH.setOutlineThickness(5);
+    loadingCircleSH.setOutlineColor(Color::Green);
+    loadingCircleSH.setOrigin(baseRadius, baseRadius);
+    loadingCircleSH.setPosition(650, 630);
+}
 void setBasicGraphics(RectangleShape& closeButton, RectangleShape& settingsButton, RectangleShape& playButton, Sprite& background_sprite, Sprite& bucik_sprite, Sprite& lajcior_sprite, Texture& background_texture, Texture& lajt_texture, Texture& bucior_texture)
 {
     if (!background_texture.loadFromFile("background.png")
@@ -514,7 +538,11 @@ int main() {
     bool loaded = false;
     Clock clock;
     
-
+    float baseradius=30;
+    float pulseSpeed = 3.0f;
+    Texture loadingBackgroundTXT, logoTXT;
+    Sprite loadingBackgroundSPR, logoSPR;
+    CircleShape loadingCircle(25);
 
     RectangleShape closeButton, settingsButton, playButton, fullscreenONButton, fullscreenOFFButton, battleButton;
     RectangleShape  music0Button, music25Button, music50Button, music75Button, music100Button, sfx0Button, sfx25Button, sfx50Button, sfx75Button, sfx100Button;
@@ -530,7 +558,7 @@ int main() {
     SoundBuffer music_buffer;
     //Music music;
 
-
+    setLoadingGraphics(baseradius, loadingCircle, loadingBackgroundSPR, logoSPR, logoTXT, loadingBackgroundTXT);
     setBasicGraphics(closeButton, settingsButton, playButton, background_sprite, bucik_sprite, lajcior_sprite, background_texture, lajt_texture, bucior_texture);
     setMapsGraphics(map1_sprite, map1_texture, map2_sprite, map2_texture, map3_sprite, map3_texture, map4_sprite, map4_texture);
     setBasicText(playText, settingsText, closeText, titleText, font);
@@ -548,19 +576,17 @@ int main() {
     {
         Time elapsed = clock.getElapsedTime();
         Event loadingEvent;
-        //cout << elapsed.asSeconds() << endl;
 
-        
-        if (elapsed.asSeconds() > 6.0f)
+        float scaleFactor = 1.0f + 0.2f * sin(pulseSpeed * elapsed.asSeconds());
+        loadingCircle.setRadius(baseradius * scaleFactor);
+        loadingCircle.setOrigin(loadingCircle.getRadius(), loadingCircle.getRadius());
+
+        if (elapsed.asSeconds() > 10.0f)
         {
-
             basicWindow.create(VideoMode(window_width, window_height), "basicWindow", Style::Fullscreen);
             loadingScreen.setVisible(false);
             break;
-
-
         }
-        //eqwewqewqewqewqewq
 
         while (loadingScreen.pollEvent(loadingEvent))
         {
@@ -568,11 +594,10 @@ int main() {
         }
 
         loadingScreen.clear();
-        loadingScreen.draw(background_sprite); 
-        loadingScreen.draw(lajcior_sprite);
-        loadingScreen.draw(bucik_sprite);
+        loadingScreen.draw(loadingBackgroundSPR);
+        loadingScreen.draw(logoSPR);
+        loadingScreen.draw(loadingCircle);
         loadingScreen.display();
-
     }
 
 
