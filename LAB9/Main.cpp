@@ -552,7 +552,7 @@ int main() {
     //music.play();
 
     Tank tank(100, 100, 1.0f, 100, tank1Icon_texture);
-
+    
 
 
 
@@ -567,7 +567,7 @@ int main() {
         if (elapsed.asSeconds() > 6.0f)
         {
 
-            basicWindow.create(VideoMode(window_width, window_height), "basicWindow", Style::Fullscreen);
+            basicWindow.create(VideoMode(window_width, window_height), "basicWindow");
             loadingScreen.setVisible(false);
             break;
 
@@ -609,13 +609,13 @@ int main() {
                     }
                     if (buttonClicked(basicWindow, settingsButton))
                     {
-                        settingsWindow.create(VideoMode(window_width, window_height), "settingsWindow", Style::Fullscreen);
+                        settingsWindow.create(VideoMode(window_width, window_height), "settingsWindow");
                         //basicWindow.setVisible(false);
                         basicWindow.close();
                     }
                     if (buttonClicked(basicWindow, playButton))
                     {
-                        mapsWindow.create(VideoMode(window_width, window_height), "mapsWindow",Style::Fullscreen);
+                        mapsWindow.create(VideoMode(window_width, window_height), "mapsWindow");
                         //basicWindow.setVisible(false);
                         basicWindow.close();
                     }
@@ -640,7 +640,7 @@ int main() {
                         if (buttonClicked(settingsWindow, closeButton))
                         {
                             //basicWindow.setVisible(true);
-                            basicWindow.create(VideoMode(window_width, window_height), "basicWindow", Style::Fullscreen);
+                            basicWindow.create(VideoMode(window_width, window_height), "basicWindow");
                             settingsWindow.close();
                         }
                         if (buttonClicked(settingsWindow, music0Button))
@@ -732,30 +732,30 @@ int main() {
                     if (event3.mouseButton.button == Mouse::Left) {
                         if (buttonClicked(mapsWindow, closeButton))
                         {
-                            basicWindow.create(VideoMode(window_width, window_height), "basicWindow", Style::Fullscreen);
+                            basicWindow.create(VideoMode(window_width, window_height), "basicWindow");
                             mapsWindow.close();
                             
                         }
                         if (selectedSprite(mapsWindow, map1_sprite))
                         {
-                            playerWindow.create(VideoMode(window_width, window_height), "playerWindow", Style::Fullscreen);
+                            playerWindow.create(VideoMode(window_width, window_height), "playerWindow");
                             //mapsWindow.setVisible(false);
                             mapsWindow.close();
                             
                         }
                         if (selectedSprite(mapsWindow, map2_sprite))
                         {
-                            playerWindow.create(VideoMode(window_width, window_height), "playerWindow", Style::Fullscreen);
+                            playerWindow.create(VideoMode(window_width, window_height), "playerWindow");
                             mapsWindow.close();
                         }
                         if (selectedSprite(mapsWindow, map3_sprite))
                         {
-                            playerWindow.create(VideoMode(window_width, window_height), "playerWindow", Style::Fullscreen);
+                            playerWindow.create(VideoMode(window_width, window_height), "playerWindow");
                             mapsWindow.close();
                         }
                         if (selectedSprite(mapsWindow, map4_sprite))
                         {
-                            playerWindow.create(VideoMode(window_width, window_height), "playerWindow", Style::Fullscreen);
+                            playerWindow.create(VideoMode(window_width, window_height), "playerWindow");
                             mapsWindow.close();
                         }
                     }
@@ -769,7 +769,7 @@ int main() {
                 {
                     if (event4.type == Event::Closed)
                     {
-                        mapsWindow.create(VideoMode(window_width, window_height), "fff", Style::Fullscreen);
+                        mapsWindow.create(VideoMode(window_width, window_height), "fff");
                         playerWindow.close();
                         
                     }
@@ -778,14 +778,14 @@ int main() {
                             if (buttonClicked(playerWindow, closeButton))
                             {
                                 //mapsWindow.setVisible(true);
-                                mapsWindow.create(VideoMode(window_width, window_height), "fff", Style::Fullscreen);
+                                mapsWindow.create(VideoMode(window_width, window_height), "fff");
                                 playerWindow.close();
                                 
                                 
                             }
                             if (buttonClicked(playerWindow, battleButton))
                             {
-                                battleWindow.create(VideoMode(window_width, window_height), "map1", Style::Fullscreen);
+                                battleWindow.create(VideoMode(window_width, window_height), "map1");
                                 playerWindow.close();
                             }
                             
@@ -813,11 +813,12 @@ int main() {
                 while (battleWindow.isOpen())
                 {
                     Event event5;
+                    
                     while (battleWindow.pollEvent(event5))
                     {
                         if (event5.type == Event::Closed)
                         {
-                            playerWindow.create(VideoMode(window_width, window_height), "fff", Style::Fullscreen);
+                            playerWindow.create(VideoMode(window_width, window_height), "fff");
                             battleWindow.close();
 
                         }
@@ -826,7 +827,7 @@ int main() {
                                 if (buttonClicked(battleWindow, closeButton))
                                 {
                                     
-                                    playerWindow.create(VideoMode(window_width, window_height), "fff", Style::Fullscreen);
+                                    playerWindow.create(VideoMode(window_width, window_height), "fff");
                                     battleWindow.close();
 
 
@@ -847,6 +848,10 @@ int main() {
                         if (Keyboard::isKeyPressed(Keyboard::Right)) {
                             tank.move(10, 0);
                         }
+
+                        
+
+
 
 
 
