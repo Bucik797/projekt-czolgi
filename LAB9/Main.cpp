@@ -549,7 +549,7 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
 int main() {
     int window_width = 1920;
     int window_height = 1080;
-    RenderWindow loadingScreen(VideoMode(1300,700), "Loading screen", Style::None);
+    RenderWindow loadingScreen(VideoMode(1300, 700), "Loading screen", Style::None);
     RenderWindow basicWindow;
     RenderWindow settingsWindow;
     RenderWindow mapsWindow;
@@ -559,17 +559,14 @@ int main() {
     bool loaded = false;
     bool driving_backwards;
     Clock clock;
-<<<<<<< FEAT/1
-    
-    float baseradius=30;
+
+    float baseradius = 30;
     float pulseSpeed = 3.0f;
     Texture loadingBackgroundTXT, logoTXT;
     Sprite loadingBackgroundSPR, logoSPR;
     CircleShape loadingCircle(25);
-=======
     Direction angle;
 
->>>>>>> main
 
     RectangleShape closeButton, settingsButton, playButton, fullscreenONButton, fullscreenOFFButton, battleButton;
     RectangleShape  music0Button, music25Button, music50Button, music75Button, music100Button, sfx0Button, sfx25Button, sfx50Button, sfx75Button, sfx100Button;
@@ -582,10 +579,10 @@ int main() {
     Text fullscreenText, musicText, sfxText, fullscreenONText, fullscreenOFFText, music0Text, music25Text, music50Text, music75Text, music100Text, sfx0Text, sfx25Text, sfx50Text, sfx75Text, sfx100Text;
     Texture background_texture, lajt_texture, bucior_texture, map1_texture, map2_texture, map3_texture, map4_texture, P1L_texture, P1R_texture, P2L_texture, P2R_texture, player1_texture, player2_texture;
     Font font, mapFont;
-
+       
     Sound music;
     SoundBuffer music_buffer;
-    //Music music;
+        //Music music;
 
     setLoadingGraphics(baseradius, loadingCircle, loadingBackgroundSPR, logoSPR, logoTXT, loadingBackgroundTXT);
     setBasicGraphics(closeButton, settingsButton, playButton, background_sprite, bucik_sprite, lajcior_sprite, background_texture, lajt_texture, bucior_texture);
@@ -597,18 +594,13 @@ int main() {
     setPlayersText(player1Text, player2Text, font, battleText);
     setPlayersGraphics(P1L_sprite, P1R_sprite, P2L_sprite, P2R_sprite, player1_sprite, player2_sprite, P1L_texture, P1R_texture, P2L_texture, P2R_texture, player1_texture, player2_texture, battleButton);
     setBattleGraphics(map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_sprite, tank1Icon_texture);
-    
+
     playMusic(music, music_buffer);
-    //music.play();
+        //music.play();
 
-    Tank tank(100, 100, 1.0f, 100, tank1Icon_texture,0.2);
+    Tank tank(100, 100, 1.0f, 100, tank1Icon_texture, 0.2);
     Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
-    //tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height / 2);
-    
-
-
-
-
+        //tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height / 2);
     while (loadingScreen.isOpen())
     {
         Time elapsed = clock.getElapsedTime();
@@ -618,13 +610,11 @@ int main() {
         loadingCircle.setRadius(baseradius * scaleFactor);
         loadingCircle.setOrigin(loadingCircle.getRadius(), loadingCircle.getRadius());
 
-<<<<<<< FEAT/1
+
         if (elapsed.asSeconds() > 10.0f)
         {
             basicWindow.create(VideoMode(window_width, window_height), "basicWindow", Style::Fullscreen);
-=======
-            basicWindow.create(VideoMode(window_width, window_height), "basicWindow");
->>>>>>> main
+
             loadingScreen.setVisible(false);
             break;
         }
@@ -642,10 +632,10 @@ int main() {
     }
 
 
-    
 
 
-    
+
+
     while (basicWindow.isOpen()) {
         Event event;
 
@@ -688,7 +678,7 @@ int main() {
                         basicWindow.close();
                     }
 
-                    
+
 
 
 
@@ -790,7 +780,7 @@ int main() {
 
 
 
-        
+
 
         while (mapsWindow.isOpen())
         {
@@ -808,14 +798,14 @@ int main() {
                         {
                             basicWindow.create(VideoMode(window_width, window_height), "basicWindow");
                             mapsWindow.close();
-                            
+
                         }
                         if (selectedSprite(mapsWindow, map1_sprite))
                         {
                             playerWindow.create(VideoMode(window_width, window_height), "playerWindow");
                             //mapsWindow.setVisible(false);
                             mapsWindow.close();
-                            
+
                         }
                         if (selectedSprite(mapsWindow, map2_sprite))
                         {
@@ -836,7 +826,7 @@ int main() {
                 }
             }
 
-            while (playerWindow.isOpen()) 
+            while (playerWindow.isOpen())
             {
                 Event event4;
                 while (playerWindow.pollEvent(event4))
@@ -845,7 +835,7 @@ int main() {
                     {
                         mapsWindow.create(VideoMode(window_width, window_height), "fff");
                         playerWindow.close();
-                        
+
                     }
                     if (event4.type == Event::MouseButtonPressed) {
                         if (event4.mouseButton.button == Mouse::Left) {
@@ -854,15 +844,15 @@ int main() {
                                 //mapsWindow.setVisible(true);
                                 mapsWindow.create(VideoMode(window_width, window_height), "fff");
                                 playerWindow.close();
-                                
-                                
+
+
                             }
                             if (buttonClicked(playerWindow, battleButton))
                             {
                                 battleWindow.create(VideoMode(window_width, window_height), "map1");
                                 playerWindow.close();
                             }
-                            
+
                         }
                     }
 
@@ -887,11 +877,11 @@ int main() {
                 while (battleWindow.isOpen())
                 {
                     Event event5;
-                    
-                    
+
+
 
                     if (Keyboard::isKeyPressed(Keyboard::Up)) {
-                        
+
                         tank.move(1);
                     }
                     if (Keyboard::isKeyPressed(Keyboard::Down)) {
@@ -903,10 +893,10 @@ int main() {
                     {
                         driving_backwards = false;
                     }
-                    
+
                     if (Keyboard::isKeyPressed(Keyboard::Left)) {
-                        
-                        
+
+
                         if (driving_backwards)
                         {
                             angle = right_rotation;
@@ -917,11 +907,11 @@ int main() {
                             angle = left_rotation;
                             tank.rotate(angle);
                         }
-                        
-                        
+
+
                     }
                     if (Keyboard::isKeyPressed(Keyboard::Right)) {
-                        
+
 
                         if (driving_backwards)
                         {
@@ -933,7 +923,7 @@ int main() {
                             angle = right_rotation;
                             tank.rotate(angle);
                         }
-                        
+
                     }
 
 
@@ -952,19 +942,19 @@ int main() {
                             if (event5.mouseButton.button == Mouse::Left) {
                                 if (buttonClicked(battleWindow, closeButton))
                                 {
-                                    
+
                                     playerWindow.create(VideoMode(window_width, window_height), "fff");
                                     battleWindow.close();
 
 
                                 }
-                                
+
 
                             }
                         }
-                        
 
-                        
+
+
 
 
 
@@ -1018,13 +1008,13 @@ int main() {
         basicWindow.draw(closeText);
         basicWindow.draw(titleText);
         basicWindow.display();
-        
+
     }
-
-    
-
-
-
 
     return 0;
 }
+
+
+
+
+        
