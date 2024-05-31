@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <vector>
 
 Map::Map(const string& backgroundFile, const string& longWallFile, const string& shortWallFile, const string& block1File, const string& block2File)
 {
@@ -12,7 +13,7 @@ Map::Map(const string& backgroundFile, const string& longWallFile, const string&
     }
     else
     {
-        // Ustawienie tekstury t³a
+        // Ustawienie tekstury tÂ³a
         this->setTexture(background_texture);
         this->setScale(2, 2);
         this->setPosition(0, 0);
@@ -23,12 +24,14 @@ Map::Map(const string& backgroundFile, const string& longWallFile, const string&
 
 void Map::initializeMap()
 {
-    // Tworzenie sprite'ów œcian i bloków
+    // Tworzenie sprite'Ã³w Å“cian i blokÃ³w
+
     /*
     Sprite longWall_sprite1(longWall_texture);
     longWall_sprite1.setPosition(1510, 0);
     longWall_sprite1.setScale(0.3f, 0.3f);
     walls.push_back(longWall_sprite1);
+
 
     Sprite longWall_sprite2(longWall_texture);
     longWall_sprite2.setPosition(1510, 274);
@@ -209,24 +212,29 @@ void Map::initializeMap()
 
 void Map::drawGraphics(RenderWindow& window)
 {
-    // Rysowanie t³a
+    // Rysowanie tÂ³a
     window.draw(*this);
 
-    // Rysowanie œcian
+    // Rysowanie Å“cian
     for (const auto& wall : walls)
     {
         window.draw(wall);
     }
 
-    // Rysowanie bloków
+    // Rysowanie blokÃ³w
     for (const auto& block : blocks)
     {
         window.draw(block);
     }
 }
 
-const vector<Sprite>& Map::getWalls() const
-{
+
+const vector<Sprite>& Map::getWalls() const {
     return walls;
 }
+
+const vector<Sprite>& Map::getBlocks() const {
+    return blocks;
+}
+
 
