@@ -547,8 +547,8 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
 
 
 int main() {
-    int window_width = 1920;
-    int window_height = 1080;
+    int window_width = 100;
+    int window_height = 100;
     RenderWindow loadingScreen(VideoMode(1300, 700), "Loading screen", Style::None);
     RenderWindow basicWindow;
     RenderWindow settingsWindow;
