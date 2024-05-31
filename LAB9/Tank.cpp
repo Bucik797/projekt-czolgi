@@ -13,7 +13,7 @@ Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture
 
     setPosition(x, y);
     setTexture(texture);
-    setScale(0.3, 0.3);
+    setScale(1,1);
 }
 
 // Metody
@@ -22,13 +22,21 @@ void Tank::move(int d) {
     current_angle = (Sprite::getRotation() - 90) * (3.14159265f / 180.0f);
     Vector2f movement(cos(current_angle) * speed*d, sin(current_angle) * speed*d);
     Sprite::move(movement); // U¿ycie funkcji move z klasy sf::Sprite
+    
 }
 
+
+float Tank::getRotation()
+{
+    return Sprite::getRotation();
+}
 
 void Tank::rotate(int angle)
 {
     this->setOrigin(this->getLocalBounds().width / 2, this->getLocalBounds().height / 2);
-    Sprite::rotate(this->rotation_speed*angle);
+    Sprite::rotate(this->rotation_speed * angle);
+
+
 }
 
 void Tank::driving() 
@@ -37,33 +45,44 @@ void Tank::driving()
 
     if (Keyboard::isKeyPressed(Keyboard::Up)) {
         move(1);
+        //driving_backwards = false;
     }
     if (Keyboard::isKeyPressed(Keyboard::Down)) {
         driving_backwards = true;
         move(-1);
     }
-    else {
+    else
+    {
         driving_backwards = false;
     }
+    
 
     if (Keyboard::isKeyPressed(Keyboard::Left)) {
         if (driving_backwards) {
-            rotate(1);  // Za³ó¿my, ¿e 1 to right_rotation
+            rotate(1);  
+            rotation_left = false;
         }
         else {
-            rotate(-1);  // Za³ó¿my, ¿e -1 to left_rotation
+            rotate(-1);
+            rotation_left = true;
         }
     }
     if (Keyboard::isKeyPressed(Keyboard::Right)) {
         if (driving_backwards) {
-            rotate(-1);  // Za³ó¿my, ¿e -1 to left_rotation
+            rotate(-1);  
+            rotation_left = true;
         }
         else {
-            rotate(1);  // Za³ó¿my, ¿e 1 to right_rotation
+            rotate(1);  
+            rotation_left = false;
         }
     }
 }
 
+bool Tank::isRotatingLeft()
+{
+    return rotation_left;
+}
 
 
 void Tank::boundCollision(const RenderWindow& window) {
@@ -84,6 +103,7 @@ void Tank::boundCollision(const RenderWindow& window) {
 
 
 
+
 void Tank::shoot() {
     // Logika strzelania
     std::cout << "Tank shoots!" << std::endl;
@@ -97,6 +117,11 @@ void Tank::takeDamage(int damage) {
 }
 
 // Gettery
+
+bool Tank::isDrivingBackwards()
+{
+    return driving_backwards;
+}
 float Tank::getSpeed() const {
     return speed;
 }

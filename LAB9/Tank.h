@@ -22,6 +22,9 @@ public:
     // Gettery
     float getSpeed() const;
     int getHealth() const;
+    float getRotation();
+    bool isDrivingBackwards();
+    bool isRotatingLeft();
 
     // Settery
     void setSpeed(float speed);
@@ -35,6 +38,7 @@ private:
     float rotation_speed;
     float current_angle;
     bool driving_backwards;
+    bool rotation_left;
     
 };
 

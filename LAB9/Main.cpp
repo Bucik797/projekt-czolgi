@@ -519,7 +519,7 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
          !map2Background_texture.loadFromFile("map1.png")
         || !map3Background_texture.loadFromFile("map1.png")
         || !map4Background_texture.loadFromFile("map1.png")
-        || !tank1Icon_texture.loadFromFile("tank1_icon.png"))
+        || !tank1Icon_texture.loadFromFile("tank11.png"))
     {
         cout << "Failed to load textures" << endl;
     }
@@ -543,6 +543,24 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
     //tank1Icon_sprite.setScale(0.3, 0.3);
     //tank1Icon_sprite.setPosition(200, 800);
 
+}
+
+bool checkCollision(Tank& tank, const Map& map) {
+    // Sprawdzenie kolizji czo³gu z ka¿d¹ œcian¹ na mapie
+    for (const auto& wall : map.getWalls()) {
+        if (tank.getGlobalBounds().intersects(wall.getGlobalBounds())) {
+            return true;  // Jeœli wykryto kolizjê, zwróæ true
+        }
+    }
+
+    // Sprawdzenie kolizji czo³gu z ka¿dym blokiem na mapie
+    for (const auto& block : map.getBlocks()) {
+        if (tank.getGlobalBounds().intersects(block.getGlobalBounds())) {
+            return true;  // Jeœli wykryto kolizjê, zwróæ true
+        }
+    }
+
+    return false;  // Jeœli nie wykryto ¿adnej kolizji, zwróæ false
 }
 
 
@@ -880,6 +898,20 @@ int main() {
                     tank.driving();
                     tank.boundCollision(battleWindow);
                     
+                    if (checkCollision(tank, map1)&& (Keyboard::isKeyPressed(Keyboard::Up)||Keyboard::isKeyPressed(Keyboard::Down))) {
+                        // Cofniêcie czo³gu, jeœli wykryto kolizjê
+                        
+
+                        tank.isDrivingBackwards() ? tank.move(1) : tank.move(-1);
+                        //cout << tank.isDrivingBackwards();
+                    }
+                    if (checkCollision(tank, map1) && (Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::Left))) {
+                        // Cofniêcie czo³gu, jeœli wykryto kolizjê
+
+
+                        tank.isRotatingLeft() ? tank.rotate(1) : tank.rotate(-1);
+                        cout << tank.isRotatingLeft();
+                    }
 
 
                     while (battleWindow.pollEvent(event5))
