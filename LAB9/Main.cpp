@@ -547,8 +547,8 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
 
 
 int main() {
-    int window_width = 1920;
-    int window_height = 1080;
+    int window_width = 1600;
+    int window_height = 900;
     RenderWindow loadingScreen(VideoMode(1300, 700), "Loading screen", Style::None);
     RenderWindow basicWindow;
     RenderWindow settingsWindow;
@@ -599,6 +599,9 @@ int main() {
         //music.play();
 
     Tank tank(100, 100, 1.0f, 100, tank1Icon_texture, 0.2);
+    
+
+
     Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
         //tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height / 2);
     while (loadingScreen.isOpen())
@@ -642,19 +645,7 @@ int main() {
         while (basicWindow.pollEvent(event))
         {
 
-            if (Keyboard::isKeyPressed(Keyboard::Up)) {
-                playButton.move(0, -10);
-            }
-            if (Keyboard::isKeyPressed(Keyboard::Down)) {
-                playButton.move(0, 10);
-            }
-            if (Keyboard::isKeyPressed(Keyboard::Left)) {
-                playButton.move(-10, 0);
-            }
-            if (Keyboard::isKeyPressed(Keyboard::Right)) {
-                playButton.move(10, 0);
-            }
-
+            
 
             if (event.type == Event::Closed) basicWindow.close();
 
@@ -878,7 +869,7 @@ int main() {
                 {
                     Event event5;
 
-
+                    //tank.keepInside(battleWindow);
 
                     if (Keyboard::isKeyPressed(Keyboard::Up)) {
 

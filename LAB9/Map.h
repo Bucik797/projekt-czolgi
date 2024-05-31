@@ -10,6 +10,7 @@ public:
     Map(const string& backgroundFile, const string& longWallFile, const string& shortWallFile, const string& block1File, const string& block2File);
 
     void drawGraphics(RenderWindow& window);
+    const vector<Sprite>& getWalls() const;
 
 private:
     Texture background_texture;

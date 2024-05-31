@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -11,6 +12,7 @@ public:
     void shoot();
     void takeDamage(int damage);
     void rotate(int angle);
+    void keepInside();
 
     // Gettery
     float getSpeed() const;
@@ -20,6 +22,7 @@ public:
     void setSpeed(float speed);
     void setHealth(int health);
     void setRotation_speed(float rotation_speed);
+  
 
 private:
     // W³asciwoœci czo³gu
@@ -27,7 +30,5 @@ private:
     int health;     // Zdrowie
     float rotation_speed;
     float current_angle;
-    
+  
 };
-
-
