@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <vector>
 
 Map::Map(const string& backgroundFile, const string& longWallFile, const string& shortWallFile, const string& block1File, const string& block2File)
 {
@@ -24,10 +25,10 @@ Map::Map(const string& backgroundFile, const string& longWallFile, const string&
 void Map::initializeMap()
 {
     // Tworzenie sprite'ów œcian i bloków
-    Sprite longWall_sprite1(longWall_texture);
-    longWall_sprite1.setPosition(100, 50);
-    longWall_sprite1.setScale(0.5f, 0.5f);
-    walls.push_back(longWall_sprite1);
+    //Sprite longWall_sprite1(longWall_texture);
+    //longWall_sprite1.setPosition(100, 50);
+    //longWall_sprite1.setScale(0.5f, 0.5f);
+    //walls.push_back(longWall_sprite1);
 
     Sprite longWall_sprite2(longWall_texture);
     longWall_sprite2.setPosition(100, 400);
@@ -77,3 +78,12 @@ void Map::drawGraphics(RenderWindow& window)
         window.draw(block);
     }
 }
+
+const vector<Sprite>& Map::getWalls() const {
+    return walls;
+}
+
+const vector<Sprite>& Map::getBlocks() const {
+    return blocks;
+}
+

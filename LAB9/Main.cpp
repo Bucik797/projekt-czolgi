@@ -519,7 +519,7 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
          !map2Background_texture.loadFromFile("map1.png")
         || !map3Background_texture.loadFromFile("map1.png")
         || !map4Background_texture.loadFromFile("map1.png")
-        || !tank1Icon_texture.loadFromFile("tank1_icon.png"))
+        || !tank1Icon_texture.loadFromFile("tank11.png"))
     {
         cout << "Failed to load textures" << endl;
     }
@@ -543,6 +543,24 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
     //tank1Icon_sprite.setScale(0.3, 0.3);
     //tank1Icon_sprite.setPosition(200, 800);
 
+}
+
+bool checkCollision(Tank& tank, const Map& map) {
+    // Sprawdzenie kolizji czo³gu z ka¿d¹ œcian¹ na mapie
+    for (const auto& wall : map.getWalls()) {
+        if (tank.getGlobalBounds().intersects(wall.getGlobalBounds())) {
+            return true;  // Jeœli wykryto kolizjê, zwróæ true
+        }
+    }
+
+    // Sprawdzenie kolizji czo³gu z ka¿dym blokiem na mapie
+    for (const auto& block : map.getBlocks()) {
+        if (tank.getGlobalBounds().intersects(block.getGlobalBounds())) {
+            return true;  // Jeœli wykryto kolizjê, zwróæ true
+        }
+    }
+
+    return false;  // Jeœli nie wykryto ¿adnej kolizji, zwróæ false
 }
 
 
@@ -598,7 +616,7 @@ int main() {
     playMusic(music, music_buffer);
         //music.play();
 
-    Tank tank(100, 100, 1.0f, 100, tank1Icon_texture, 0.2);
+    Tank tank(100, 100, 1.0f, 100, tank1Icon_texture, 0.2,false);
     Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
         //tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height / 2);
     while (loadingScreen.isOpen())
@@ -877,57 +895,23 @@ int main() {
                 while (battleWindow.isOpen())
                 {
                     Event event5;
+                    tank.driving();
+                    tank.boundCollision(battleWindow);
+                    
+                    if (checkCollision(tank, map1)&& (Keyboard::isKeyPressed(Keyboard::Up)||Keyboard::isKeyPressed(Keyboard::Down))) {
+                        // Cofniêcie czo³gu, jeœli wykryto kolizjê
+                        
 
-
-
-                    if (Keyboard::isKeyPressed(Keyboard::Up)) {
-
-                        tank.move(1);
+                        tank.isDrivingBackwards() ? tank.move(1) : tank.move(-1);
+                        //cout << tank.isDrivingBackwards();
                     }
-                    if (Keyboard::isKeyPressed(Keyboard::Down)) {
+                    if (checkCollision(tank, map1) && (Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::Left))) {
+                        // Cofniêcie czo³gu, jeœli wykryto kolizjê
 
-                        driving_backwards = true;
-                        tank.move(-1);
+
+                        tank.isRotatingLeft() ? tank.rotate(1) : tank.rotate(-1);
+                        cout << tank.isRotatingLeft();
                     }
-                    else
-                    {
-                        driving_backwards = false;
-                    }
-
-                    if (Keyboard::isKeyPressed(Keyboard::Left)) {
-
-
-                        if (driving_backwards)
-                        {
-                            angle = right_rotation;
-                            tank.rotate(angle);
-                        }
-                        else
-                        {
-                            angle = left_rotation;
-                            tank.rotate(angle);
-                        }
-
-
-                    }
-                    if (Keyboard::isKeyPressed(Keyboard::Right)) {
-
-
-                        if (driving_backwards)
-                        {
-                            angle = left_rotation;
-                            tank.rotate(angle);
-                        }
-                        else
-                        {
-                            angle = right_rotation;
-                            tank.rotate(angle);
-                        }
-
-                    }
-
-
-
 
 
                     while (battleWindow.pollEvent(event5))
@@ -963,7 +947,7 @@ int main() {
 
                     }
                     battleWindow.clear();
-                    //battleWindow.draw(map1Background_sprite);
+                    
                     map1.drawGraphics(battleWindow);
                     battleWindow.draw(tank);
                     battleWindow.draw(closeButton);
