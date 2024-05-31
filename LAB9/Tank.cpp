@@ -1,4 +1,5 @@
 #include "Tank.h"
+
 #include "Map.h"
 #include <iostream>
 
@@ -11,6 +12,7 @@ Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture
 {
     
 
+
     setPosition(x, y);
     setTexture(texture);
     setScale(1,1);
@@ -18,10 +20,10 @@ Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture
 
 // Metody
 void Tank::move(int d) {
-
     current_angle = (Sprite::getRotation() - 90) * (3.14159265f / 180.0f);
+
     Vector2f movement(cos(current_angle) * speed*d, sin(current_angle) * speed*d);
-    Sprite::move(movement); // U¿ycie funkcji move z klasy sf::Sprite
+    Sprite::move(movement); // UÂ¿ycie funkcji move z klasy sf::Sprite
     
 }
 
@@ -104,6 +106,7 @@ void Tank::boundCollision(const RenderWindow& window) {
 
 
 
+
 void Tank::shoot() {
     // Logika strzelania
     std::cout << "Tank shoots!" << std::endl;
@@ -139,7 +142,8 @@ void Tank::setHealth(int health) {
     this->health = health;
 }
 
-void Tank::setRotation_speed(float rs)
-{
+void Tank::setRotation_speed(float rs) {
     this->rotation_speed = rs;
 }
+
+

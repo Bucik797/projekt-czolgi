@@ -602,21 +602,21 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
 }
 
 bool checkCollision(Tank& tank, const Map& map) {
-    // Sprawdzenie kolizji czo³gu z ka¿d¹ œcian¹ na mapie
+    // Sprawdzenie kolizji czoÂ³gu z kaÂ¿dÂ¹ ÂœcianÂ¹ na mapie
     for (const auto& wall : map.getWalls()) {
         if (tank.getGlobalBounds().intersects(wall.getGlobalBounds())) {
-            return true;  // Jeœli wykryto kolizjê, zwróæ true
+            return true;  // JeÂœli wykryto kolizjÃª, zwrÃ³Ã¦ true
         }
     }
 
-    // Sprawdzenie kolizji czo³gu z ka¿dym blokiem na mapie
+    // Sprawdzenie kolizji czoÂ³gu z kaÂ¿dym blokiem na mapie
     for (const auto& block : map.getBlocks()) {
         if (tank.getGlobalBounds().intersects(block.getGlobalBounds())) {
-            return true;  // Jeœli wykryto kolizjê, zwróæ true
+            return true;  // JeÂœli wykryto kolizjÃª, zwrÃ³Ã¦ true
         }
     }
 
-    return false;  // Jeœli nie wykryto ¿adnej kolizji, zwróæ false
+    return false;  // JeÂœli nie wykryto Â¿adnej kolizji, zwrÃ³Ã¦ false
 }
 
 
@@ -673,6 +673,7 @@ int main() {
     playMusic(music, music_buffer);
         //music.play();
 
+
     Tank tank(100, 100, 1.0f, 100, tank1Icon_texture, 0.2,false);
     Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
         //tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height / 2);
@@ -717,19 +718,7 @@ int main() {
         while (basicWindow.pollEvent(event))
         {
 
-            if (Keyboard::isKeyPressed(Keyboard::Up)) {
-                playButton.move(0, -10);
-            }
-            if (Keyboard::isKeyPressed(Keyboard::Down)) {
-                playButton.move(0, 10);
-            }
-            if (Keyboard::isKeyPressed(Keyboard::Left)) {
-                playButton.move(-10, 0);
-            }
-            if (Keyboard::isKeyPressed(Keyboard::Right)) {
-                playButton.move(10, 0);
-            }
-
+            
 
             if (event.type == Event::Closed) basicWindow.close();
 
@@ -952,18 +941,20 @@ int main() {
                 while (battleWindow.isOpen())
                 {
                     Event event5;
+
                     tank.driving();
                     tank.boundCollision(battleWindow);
                     
                     if (checkCollision(tank, map1)&& (Keyboard::isKeyPressed(Keyboard::Up)||Keyboard::isKeyPressed(Keyboard::Down))) {
-                        // Cofniêcie czo³gu, jeœli wykryto kolizjê
+                        // CofniÃªcie czoÂ³gu, jeÂœli wykryto kolizjÃª
                         
 
                         tank.isDrivingBackwards() ? tank.move(1) : tank.move(-1);
                         //cout << tank.isDrivingBackwards();
+                      
                     }
                     if (checkCollision(tank, map1) && (Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::Left))) {
-                        // Cofniêcie czo³gu, jeœli wykryto kolizjê
+                        // CofniÃªcie czoÂ³gu, jeÂœli wykryto kolizjÃª
 
 
                         tank.isRotatingLeft() ? tank.rotate(1) : tank.rotate(-1);

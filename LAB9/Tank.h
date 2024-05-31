@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
@@ -15,9 +16,11 @@ public:
     void shoot();
     void takeDamage(int damage);
     void rotate(int angle);
+
     void driving();
     void boundCollision(const RenderWindow& window);
     
+
 
     // Gettery
     float getSpeed() const;
@@ -30,16 +33,17 @@ public:
     void setSpeed(float speed);
     void setHealth(int health);
     void setRotation_speed(float rotation_speed);
+  
 
 private:
-    // W³asciwoœci czo³gu
-    float speed;    // Prêdkoœæ
+    // WÂ³asciwoÅ“ci czoÂ³gu
+    float speed;    // PrÃªdkoÅ“Ã¦
     int health;     // Zdrowie
     float rotation_speed;
     float current_angle;
+
     bool driving_backwards;
     bool rotation_left;
     
+
 };
-
-
