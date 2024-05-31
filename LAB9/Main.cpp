@@ -575,7 +575,7 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
          !map2Background_texture.loadFromFile("map1.png")
         || !map3Background_texture.loadFromFile("map1.png")
         || !map4Background_texture.loadFromFile("map1.png")
-        || !tank1Icon_texture.loadFromFile("tank11.png"))
+        || !tank1Icon_texture.loadFromFile("redTank.png"))
     {
         cout << "Failed to load textures" << endl;
     }
@@ -674,7 +674,7 @@ int main() {
         //music.play();
 
 
-    Tank tank(100, 100, 1.0f, 100, tank1Icon_texture, 0.2,false);
+    Tank tank(100, 100, 0.3f, 100, tank1Icon_texture, 0.2,false);
     Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
         //tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height / 2);
     while (loadingScreen.isOpen())
