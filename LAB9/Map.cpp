@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <vector>
 
 Map::Map(const string& backgroundFile, const string& longWallFile, const string& shortWallFile, const string& block1File, const string& block2File)
 {
@@ -77,3 +78,12 @@ void Map::drawGraphics(RenderWindow& window)
         window.draw(block);
     }
 }
+
+const vector<Sprite>& Map::getWalls() const {
+    return walls;
+}
+
+const vector<Sprite>& Map::getBlocks() const {
+    return blocks;
+}
+

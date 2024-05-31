@@ -1,12 +1,13 @@
 #include "Tank.h"
+#include "Map.h"
 #include <iostream>
 
 using namespace sf;
 using namespace std;
 
 // Konstruktor
-Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture, float rs)
-    : speed(speed), health(health), rotation_speed(rs)
+Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture, float rs, bool dw)
+    : speed(speed), health(health), rotation_speed(rs), driving_backwards(dw)
 {
     
 
@@ -29,6 +30,59 @@ void Tank::rotate(int angle)
     this->setOrigin(this->getLocalBounds().width / 2, this->getLocalBounds().height / 2);
     Sprite::rotate(this->rotation_speed*angle);
 }
+
+void Tank::driving() 
+{
+   
+
+    if (Keyboard::isKeyPressed(Keyboard::Up)) {
+        move(1);
+    }
+    if (Keyboard::isKeyPressed(Keyboard::Down)) {
+        driving_backwards = true;
+        move(-1);
+    }
+    else {
+        driving_backwards = false;
+    }
+
+    if (Keyboard::isKeyPressed(Keyboard::Left)) {
+        if (driving_backwards) {
+            rotate(1);  // Za³ó¿my, ¿e 1 to right_rotation
+        }
+        else {
+            rotate(-1);  // Za³ó¿my, ¿e -1 to left_rotation
+        }
+    }
+    if (Keyboard::isKeyPressed(Keyboard::Right)) {
+        if (driving_backwards) {
+            rotate(-1);  // Za³ó¿my, ¿e -1 to left_rotation
+        }
+        else {
+            rotate(1);  // Za³ó¿my, ¿e 1 to right_rotation
+        }
+    }
+}
+
+
+
+void Tank::boundCollision(const RenderWindow& window) {
+    sf::FloatRect tankBounds = getGlobalBounds();
+    if (tankBounds.left < 0) {
+        setPosition(tankBounds.width / 2, getPosition().y);
+    }
+    if (tankBounds.left + tankBounds.width > window.getSize().x) {
+        setPosition(window.getSize().x - tankBounds.width / 2, getPosition().y);
+    }
+    if (tankBounds.top < 0) {
+        setPosition(getPosition().x, tankBounds.height / 2);
+    }
+    if (tankBounds.top + tankBounds.height > window.getSize().y) {
+        setPosition(getPosition().x, window.getSize().y - tankBounds.height / 2);
+    }
+}
+
+
 
 void Tank::shoot() {
     // Logika strzelania

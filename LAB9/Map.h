@@ -11,6 +11,9 @@ public:
 
     void drawGraphics(RenderWindow& window);
 
+    const vector<Sprite>& getWalls() const;
+    const vector<Sprite>& getBlocks() const;
+
 private:
     Texture background_texture;
     Texture longWall_texture;

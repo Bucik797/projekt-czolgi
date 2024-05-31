@@ -547,8 +547,8 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
 
 
 int main() {
-    int window_width = 1920;
-    int window_height = 1080;
+    int window_width = 1600;
+    int window_height = 900;
     RenderWindow loadingScreen(VideoMode(1300, 700), "Loading screen", Style::None);
     RenderWindow basicWindow;
     RenderWindow settingsWindow;
@@ -598,7 +598,7 @@ int main() {
     playMusic(music, music_buffer);
         //music.play();
 
-    Tank tank(100, 100, 1.0f, 100, tank1Icon_texture, 0.2);
+    Tank tank(100, 100, 1.0f, 100, tank1Icon_texture, 0.2,false);
     Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
         //tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height / 2);
     while (loadingScreen.isOpen())
@@ -877,57 +877,9 @@ int main() {
                 while (battleWindow.isOpen())
                 {
                     Event event5;
-
-
-
-                    if (Keyboard::isKeyPressed(Keyboard::Up)) {
-
-                        tank.move(1);
-                    }
-                    if (Keyboard::isKeyPressed(Keyboard::Down)) {
-
-                        driving_backwards = true;
-                        tank.move(-1);
-                    }
-                    else
-                    {
-                        driving_backwards = false;
-                    }
-
-                    if (Keyboard::isKeyPressed(Keyboard::Left)) {
-
-
-                        if (driving_backwards)
-                        {
-                            angle = right_rotation;
-                            tank.rotate(angle);
-                        }
-                        else
-                        {
-                            angle = left_rotation;
-                            tank.rotate(angle);
-                        }
-
-
-                    }
-                    if (Keyboard::isKeyPressed(Keyboard::Right)) {
-
-
-                        if (driving_backwards)
-                        {
-                            angle = left_rotation;
-                            tank.rotate(angle);
-                        }
-                        else
-                        {
-                            angle = right_rotation;
-                            tank.rotate(angle);
-                        }
-
-                    }
-
-
-
+                    tank.driving();
+                    tank.boundCollision(battleWindow);
+                    
 
 
                     while (battleWindow.pollEvent(event5))
@@ -963,7 +915,7 @@ int main() {
 
                     }
                     battleWindow.clear();
-                    //battleWindow.draw(map1Background_sprite);
+                    
                     map1.drawGraphics(battleWindow);
                     battleWindow.draw(tank);
                     battleWindow.draw(closeButton);
