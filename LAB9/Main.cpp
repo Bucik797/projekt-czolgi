@@ -613,7 +613,7 @@ int main() {
 
         if (elapsed.asSeconds() > 10.0f)
         {
-            basicWindow.create(VideoMode(window_width, window_height), "basicWindow", Style::Fullscreen);
+            basicWindow.create(VideoMode(window_width, window_height), "basicWindow");
 
             loadingScreen.setVisible(false);
             break;
