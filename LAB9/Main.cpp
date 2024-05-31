@@ -74,10 +74,12 @@ void setLoadingGraphics(float& baseRadius, CircleShape& loadingCircleSH, Sprite&
     loadingCircleSH.setOrigin(baseRadius, baseRadius);
     loadingCircleSH.setPosition(650, 630);
 }
-void setBasicGraphics(RectangleShape& closeButton, RectangleShape& settingsButton, RectangleShape& playButton, Sprite& background_sprite, Sprite& bucik_sprite, Sprite& lajcior_sprite, Texture& background_texture, Texture& lajt_texture, Texture& bucior_texture)
+
+void setBasicGraphics(RectangleShape& closeButton, RectangleShape& settingsButton, RectangleShape& playButton, Sprite& gameLogoSPR, Sprite& background_sprite, Sprite& bucik_sprite, Sprite& lajcior_sprite, Texture& gameLogoTXT, Texture& background_texture, Texture& lajt_texture, Texture& bucior_texture)
 {
-    if (!background_texture.loadFromFile("background.png")
+    if (!background_texture.loadFromFile("mainBackground.png")
         || !lajt_texture.loadFromFile("lajcior.png")
+        || (!gameLogoTXT.loadFromFile("gameLogo.png"))
         || !bucior_texture.loadFromFile("bucik.png"))
     {
         cout << "Failed to load textures" << endl;
@@ -86,30 +88,37 @@ void setBasicGraphics(RectangleShape& closeButton, RectangleShape& settingsButto
     background_sprite.setTexture(background_texture);
     lajcior_sprite.setTexture(lajt_texture);
     bucik_sprite.setTexture(bucior_texture);
+    gameLogoSPR.setTexture(gameLogoTXT);
     
 
+    playButton.setOutlineColor(Color::Green);
     playButton.setSize(Vector2f(300, 80));
-    playButton.setFillColor(Color::White);
-    playButton.setPosition(230, 800);
+    playButton.setFillColor(Color::Black);
+    playButton.setPosition(50, 280);
 
+    settingsButton.setOutlineColor(Color::Green);
     settingsButton.setSize(Vector2f(300, 80));
-    settingsButton.setFillColor(Color::White);
-    settingsButton.setPosition(730, 800);
+    settingsButton.setFillColor(Color::Black);
+    settingsButton.setPosition(50, 380);
 
+    closeButton.setOutlineColor(Color::Green);
     closeButton.setSize(Vector2f(200, 80));
-    closeButton.setFillColor(Color::White);
-    closeButton.setPosition(1300, 800);
+    closeButton.setFillColor(Color::Black);
+    closeButton.setPosition(50, 480);
 
-    bucik_sprite.setPosition(850, 200);
-    bucik_sprite.setScale(0.4, 0.4);
+    bucik_sprite.setPosition(1000, 200);
+    bucik_sprite.setScale(0.5, 0.5);
 
-    lajcior_sprite.setScale(0.4, 0.4);
-    lajcior_sprite.setPosition(150, 200);
+    lajcior_sprite.setScale(0.5, 0.5);
+    lajcior_sprite.setPosition(600, 200);
+
+    gameLogoSPR.setScale(0.2, 0.2);
+    gameLogoSPR.setPosition(50, 50);
 
     
 }
 
-void setBasicText(Text& playText, Text& settingsText, Text& closeText, Text& titleText, Font& font)
+void setBasicText(Text& whiteName, Text& whiteLastname, Text& butName, Text& butLastname, Text& playText, Text& settingsText, Text& closeText, Text& creditsText, Font& font)
 {
     if (!font.loadFromFile("arial.ttf"))
     {
@@ -118,40 +127,73 @@ void setBasicText(Text& playText, Text& settingsText, Text& closeText, Text& tit
 
     playText.setFont(font);
     playText.setString("Play");
-    playText.setCharacterSize(50);
-    playText.setFillColor(Color::White);
-    playText.setPosition(300, 805);
-    playText.setOutlineColor(Color::Black);
+    playText.setCharacterSize(45);
+    playText.setFillColor(Color::Black);
+    playText.setPosition(60, 290);
+    playText.setOutlineColor(Color::Green);
     playText.setOutlineThickness(3);
 
     settingsText.setFont(font);
     settingsText.setString("Settings");
-    settingsText.setCharacterSize(50);
-    settingsText.setFillColor(Color::White);
-    settingsText.setPosition(770, 805);
-    settingsText.setOutlineColor(Color::Black);
+    settingsText.setCharacterSize(45);
+    settingsText.setFillColor(Color::Black);
+    settingsText.setPosition(60, 390);
+    settingsText.setOutlineColor(Color::Green);
     settingsText.setOutlineThickness(3);
 
     closeText.setFont(font);
     closeText.setString("Exit");
-    closeText.setCharacterSize(50);
-    closeText.setFillColor(Color::White);
-    closeText.setPosition(1320, 805);
-    closeText.setOutlineColor(Color::Black);
+    closeText.setCharacterSize(45);
+    closeText.setFillColor(Color::Black);
+    closeText.setPosition(60, 490);
+    closeText.setOutlineColor(Color::Green);
     closeText.setOutlineThickness(3);
 
-    titleText.setFont(font);
-    titleText.setString("DS4 TANKS");
-    titleText.setCharacterSize(80);
-    titleText.setFillColor(Color::White);
-    titleText.setPosition(700, 200);
-    titleText.setOutlineColor(Color::Black);
-    titleText.setOutlineThickness(8);
+    creditsText.setFont(font);
+    creditsText.setString("Credits");
+    creditsText.setCharacterSize(80);
+    creditsText.setFillColor(Color::Black);
+    creditsText.setPosition(800, 100);
+    creditsText.setOutlineColor(Color::Red);
+    creditsText.setOutlineThickness(8);
+
+    whiteName.setFont(font);
+    whiteName.setString("Gregorio");
+    whiteName.setCharacterSize(50);
+    whiteName.setFillColor(Color::White);
+    whiteName.setPosition(600, 670);
+    whiteName.setOutlineColor(Color::Black);
+    whiteName.setOutlineThickness(8);
+
+    butName.setFont(font);
+    butName.setString("Domenico");
+    butName.setCharacterSize(50);
+    butName.setFillColor(Color::White);
+    butName.setPosition(1000, 670);
+    butName.setOutlineColor(Color::Black);
+    butName.setOutlineThickness(8);
+
+    whiteLastname.setFont(font);
+    whiteLastname.setString("Bianco");
+    whiteLastname.setCharacterSize(50);
+    whiteLastname.setFillColor(Color::White);
+    whiteLastname.setPosition(600, 730);
+    whiteLastname.setOutlineColor(Color::Black);
+    whiteLastname.setOutlineThickness(8);
+
+    butLastname.setFont(font);
+    butLastname.setString("Stivale");
+    butLastname.setCharacterSize(50);
+    butLastname.setFillColor(Color::White);
+    butLastname.setPosition(1000, 730);
+    butLastname.setOutlineColor(Color::Black);
+    butLastname.setOutlineThickness(8);
+
 
 
 }
 
-void setMapsGraphics(Sprite& map1_sprite, Texture& map1_texture, Sprite& map2_sprite, Texture& map2_texture, Sprite& map3_sprite, Texture& map3_texture, Sprite& map4_sprite, Texture& map4_texture)
+void setMapsGraphics(RectangleShape& closeButton, Sprite& map1_sprite, Texture& map1_texture, Sprite& map2_sprite, Texture& map2_texture, Sprite& map3_sprite, Texture& map3_texture, Sprite& map4_sprite, Texture& map4_texture)
 {
     if (!map1_texture.loadFromFile("map11.png")||
         !map2_texture.loadFromFile("map1.png") ||
@@ -177,6 +219,11 @@ void setMapsGraphics(Sprite& map1_sprite, Texture& map1_texture, Sprite& map2_sp
     map4_sprite.setScale(0.3, 0.3);
     map4_sprite.setPosition(1300, 400);
 
+
+    closeButton.setOutlineColor(Color::Green);
+    closeButton.setSize(Vector2f(200, 80));
+    closeButton.setFillColor(Color::Black);
+    closeButton.setPosition(50, 480);
     
 }
 
@@ -241,7 +288,7 @@ void setMapText(Text& mapsText, Text& backText, Text& map1Text, Text& map2Text, 
 
 }
 
-void setSettingsGraphics(RectangleShape& fullscreenONButton, RectangleShape& fullscreenOFFButton, RectangleShape& music0Button, RectangleShape& music25Button, RectangleShape& music50Button, RectangleShape& music75Button, RectangleShape& music100Button, RectangleShape& sfx0Button, RectangleShape& sfx25Button, RectangleShape& sfx50Button, RectangleShape& sfx75Button, RectangleShape& sfx100Button)
+void setSettingsGraphics(RectangleShape& closeButton, RectangleShape& fullscreenONButton, RectangleShape& fullscreenOFFButton, RectangleShape& music0Button, RectangleShape& music25Button, RectangleShape& music50Button, RectangleShape& music75Button, RectangleShape& music100Button, RectangleShape& sfx0Button, RectangleShape& sfx25Button, RectangleShape& sfx50Button, RectangleShape& sfx75Button, RectangleShape& sfx100Button)
 {
     fullscreenONButton.setSize(Vector2f(80, 50));
     fullscreenONButton.setFillColor(Color::White);
@@ -294,6 +341,10 @@ void setSettingsGraphics(RectangleShape& fullscreenONButton, RectangleShape& ful
     sfx100Button.setPosition(1090, 610);
 
 
+    closeButton.setOutlineColor(Color::Green);
+    closeButton.setSize(Vector2f(200, 80));
+    closeButton.setFillColor(Color::Black);
+    closeButton.setPosition(50, 480);
 
 }
 
@@ -462,7 +513,7 @@ void setPlayersText(Text& player1Text, Text& player2Text, Font& font, Text& batt
 
 }
 
-void setPlayersGraphics(Sprite& P1L_sprite, Sprite& P1R_sprite, Sprite& P2L_sprite, Sprite& P2R_sprite, Sprite& player1_sprite, Sprite& player2_sprite, Texture& P1L_texture, Texture& P1R_texture, Texture& P2L_texture, Texture& P2R_texture, Texture& player1_texture, Texture& player2_texture, RectangleShape& battleButton)
+void setPlayersGraphics(RectangleShape& closeButton, Sprite& P1L_sprite, Sprite& P1R_sprite, Sprite& P2L_sprite, Sprite& P2R_sprite, Sprite& player1_sprite, Sprite& player2_sprite, Texture& P1L_texture, Texture& P1R_texture, Texture& P2L_texture, Texture& P2R_texture, Texture& player1_texture, Texture& player2_texture, RectangleShape& battleButton)
 {
     if (!P1L_texture.loadFromFile("left.png") ||
         !P1R_texture.loadFromFile("right.png") ||
@@ -501,6 +552,11 @@ void setPlayersGraphics(Sprite& P1L_sprite, Sprite& P1R_sprite, Sprite& P2L_spri
     battleButton.setSize(Vector2f(200, 60));
     battleButton.setFillColor(Color::White);
     battleButton.setPosition(700, 800);
+
+    closeButton.setOutlineColor(Color::Green);
+    closeButton.setSize(Vector2f(200, 80));
+    closeButton.setFillColor(Color::Black);
+    closeButton.setPosition(50, 480);
 }
 
 void playMusic(Sound& music, SoundBuffer& music_buffer)
@@ -547,8 +603,8 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
 
 
 int main() {
-    int window_width = 1920;
-    int window_height = 1080;
+    int window_width = 1600;
+    int window_height = 900;
     RenderWindow loadingScreen(VideoMode(1300, 700), "Loading screen", Style::None);
     RenderWindow basicWindow;
     RenderWindow settingsWindow;
@@ -562,12 +618,12 @@ int main() {
 
     float baseradius = 30;
     float pulseSpeed = 3.0f;
-    Texture loadingBackgroundTXT, logoTXT;
-    Sprite loadingBackgroundSPR, logoSPR;
+    Texture loadingBackgroundTXT, logoTXT, logoTXT1;
+    Sprite loadingBackgroundSPR, logoSPR, logoSPR1;
     CircleShape loadingCircle(25);
     Direction angle;
 
-
+    RectangleShape exitButton, mapBackButton, tankBackButton;
     RectangleShape closeButton, settingsButton, playButton, fullscreenONButton, fullscreenOFFButton, battleButton;
     RectangleShape  music0Button, music25Button, music50Button, music75Button, music100Button, sfx0Button, sfx25Button, sfx50Button, sfx75Button, sfx100Button;
     Sprite background_sprite, bucik_sprite, lajcior_sprite, map1_sprite, map2_sprite, map3_sprite, map4_sprite, P1L_sprite, P1R_sprite, P2L_sprite, P2R_sprite, player1_sprite, player2_sprite;
@@ -575,6 +631,7 @@ int main() {
     Sprite longWall1_sprite, shortWall_sprite, block1_sprite, block2_sprite;
     Texture longWall_texture, shortWall_texture, block1_texture, block2_texture;
     Texture map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_texture;
+    Text whiteName, whiteLastname, butName, butLastname;
     Text playText, settingsText, closeText, titleText, mapsText, backText, map1Text, map2Text, map3Text, map4Text, player1Text, player2Text, battleText;
     Text fullscreenText, musicText, sfxText, fullscreenONText, fullscreenOFFText, music0Text, music25Text, music50Text, music75Text, music100Text, sfx0Text, sfx25Text, sfx50Text, sfx75Text, sfx100Text;
     Texture background_texture, lajt_texture, bucior_texture, map1_texture, map2_texture, map3_texture, map4_texture, P1L_texture, P1R_texture, P2L_texture, P2R_texture, player1_texture, player2_texture;
@@ -585,14 +642,14 @@ int main() {
         //Music music;
 
     setLoadingGraphics(baseradius, loadingCircle, loadingBackgroundSPR, logoSPR, logoTXT, loadingBackgroundTXT);
-    setBasicGraphics(closeButton, settingsButton, playButton, background_sprite, bucik_sprite, lajcior_sprite, background_texture, lajt_texture, bucior_texture);
-    setMapsGraphics(map1_sprite, map1_texture, map2_sprite, map2_texture, map3_sprite, map3_texture, map4_sprite, map4_texture);
-    setBasicText(playText, settingsText, closeText, titleText, font);
+    setBasicGraphics(exitButton, settingsButton, playButton, logoSPR1, background_sprite, bucik_sprite, lajcior_sprite, logoTXT1, background_texture, lajt_texture, bucior_texture);
+    setMapsGraphics(mapBackButton, map1_sprite, map1_texture, map2_sprite, map2_texture, map3_sprite, map3_texture, map4_sprite, map4_texture);
+    setBasicText(whiteName, whiteLastname, butName, butLastname, playText, settingsText, closeText, titleText, font);
     setMapText(mapsText, backText, map1Text, map2Text, map3Text, map4Text, mapFont, font);
     setSettingsText(fullscreenText, musicText, sfxText, font, fullscreenONText, fullscreenOFFText, music0Text, music25Text, music50Text, music75Text, music100Text, sfx0Text, sfx25Text, sfx50Text, sfx75Text, sfx100Text);
-    setSettingsGraphics(fullscreenONButton, fullscreenOFFButton, music0Button, music25Button, music50Button, music75Button, music100Button, sfx0Button, sfx25Button, sfx50Button, sfx75Button, sfx100Button);
+    setSettingsGraphics(closeButton, fullscreenONButton, fullscreenOFFButton, music0Button, music25Button, music50Button, music75Button, music100Button, sfx0Button, sfx25Button, sfx50Button, sfx75Button, sfx100Button);
     setPlayersText(player1Text, player2Text, font, battleText);
-    setPlayersGraphics(P1L_sprite, P1R_sprite, P2L_sprite, P2R_sprite, player1_sprite, player2_sprite, P1L_texture, P1R_texture, P2L_texture, P2R_texture, player1_texture, player2_texture, battleButton);
+    setPlayersGraphics(tankBackButton, P1L_sprite, P1R_sprite, P2L_sprite, P2R_sprite, player1_sprite, player2_sprite, P1L_texture, P1R_texture, P2L_texture, P2R_texture, player1_texture, player2_texture, battleButton);
     setBattleGraphics(map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_sprite, tank1Icon_texture);
 
     playMusic(music, music_buffer);
@@ -866,7 +923,7 @@ int main() {
                 playerWindow.draw(player1_sprite);
                 playerWindow.draw(player2_sprite);
                 playerWindow.draw(battleButton);
-                playerWindow.draw(closeButton);
+                playerWindow.draw(tankBackButton);
                 playerWindow.draw(battleText);
                 playerWindow.draw(player1Text);
                 playerWindow.draw(player2Text);
@@ -981,7 +1038,7 @@ int main() {
             mapsWindow.clear();
             mapsWindow.draw(background_sprite);
             mapsWindow.draw(mapsText);
-            mapsWindow.draw(closeButton);
+            mapsWindow.draw(mapBackButton);
             mapsWindow.draw(backText);
             mapsWindow.draw(map1_sprite);
             mapsWindow.draw(map2_sprite);
@@ -999,9 +1056,16 @@ int main() {
 
         basicWindow.clear(Color::Cyan);
         basicWindow.draw(background_sprite);
+        basicWindow.draw(bucik_sprite);
+        basicWindow.draw(lajcior_sprite);
+        basicWindow.draw(whiteName);
+        basicWindow.draw(whiteLastname);
+        basicWindow.draw(butName);
+        basicWindow.draw(butLastname);
+        basicWindow.draw(logoSPR1);
         basicWindow.draw(playButton);
         basicWindow.draw(settingsButton);
-        basicWindow.draw(closeButton);
+        basicWindow.draw(exitButton);
         basicWindow.draw(titleText);
         basicWindow.draw(playText);
         basicWindow.draw(settingsText);
