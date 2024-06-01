@@ -28,6 +28,7 @@ public:
     float getRotation();
     bool isDrivingBackwards();
     bool isRotatingLeft();
+    Vector2f getCurrentPosition();
 
     // Settery
     void setSpeed(float speed);
