@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
+#include "Bullet.h"
 
 using namespace sf;
 using namespace std;

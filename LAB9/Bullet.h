@@ -16,12 +16,16 @@ public:
 	void setVelocity(int v);
 	void setDamage(int d);
 	void setCurrentPosition();
+	void shooted(RenderWindow& window);
+	void drawBullets(RenderWindow& window);
 
 
 private:
 	int velocity;
 	Texture bullet_texture;
 	int damage;
+	float current_angle;
+	vector <Sprite> bullets;
 
 };
 

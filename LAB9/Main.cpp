@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Tank.h"
 #include "Map.h"
+#include "Bullet.h"
 
 using namespace sf;
 using namespace std;
@@ -576,6 +577,7 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
         || !map3Background_texture.loadFromFile("map1.png")
         || !map4Background_texture.loadFromFile("map1.png")
         || !tank1Icon_texture.loadFromFile("redTank.png"))
+        
     {
         cout << "Failed to load textures" << endl;
     }
@@ -583,9 +585,6 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
     map1Background_sprite.setTexture(map1Background_texture);
     map1Background_sprite.setScale(2,2);
     map1Background_sprite.setPosition(0,0);
-
-
-
 
 
     map2Background_sprite.setTexture(map2Background_texture);
@@ -619,6 +618,38 @@ bool checkCollision(Tank& tank, const Map& map) {
     return false;  // Jeli nie wykryto ¿adnej kolizji, zwróæ false
 }
 
+void setBulletPosition(Tank& tank, vector<Bullet>& bullets, Clock& bulletClock)
+{
+    if (Keyboard::isKeyPressed(Keyboard::Space) && bulletClock.getElapsedTime().asSeconds()>0.5)
+    {
+
+        bullets.push_back(Bullet(0.3f, 10, "bullet1.png"));
+        bullets.back().setPosition(tank.getCurrentPosition());
+        //bullets.back().setOrigin()
+        bullets.back().setRotation(tank.getRotation());
+        bulletClock.restart();
+    }
+    
+    
+}
+
+void flyingBullets(vector<Bullet>& bullets, RenderWindow& window)
+{
+    cout << "flying bullets " << endl;
+    for (int i = 0; i < bullets.size(); i++)
+    {
+        double current_angle = (bullets[i].getRotation() - 90) * (3.14159265f / 180.0f);
+
+        Vector2f movement(cos(current_angle), sin(current_angle));
+        window.draw(bullets[i]);
+        bullets[i].move(movement);
+        
+        
+        //bullets[i].move(1,0);
+        cout << "wyswietlanie";
+    }
+}
+
 
 int main() {
     int window_width = 1600;
@@ -633,6 +664,10 @@ int main() {
     bool loaded = false;
     bool driving_backwards;
     Clock clock;
+    Clock bulletClock;
+
+    vector <Bullet> bullets;
+
 
     float baseradius = 30;
     float pulseSpeed = 3.0f;
@@ -676,7 +711,7 @@ int main() {
 
     Tank tank(100, 100, 0.3f, 100, tank1Icon_texture, 0.2,false);
     Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
-        //tank.setOrigin(tank.getLocalBounds().width / 2, tank.getLocalBounds().height / 2);
+    Bullet bullet1(0.3f, 10, "bullet1.png");
     while (loadingScreen.isOpen())
     {
         Time elapsed = clock.getElapsedTime();
@@ -941,10 +976,17 @@ int main() {
                 while (battleWindow.isOpen())
                 {
                     Event event5;
+                    battleWindow.clear();
+                    map1.drawGraphics(battleWindow);
+
 
                     tank.driving();
                     tank.boundCollision(battleWindow);
+                    setBulletPosition(tank, bullets, bulletClock);
                     
+                    //bullet1.setCurrentPosition(tank);
+                    
+
                     if (checkCollision(tank, map1)&& (Keyboard::isKeyPressed(Keyboard::Up)||Keyboard::isKeyPressed(Keyboard::Down))) {
                         // Cofniêcie czo³gu, jeli wykryto kolizjê
                         
@@ -994,9 +1036,14 @@ int main() {
 
 
                     }
-                    battleWindow.clear();
                     
-                    map1.drawGraphics(battleWindow);
+                    
+                    
+                    
+                    flyingBullets(bullets, battleWindow);
+                    //bullet1.shooted(battleWindow);
+                    //bullet1.drawBullets(battleWindow);
+                    //battleWindow.draw(bullet1);
                     battleWindow.draw(tank);
                     battleWindow.draw(closeButton);
                     battleWindow.draw(closeText);

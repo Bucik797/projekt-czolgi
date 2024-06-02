@@ -24,7 +24,7 @@ void Tank::move(int d) {
     current_angle = (Sprite::getRotation() - 90) * (3.14159265f / 180.0f);
 
     Vector2f movement(cos(current_angle) * speed*d, sin(current_angle) * speed*d);
-    Sprite::move(movement); // U¿ycie funkcji move z klasy sf::Sprite
+    Sprite::move(movement); 
     
 }
 
@@ -109,8 +109,8 @@ void Tank::boundCollision(const RenderWindow& window) {
 
 
 void Tank::shoot() {
-    // Logika strzelania
-    std::cout << "Tank shoots!" << std::endl;
+    
+    
 }
 
 void Tank::takeDamage(int damage) {
