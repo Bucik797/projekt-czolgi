@@ -660,7 +660,7 @@ void flyingBullets(vector<Bullet>& bullets, RenderWindow& window)
     }
 }
 
-void bulletsCollide(const Map& map, vector<Bullet>& bullets, RenderWindow& window)
+void bulletsCollide(const Map& map, vector<Bullet>& bullets, RenderWindow& window, vector<std::unique_ptr<EnemyManager>>& enemies, Tank& tank)
 {
     for (auto it = bullets.begin(); it != bullets.end();)
     {
@@ -671,17 +671,20 @@ void bulletsCollide(const Map& map, vector<Bullet>& bullets, RenderWindow& windo
         if (bounds.left + bounds.width < 0 || bounds.top + bounds.height < 0 ||
             bounds.left > window.getSize().x || bounds.top > window.getSize().y) {
             it = bullets.erase(it);
-            continue; // Kontynuuj z nowym iteratorem
+            isErased = true;
+            
         }
-
-        // Sprawdź kolizje z murami
-        for (const auto& wall : map.getWalls())
+        if (!isErased)
         {
-            if (it->getGlobalBounds().intersects(wall.getGlobalBounds()))
+            // Sprawdź kolizje z murami
+            for (const auto& wall : map.getWalls())
             {
-                it = bullets.erase(it);
-                isErased = true;
-                break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                if (it->getGlobalBounds().intersects(wall.getGlobalBounds()))
+                {
+                    it = bullets.erase(it);
+                    isErased = true;
+                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                }
             }
         }
 
@@ -699,6 +702,22 @@ void bulletsCollide(const Map& map, vector<Bullet>& bullets, RenderWindow& windo
             }
         }
 
+        if (!isErased)
+        {
+            for (const auto& enemy : enemies)
+            {
+                if (it->getGlobalBounds().intersects(enemy->getGlobalBounds()))
+                {
+                    enemy->takeDamage(tank);
+                    it = bullets.erase(it);
+                    isErased = true;
+                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                }
+            }
+        }
+
+
+
         // Jeżeli pocisk nie został usunięty przez żadną z kolizji, przejdź do następnego
         if (!isErased)
         {
@@ -706,6 +725,15 @@ void bulletsCollide(const Map& map, vector<Bullet>& bullets, RenderWindow& windo
         }
     }
 }
+
+void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& window)
+{
+    for (const auto& enemy : enemies) {
+        enemy->drawEnemy(window);
+    }
+}
+
+
 
 
 
@@ -772,26 +800,21 @@ int main() {
     Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
 
     vector<std::unique_ptr<EnemyManager>> enemies;
-    enemies.push_back(make_unique<MeleeEnemy>(100, 15, 0.1f));
-    enemies.push_back(make_unique<MeleeEnemy>(200, 20, 0.2f));
-    enemies.push_back(make_unique<RangeEnemy>(80, 26, 0.1f));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 15, 0.1f,"meleeEnemy.png",100,100));
+    enemies.push_back(make_unique<MeleeEnemy>(200, 20, 0.2f,"meleeEnemy.png",350,100));
+    enemies.push_back(make_unique<RangeEnemy>(80, 26, 0.1f,"rangeEnemy.png",300,300));
+    enemies.push_back(make_unique<RangeEnemy>(80, 26, 0.1f, "rangeEnemy.png",400, 500));
     
-
-    for (auto& enemy : enemies) {
+    /*for (auto& enemy : enemies) {
         enemy->takeDamage(tank);
         enemy->dealDamage(tank);
         
     }
-    /*for (auto& enemy : enemies)
-    {
-        cout << enemy->getHp() << endl;
-        cout << tank.getHealth() << endl;
-    }
-*/
+  */
+    
     
 
 
-    //Bullet bullet1(0.3f, 10, "bullet1.png");
     while (loadingScreen.isOpen())
     {
         Time elapsed = clock.getElapsedTime();
@@ -1121,11 +1144,13 @@ int main() {
                     
                     battleWindow.draw(tank);
                     flyingBullets(bullets, battleWindow);
-                    bulletsCollide(map1, bullets, battleWindow);
+                    bulletsCollide(map1, bullets, battleWindow,enemies,tank);
                     //bullet1.shooted(battleWindow);
                     //bullet1.drawBullets(battleWindow);
                     //battleWindow.draw(bullet1);
                     
+                    
+                    drawEnemies(enemies, battleWindow);
                     battleWindow.draw(closeButton);
                     battleWindow.draw(closeText);
                     battleWindow.display();
