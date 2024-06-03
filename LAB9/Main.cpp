@@ -772,8 +772,8 @@ int main() {
     Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
 
     vector<std::unique_ptr<EnemyManager>> enemies;
-    enemies.push_back(std::make_unique<MeleeEnemy>(100, 15, 0.1f));
-    enemies.push_back(std::make_unique<MeleeEnemy>(200, 20, 0.2f));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 15, 0.1f));
+    enemies.push_back(make_unique<MeleeEnemy>(200, 20, 0.2f));
     enemies.push_back(make_unique<RangeEnemy>(80, 26, 0.1f));
     
 
