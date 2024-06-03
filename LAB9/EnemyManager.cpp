@@ -3,12 +3,25 @@
 #include <iostream>
 
 
+EnemyManager::EnemyManager(int hp, int strength, int speed, const string enemyFile, float xPos, float yPos) : hp(hp), strength(strength), speed(speed), enemyFile(enemyFile), xPos(xPos),yPos(yPos)
+{
+    if (!enemy_texture.loadFromFile(enemyFile))
+    {
+        cout << "Failed to load enemy texture" << endl;
+    }
+    else
+    {
+        this->setTexture(enemy_texture);
+        this->setPosition(xPos, yPos);
+    }
+}
+
 void EnemyManager::takeDamage(Tank& tank)
 {
-    std::cout << "Enemy before shoot has " << hp << " HP remaining." << std::endl;
+    cout << "Enemy before shoot has " << hp << " HP remaining." << std::endl;
     hp -= tank.getStrength();
     if (hp < 0) hp = 0;
-    std::cout << "Enemy now has " << hp << " HP remaining." << std::endl;
+    cout << "Enemy now has " << hp << " HP remaining." << std::endl;
 }
 
 void EnemyManager::dealDamage(Tank& tank)
@@ -29,4 +42,10 @@ int EnemyManager::getStrength()const
 float EnemyManager::getSpeed()const
 {
     return speed;
+}
+
+
+void EnemyManager::drawEnemy(RenderWindow& window)
+{
+    window.draw(*this);
 }
