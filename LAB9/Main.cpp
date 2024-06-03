@@ -5,6 +5,11 @@
 #include "Map.h"
 #include "Bullet.h"
 #include <vector>
+#include "EnemyManager.h"
+#include "MeleeEnemy.h"
+#include <memory>
+#include "RangeEnemy.h"
+
 
 using namespace sf;
 using namespace std;
@@ -763,8 +768,29 @@ int main() {
         //music.play();
 
 
-    Tank tank(100, 100, 0.2f, 100, tank1Icon_texture, 0.2,false);
+    Tank tank(100, 100, 0.2f, 100, tank1Icon_texture, 0.2,false,10);
     Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
+
+    vector<std::unique_ptr<EnemyManager>> enemies;
+    enemies.push_back(make_unique<MeleeEnemy>(100, 15, 0.1f));
+    enemies.push_back(make_unique<MeleeEnemy>(200, 20, 0.2f));
+    enemies.push_back(make_unique<RangeEnemy>(80, 26, 0.1f));
+    
+
+    for (auto& enemy : enemies) {
+        enemy->takeDamage(tank);
+        enemy->dealDamage(tank);
+        
+    }
+    /*for (auto& enemy : enemies)
+    {
+        cout << enemy->getHp() << endl;
+        cout << tank.getHealth() << endl;
+    }
+*/
+    
+
+
     //Bullet bullet1(0.3f, 10, "bullet1.png");
     while (loadingScreen.isOpen())
     {
