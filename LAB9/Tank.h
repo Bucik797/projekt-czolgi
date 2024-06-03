@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
+#include "Bullet.h"
 
 using namespace sf;
 using namespace std;
@@ -28,6 +29,7 @@ public:
     float getRotation();
     bool isDrivingBackwards();
     bool isRotatingLeft();
+    Vector2f getCurrentPosition();
 
     // Settery
     void setSpeed(float speed);
