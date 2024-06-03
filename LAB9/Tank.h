@@ -10,7 +10,7 @@ using namespace std;
 class Tank : public sf::Sprite {
 public:
     // Konstruktor
-    Tank(float x, float y, float speed, int health, const sf::Texture& texture, float rs,bool dw);
+    Tank(float x, float y, float speed, int health, const sf::Texture& texture, float rs,bool dw, int strength);
 
     // Metody
     void move(int d);
@@ -30,6 +30,7 @@ public:
     bool isDrivingBackwards();
     bool isRotatingLeft();
     Vector2f getCurrentPosition();
+    int getStrength();
 
     // Settery
     void setSpeed(float speed);
@@ -43,6 +44,7 @@ private:
     int health;     // Zdrowie
     float rotation_speed;
     float current_angle;
+    int strength;
 
     bool driving_backwards;
     bool rotation_left;

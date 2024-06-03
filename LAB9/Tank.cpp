@@ -7,8 +7,8 @@ using namespace sf;
 using namespace std;
 
 // Konstruktor
-Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture, float rs, bool dw)
-    : speed(speed), health(health), rotation_speed(rs), driving_backwards(dw)
+Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture, float rs, bool dw, int strength)
+    : speed(speed), health(health), rotation_speed(rs), driving_backwards(dw), strength(strength)
 {
     
 
@@ -121,6 +121,11 @@ void Tank::takeDamage(int damage) {
 }
 
 // Gettery
+
+int Tank::getStrength()
+{
+    return strength;
+}
 
 Vector2f Tank::getCurrentPosition()
 {
