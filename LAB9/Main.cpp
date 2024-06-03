@@ -4,6 +4,7 @@
 #include "Tank.h"
 #include "Map.h"
 #include "Bullet.h"
+#include <vector>
 
 using namespace sf;
 using namespace std;
@@ -620,22 +621,26 @@ bool checkCollision(Tank& tank, const Map& map) {
 
 void setBulletPosition(Tank& tank, vector<Bullet>& bullets, Clock& bulletClock)
 {
+    
     if (Keyboard::isKeyPressed(Keyboard::Space) && bulletClock.getElapsedTime().asSeconds()>0.5)
     {
 
-        bullets.push_back(Bullet(0.3f, 10, "bullet1.png"));
+        bullets.push_back(Bullet(0.3f,10));
         bullets.back().setPosition(tank.getCurrentPosition());
-        //bullets.back().setOrigin()
+        bullets.back().setOrigin(5, 5);
+        bullets.back().setRadius(5);
         bullets.back().setRotation(tank.getRotation());
         bulletClock.restart();
+        //tank.setSpeed(tank.getSpeed() + 0.02f);
+        cout << bullets.size();
+        
     }
-    
     
 }
 
 void flyingBullets(vector<Bullet>& bullets, RenderWindow& window)
 {
-    cout << "flying bullets " << endl;
+    //cout << "flying bullets " << endl;
     for (int i = 0; i < bullets.size(); i++)
     {
         double current_angle = (bullets[i].getRotation() - 90) * (3.14159265f / 180.0f);
@@ -646,9 +651,57 @@ void flyingBullets(vector<Bullet>& bullets, RenderWindow& window)
         
         
         //bullets[i].move(1,0);
-        cout << "wyswietlanie";
+        cout << i << endl;
     }
 }
+
+void bulletsCollide(const Map& map, vector<Bullet>& bullets, RenderWindow& window)
+{
+    for (auto it = bullets.begin(); it != bullets.end();)
+    {
+        bool isErased = false;
+
+        // Sprawdzenie, czy pocisk opuścił okno
+        auto bounds = it->getGlobalBounds();
+        if (bounds.left + bounds.width < 0 || bounds.top + bounds.height < 0 ||
+            bounds.left > window.getSize().x || bounds.top > window.getSize().y) {
+            it = bullets.erase(it);
+            continue; // Kontynuuj z nowym iteratorem
+        }
+
+        // Sprawdź kolizje z murami
+        for (const auto& wall : map.getWalls())
+        {
+            if (it->getGlobalBounds().intersects(wall.getGlobalBounds()))
+            {
+                it = bullets.erase(it);
+                isErased = true;
+                break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+            }
+        }
+
+        // Jeśli pocisk nie został jeszcze usunięty, sprawdź bloki
+        if (!isErased)
+        {
+            for (const auto& block : map.getBlocks())
+            {
+                if (it->getGlobalBounds().intersects(block.getGlobalBounds()))
+                {
+                    it = bullets.erase(it);
+                    isErased = true;
+                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                }
+            }
+        }
+
+        // Jeżeli pocisk nie został usunięty przez żadną z kolizji, przejdź do następnego
+        if (!isErased)
+        {
+            ++it;
+        }
+    }
+}
+
 
 
 int main() {
@@ -667,6 +720,7 @@ int main() {
     Clock bulletClock;
 
     vector <Bullet> bullets;
+    //vector <CircleShape> cirlcles;
 
 
     float baseradius = 30;
@@ -709,9 +763,9 @@ int main() {
         //music.play();
 
 
-    Tank tank(100, 100, 0.3f, 100, tank1Icon_texture, 0.2,false);
+    Tank tank(100, 100, 0.2f, 100, tank1Icon_texture, 0.2,false);
     Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
-    Bullet bullet1(0.3f, 10, "bullet1.png");
+    //Bullet bullet1(0.3f, 10, "bullet1.png");
     while (loadingScreen.isOpen())
     {
         Time elapsed = clock.getElapsedTime();
@@ -1039,12 +1093,13 @@ int main() {
                     
                     
                     
-                    
+                    battleWindow.draw(tank);
                     flyingBullets(bullets, battleWindow);
+                    bulletsCollide(map1, bullets, battleWindow);
                     //bullet1.shooted(battleWindow);
                     //bullet1.drawBullets(battleWindow);
                     //battleWindow.draw(bullet1);
-                    battleWindow.draw(tank);
+                    
                     battleWindow.draw(closeButton);
                     battleWindow.draw(closeText);
                     battleWindow.display();

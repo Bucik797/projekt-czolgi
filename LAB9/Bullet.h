@@ -6,10 +6,10 @@
 using namespace sf;
 using namespace std;
 
-class Bullet : public Sprite
+class Bullet : public CircleShape
 {
 public:
-	Bullet(int v, int d, const string& bulletFile);
+	Bullet(int v, int d);
 
 	int getVelocity() const;
 	int getDamage() const;
@@ -22,10 +22,10 @@ public:
 
 private:
 	int velocity;
-	Texture bullet_texture;
+	
 	int damage;
 	float current_angle;
-	vector <Sprite> bullets;
+	
 
 };
 
