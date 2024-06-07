@@ -14,6 +14,7 @@
 #include "Settings.h"
 #include "Mapwindow.h"
 #include "Tankwindow.h"
+#include <math.h>
 
 
 using namespace sf;
@@ -221,7 +222,7 @@ void setBulletPosition(Tank& tank, vector<Bullet>& bullets, Clock& bulletClock)
 
 void flyingBullets(vector<Bullet>& bullets, RenderWindow& window)
 {
-    //cout << "flying bullets " << endl;
+    
     for (int i = 0; i < bullets.size(); i++)
     {
         double current_angle = (bullets[i].getRotation() - 90) * (3.14159265f / 180.0f);
@@ -230,9 +231,6 @@ void flyingBullets(vector<Bullet>& bullets, RenderWindow& window)
         window.draw(bullets[i]);
         bullets[i].move(movement);
         
-        
-        //bullets[i].move(1,0);
-        //cout << i << endl;
     }
 }
 
@@ -330,6 +328,216 @@ void map1complete(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow&
 }
 
 
+void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies,vector<Bullet>& e1b, vector<Bullet>& e2b, Clock& e1sc, Clock& e2sc, Tank& tank)
+{
+    
+    if (e1sc.getElapsedTime().asSeconds() > 1.2)
+    {
+        for (const auto& enemy : enemies) {
+            if (enemy->getId() == 3) {
+
+                e1sc.restart();
+                e1b.push_back(Bullet(0.15f, 50));
+                e1b.back().setPosition(enemy->getCurrentPosition());
+                e1b.back().setOrigin(5, 5);
+                e1b.back().setRadius(5);
+                e1b.back().setAngle(atan2(tank.getPosition().y - e1b.back().getPosition().y, tank.getPosition().x - e1b.back().getPosition().x));
+                break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
+            }
+        }
+        
+
+
+    }
+
+    if (e2sc.getElapsedTime().asSeconds() > 2.1)
+    {
+        for (const auto& enemy : enemies) {
+            if (enemy->getId() == 4) {
+
+                e2sc.restart();
+                e2b.push_back(Bullet(0.8f, 10));
+                e2b.back().setPosition(enemy->getCurrentPosition());
+                e2b.back().setOrigin(5, 5);
+                e2b.back().setRadius(7);
+                e2b.back().setAngle(atan2(tank.getPosition().y - e2b.back().getPosition().y, tank.getPosition().x - e2b.back().getPosition().x));
+                break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
+            }
+        }
+        
+    }
+
+}
+
+
+void flyingEnemyBullets(vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& window,float v1, float v2)
+{
+    
+    for (int i = 0; i < e1b.size(); i++)
+    {
+        window.draw(e1b[i]);
+        e1b[i].move(cos(e1b[i].getAngle())*v1,sin(e1b[i].getAngle()) * v1);
+    }
+
+    for (int i = 0; i < e2b.size(); i++)
+    {
+        window.draw(e2b[i]);
+        e2b[i].move(cos(e2b[i].getAngle()) * v2, sin(e2b[i].getAngle()) * v2);
+        
+    }
+}
+
+
+void enemyBulletsCollide(const Map& map, vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& window, Tank& tank, vector<unique_ptr<EnemyManager>>& enemies)
+{
+    for (auto it = e1b.begin(); it != e1b.end();)
+    {
+        bool isErased = false;
+
+        // Sprawdzenie, czy pocisk opuścił okno
+        auto bounds = it->getGlobalBounds();
+        if (bounds.left + bounds.width < 0 || bounds.top + bounds.height < 0 ||
+            bounds.left > window.getSize().x || bounds.top > window.getSize().y) {
+            it = e1b.erase(it);
+            isErased = true;
+
+        }
+         if (!isErased)
+        {
+            // Sprawdź kolizje z murami
+            for (const auto& wall : map.getWalls())
+            {
+                if (it->getGlobalBounds().intersects(wall.getGlobalBounds()))
+                {
+                    it = e1b.erase(it);
+                    isErased = true;
+                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                }
+            }
+        }
+         
+        // Jeśli pocisk nie został jeszcze usunięty, sprawdź bloki
+        if (!isErased)
+        {
+            for (const auto& block : map.getBlocks())
+            {
+                if (it->getGlobalBounds().intersects(block.getGlobalBounds()))
+                {
+                    it = e1b.erase(it);
+                    isErased = true;
+                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                }
+            }
+        }
+        
+        if (!isErased)
+        {
+            if (it->getGlobalBounds().intersects(tank.getGlobalBounds()))
+            {
+                it = e1b.erase(it);
+                for (const auto& enemy : enemies) {
+                    if (enemy->getId() == 3) {
+
+                        enemy->dealDamage(tank);
+                        break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
+                    }
+                }
+                
+                isErased = true;
+                break;
+            }
+        }
+        
+
+        
+
+        // Jeżeli pocisk nie został usunięty przez żadną z kolizji, przejdź do następnego
+        if (!isErased)
+        {
+            ++it;
+        }
+
+        //e1b.erase(remove(e1b.begin(), e1b.end(), nullptr), e1b.end());
+       
+        
+
+    }
+
+    for (auto it = e2b.begin(); it != e2b.end();)
+    {
+        bool isErased = false;
+
+        // Sprawdzenie, czy pocisk opuścił okno
+        auto bounds = it->getGlobalBounds();
+        if (bounds.left + bounds.width < 0 || bounds.top + bounds.height < 0 ||
+            bounds.left > window.getSize().x || bounds.top > window.getSize().y) {
+            it = e2b.erase(it);
+            isErased = true;
+
+        }
+        if (!isErased)
+        {
+            // Sprawdź kolizje z murami
+            for (const auto& wall : map.getWalls())
+            {
+                if (it->getGlobalBounds().intersects(wall.getGlobalBounds()))
+                {
+                    it = e2b.erase(it);
+                    isErased = true;
+                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                }
+            }
+        }
+
+        // Jeśli pocisk nie został jeszcze usunięty, sprawdź bloki
+        if (!isErased)
+        {
+            for (const auto& block : map.getBlocks())
+            {
+                if (it->getGlobalBounds().intersects(block.getGlobalBounds()))
+                {
+                    it = e2b.erase(it);
+                    isErased = true;
+                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                }
+            }
+        }
+
+        if (!isErased)
+        {
+            if (it->getGlobalBounds().intersects(tank.getGlobalBounds()))
+            {
+                it = e2b.erase(it);
+                for (const auto& enemy : enemies) {
+                    if (enemy->getId() == 4) {
+
+                        enemy->dealDamage(tank);
+                        break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
+                    }
+                }
+                isErased = true;
+                break;
+            }
+        }
+
+
+
+
+        // Jeżeli pocisk nie został usunięty przez żadną z kolizji, przejdź do następnego
+        if (!isErased)
+        {
+            ++it;
+        }
+
+        //e2b.erase(remove(e2b.begin(), e2b.end(), nullptr), e2b.end());
+
+
+    }
+
+
+}
+
+
 
 int main() {
     int window_width = 1600;
@@ -345,9 +553,13 @@ int main() {
     bool gamecompleted = false;
     Clock clock;
     Clock bulletClock;
+    Clock enemy1ShootsClock;
+    Clock enemy2ShootsClock;
     
 
     vector <Bullet> bullets;
+    vector <Bullet> enemy1_bullets;
+    vector <Bullet> enemy2_bullets;
     //vector <CircleShape> cirlcles;
 
     Direction angle;
@@ -374,10 +586,10 @@ int main() {
     Tank tank(1500, 800, 0.1f, 100, tank1Icon_texture, 0.2,false,30);
     Map map1("map1background.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
     vector<unique_ptr<EnemyManager>> enemies;
-    enemies.push_back(make_unique<MeleeEnemy>(100, 15, 5.0f,"meleeEnemy.png",100,100));
-    enemies.push_back(make_unique<MeleeEnemy>(200, 20, 6.0f,"meleeEnemy.png",350,100));
-    enemies.push_back(make_unique<RangeEnemy>(80, 26, 3.0f,"rangeEnemy.png",300,300));
-    enemies.push_back(make_unique<RangeEnemy>(80, 26, 4.0f, "rangeEnemy.png",400, 500));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 15, 4.0f,"meleeEnemy.png",100,100,1));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 20, 3.0f,"meleeEnemy.png",350,100,2));
+    enemies.push_back(make_unique<RangeEnemy>(80, 20, 2.0f,"rangeEnemy.png",300,300,3));
+    enemies.push_back(make_unique<RangeEnemy>(80, 50, 2.0f, "rangeEnemy.png",400, 500,4));
     for (auto& enemy : enemies) {
         cout << enemy->getPosition().x << " " << enemy->getPosition().y << endl;
 
@@ -586,7 +798,7 @@ int main() {
                     tank.driving();
                     tank.boundCollision(battleWindow);
                     setBulletPosition(tank, bullets, bulletClock);
-
+                    setEnemybulletPosition(enemies, enemy1_bullets, enemy2_bullets, enemy1ShootsClock, enemy2ShootsClock, tank);
                     
                     checkCollision(tank, map1); 
 
@@ -612,8 +824,9 @@ int main() {
                     
                     battleWindow.draw(tank);
                     flyingBullets(bullets, battleWindow);
+                    flyingEnemyBullets(enemy1_bullets, enemy2_bullets, battleWindow, 0.2f,0.5f);
                     bulletsCollide(map1, bullets, battleWindow,enemies,tank);
-                    
+                    enemyBulletsCollide(map1, enemy1_bullets, enemy2_bullets, battleWindow, tank, enemies);
                     
                     
                     drawEnemies(enemies, battleWindow, tank);

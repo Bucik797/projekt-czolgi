@@ -14,10 +14,11 @@ protected:
     const string enemyFile;
     float xPos;
     float yPos;
+    int id;
 
 
 public:
-    EnemyManager(int hp, int strength, int speed, const string enemyFile, float xPos, float yPos);
+    EnemyManager(int hp, int strength, int speed, const string enemyFile, float xPos, float yPos,int id);
 
     virtual void attack() = 0;
     virtual void move(Tank& tank) = 0;
@@ -28,9 +29,11 @@ public:
 
     //Gettery 
 
+    int getId() const;
     int getHp() const;
     int getStrength() const;
     float getSpeed() const;
+    Vector2f getCurrentPosition();
     vector <Sprite> objects;
     
 };
