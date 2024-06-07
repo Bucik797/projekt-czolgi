@@ -537,25 +537,7 @@ int main() {
                     tank.boundCollision(battleWindow);
                     setBulletPosition(tank, bullets, bulletClock);
                     //tank.checkCollisionsWithWalls(map1);
-                    checkCollision(tank, map1);
-                    //bullet1.setCurrentPosition(tank);
-                    /*if (checkCollision(tank, map1)&& (Keyboard::isKeyPressed(Keyboard::Up)||Keyboard::isKeyPressed(Keyboard::Down))) {
-                        // Cofniêcie czo³gu, jeli wykryto kolizjê
-                        
-
-                        tank.isDrivingBackwards() ? tank.move(1) : tank.move(-1);
-                        //cout << tank.isDrivingBackwards();
-                      
-                    }
-                    if (checkCollision(tank, map1) && (Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::Left))) {
-                        // Cofniêcie czo³gu, jeli wykryto kolizjê
-
-
-                        tank.isRotatingLeft() ? tank.rotate(1) : tank.rotate(-1);
-                        //cout << tank.isRotatingLeft();
-                    }*/
-
-                    
+                    checkCollision(tank, map1); 
 
                     while (battleWindow.pollEvent(event5))
                     {
