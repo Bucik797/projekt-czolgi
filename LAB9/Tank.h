@@ -7,7 +7,7 @@
 using namespace sf;
 using namespace std;
 
-class Tank : public sf::Sprite {
+class Tank : public Sprite {
 public:
     // Konstruktor
     Tank(float x, float y, float speed, int health, const sf::Texture& texture, float rs,bool dw, int strength);
@@ -21,6 +21,8 @@ public:
     void driving();
     void boundCollision(const RenderWindow& window);
     
+    //void checkCollisionsWithWalls(const Map& map);
+    //void handleWallCollision(const Sprite& sprite);
 
 
     // Gettery
