@@ -3,7 +3,8 @@
 #include "Tank.h"
 
 
-MeleeEnemy::MeleeEnemy(int h, int str, float speed, const string& meleeFile, float xPos, float yPos) : EnemyManager(h, str, speed, meleeFile, xPos, yPos)
+
+MeleeEnemy::MeleeEnemy(int h, int str, float speed, const string& meleeFile, float xPos, float yPos, int id) : EnemyManager(h, str, speed, meleeFile, xPos, yPos,id)
 {
 
 }

@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-EnemyManager::EnemyManager(int hp, int strength, int speed, const string enemyFile, float xPos, float yPos) : hp(hp), strength(strength), speed(speed), enemyFile(enemyFile), xPos(xPos),yPos(yPos)
+EnemyManager::EnemyManager(int hp, int strength, int speed, const string enemyFile, float xPos, float yPos,int id) : hp(hp), strength(strength), speed(speed), enemyFile(enemyFile), xPos(xPos),yPos(yPos),id(id)
 {
     if (!enemy_texture.loadFromFile(enemyFile))
     {
@@ -31,6 +31,17 @@ void EnemyManager::dealDamage(Tank& tank)
     cout << "tank after shoot has " << tank.getHealth() << " hp" << endl;
 }
 
+
+
+Vector2f EnemyManager::getCurrentPosition()
+{
+    return this->getPosition();
+}
+
+int EnemyManager::getId() const
+{
+    return id;
+}
 
 int EnemyManager::getHp() const
 {
