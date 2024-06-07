@@ -274,10 +274,12 @@ void bulletsCollide(const Map& map, vector<Bullet>& bullets, RenderWindow& windo
     }
 }
 
-void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& window)
+void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& window, Tank& tank)
 {
     for (const auto& enemy : enemies) {
         enemy->drawEnemy(window);
+        enemy->move(tank);
+        
     }
 }
 
@@ -307,6 +309,7 @@ int main() {
     bool gamecompleted = false;
     Clock clock;
     Clock bulletClock;
+    
 
     vector <Bullet> bullets;
     //vector <CircleShape> cirlcles;
@@ -332,19 +335,18 @@ int main() {
         //music.play();
 
 
-    Tank tank(100, 100, 0.2f, 100, tank1Icon_texture, 0.2,false,30);
+    Tank tank(1500, 800, 0.1f, 100, tank1Icon_texture, 0.2,false,30);
     Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
-    vector<std::unique_ptr<EnemyManager>> enemies;
-    enemies.push_back(make_unique<MeleeEnemy>(100, 15, 0.1f,"meleeEnemy.png",100,100));
-    enemies.push_back(make_unique<MeleeEnemy>(200, 20, 0.2f,"meleeEnemy.png",350,100));
-    enemies.push_back(make_unique<RangeEnemy>(80, 26, 0.1f,"rangeEnemy.png",300,300));
-    enemies.push_back(make_unique<RangeEnemy>(80, 26, 0.1f, "rangeEnemy.png",400, 500));
-    /*for (auto& enemy : enemies) {
-      enemy->takeDamage(tank);
-      enemy->dealDamage(tank);
+    vector<unique_ptr<EnemyManager>> enemies;
+    enemies.push_back(make_unique<MeleeEnemy>(100, 15, 5.0f,"meleeEnemy.png",100,100));
+    enemies.push_back(make_unique<MeleeEnemy>(200, 20, 6.0f,"meleeEnemy.png",350,100));
+    enemies.push_back(make_unique<RangeEnemy>(80, 26, 3.0f,"rangeEnemy.png",300,300));
+    enemies.push_back(make_unique<RangeEnemy>(80, 26, 4.0f, "rangeEnemy.png",400, 500));
+    for (auto& enemy : enemies) {
+        cout << enemy->getPosition().x << " " << enemy->getPosition().y << endl;
 
   }
-*/
+
 
     loadingwindow.create(VideoMode(1300, 700), "Loadingscreen", Style::None);
     Loadingscreen ls;
@@ -352,6 +354,7 @@ int main() {
     Settings sts;
     Mapwindow mw;
     Tankwindow tw;    
+    battleWindow.setFramerateLimit(30);
 
     while (loadingwindow.isOpen())
     {
@@ -515,6 +518,7 @@ int main() {
                             }
                             if (buttonClicked(tankwindow, tw.playButton))
                             {
+                                
                                 battleWindow.create(VideoMode(window_width, window_height), "map1");
                                 tankwindow.close();
                             }
@@ -528,16 +532,19 @@ int main() {
 
                 while (battleWindow.isOpen())
                 {
+                    
                     Event event5;
                     battleWindow.clear();
                     map1.drawGraphics(battleWindow);
-
-
+                    
+                    
                     tank.driving();
                     tank.boundCollision(battleWindow);
                     setBulletPosition(tank, bullets, bulletClock);
+
                     //tank.checkCollisionsWithWalls(map1);
                     checkCollision(tank, map1); 
+
 
                     while (battleWindow.pollEvent(event5))
                     {
@@ -566,7 +573,8 @@ int main() {
                     //battleWindow.draw(bullet1);
                     
                     
-                    drawEnemies(enemies, battleWindow);
+                    drawEnemies(enemies, battleWindow, tank);
+                    
                     battleWindow.draw(closeButton);
                     battleWindow.draw(closeText);
                     map1complete(enemies, mapwindow, battleWindow, window_width, window_height, map1completed);
