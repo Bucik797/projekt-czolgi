@@ -114,22 +114,55 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
 
 }
 
-bool checkCollision(Tank& tank, const Map& map) {
+void checkCollision(Tank& tank, const Map& map) {
     // Sprawdzenie kolizji czo³gu z ka¿d¹ cian¹ na mapie
     for (const auto& wall : map.getWalls()) {
         if (tank.getGlobalBounds().intersects(wall.getGlobalBounds())) {
-            return true;  // Jeli wykryto kolizjê, zwróæ true
+            //return true;  // Jeli wykryto kolizjê, zwróæ true
+
+
+            FloatRect tankBounds = tank.getGlobalBounds();
+            
+            FloatRect wallBounds = wall.getGlobalBounds();
+
+            // Wylicz wektor odbicia (to może wymagać kalibracji w zależności od zachowania, którego oczekujesz)
+            float overlapLeft = tankBounds.left + tankBounds.width - wallBounds.left;
+            float overlapRight = wallBounds.left + wallBounds.width - tankBounds.left;
+            float overlapTop = tankBounds.top + tankBounds.height - wallBounds.top;
+            float overlapBottom = wallBounds.top + wallBounds.height - tankBounds.top;
+
+            // Wybierz najmniejsze przecięcie, aby zdecydować, z której strony jest kolizja
+            float minOverlap = min({ overlapLeft, overlapRight, overlapTop, overlapBottom });
+
+            if (minOverlap == overlapLeft) {
+                tank.setPosition(wallBounds.left - tankBounds.width+32, tank.getPosition().y);
+                cout << "left" << endl;
+            }
+            else if (minOverlap == overlapRight) {
+                tank.setPosition(wallBounds.left + wallBounds.width+30, tank.getPosition().y);
+                cout << "roght" << endl;
+            }
+            else if (minOverlap == overlapTop) {
+                tank.setPosition(tank.getPosition().x, wallBounds.top - tankBounds.height+30);
+                cout << "top" << endl;
+            }
+            else if (minOverlap == overlapBottom) {
+                tank.setPosition(tank.getPosition().x, wallBounds.top + wallBounds.height+25);
+                cout << "bottom" << endl;
+            }
+
+
         }
     }
 
     // Sprawdzenie kolizji czo³gu z ka¿dym blokiem na mapie
     for (const auto& block : map.getBlocks()) {
         if (tank.getGlobalBounds().intersects(block.getGlobalBounds())) {
-            return true;  // Jeli wykryto kolizjê, zwróæ true
+            //return true;  // Jeli wykryto kolizjê, zwróæ true
         }
     }
 
-    return false;  // Jeli nie wykryto ¿adnej kolizji, zwróæ false
+    //return false;  // Jeli nie wykryto ¿adnej kolizji, zwróæ false
 }
 
 void setBulletPosition(Tank& tank, vector<Bullet>& bullets, Clock& bulletClock)
@@ -508,26 +541,10 @@ int main() {
                     tank.driving();
                     tank.boundCollision(battleWindow);
                     setBulletPosition(tank, bullets, bulletClock);
-                    
-                    
-                    //bullet1.setCurrentPosition(tank);
-                    
 
-                    if (checkCollision(tank, map1)&& (Keyboard::isKeyPressed(Keyboard::Up)||Keyboard::isKeyPressed(Keyboard::Down))) {
-                        // Cofniêcie czo³gu, jeli wykryto kolizjê
-                        
+                    //tank.checkCollisionsWithWalls(map1);
+                    checkCollision(tank, map1); 
 
-                        tank.isDrivingBackwards() ? tank.move(1) : tank.move(-1);
-                        //cout << tank.isDrivingBackwards();
-                      
-                    }
-                    if (checkCollision(tank, map1) && (Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::Left))) {
-                        // Cofniêcie czo³gu, jeli wykryto kolizjê
-
-
-                        tank.isRotatingLeft() ? tank.rotate(1) : tank.rotate(-1);
-                        //cout << tank.isRotatingLeft();
-                    }
 
                     while (battleWindow.pollEvent(event5))
                     {
