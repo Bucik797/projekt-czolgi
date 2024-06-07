@@ -21,8 +21,7 @@ public:
     void driving();
     void boundCollision(const RenderWindow& window);
     
-    //void checkCollisionsWithWalls(const Map& map);
-    //void handleWallCollision(const Sprite& sprite);
+    
 
 
     // Gettery

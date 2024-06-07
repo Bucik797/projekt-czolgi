@@ -158,7 +158,42 @@ void checkCollision(Tank& tank, const Map& map) {
     // Sprawdzenie kolizji czo³gu z ka¿dym blokiem na mapie
     for (const auto& block : map.getBlocks()) {
         if (tank.getGlobalBounds().intersects(block.getGlobalBounds())) {
-            //return true;  // Jeli wykryto kolizjê, zwróæ true
+            if (tank.getGlobalBounds().intersects(block.getGlobalBounds())) {
+                //return true;  // Jeli wykryto kolizjê, zwróæ true
+
+
+                FloatRect tankBounds = tank.getGlobalBounds();
+
+                FloatRect wallBounds = block.getGlobalBounds();
+
+                // Wylicz wektor odbicia (to może wymagać kalibracji w zależności od zachowania, którego oczekujesz)
+                float overlapLeft = tankBounds.left + tankBounds.width - wallBounds.left;
+                float overlapRight = wallBounds.left + wallBounds.width - tankBounds.left;
+                float overlapTop = tankBounds.top + tankBounds.height - wallBounds.top;
+                float overlapBottom = wallBounds.top + wallBounds.height - tankBounds.top;
+
+                // Wybierz najmniejsze przecięcie, aby zdecydować, z której strony jest kolizja
+                float minOverlap = min({ overlapLeft, overlapRight, overlapTop, overlapBottom });
+
+                if (minOverlap == overlapLeft) {
+                    tank.setPosition(wallBounds.left - tankBounds.width + 32, tank.getPosition().y);
+                    cout << "left" << endl;
+                }
+                else if (minOverlap == overlapRight) {
+                    tank.setPosition(wallBounds.left + wallBounds.width + 30, tank.getPosition().y);
+                    cout << "roght" << endl;
+                }
+                else if (minOverlap == overlapTop) {
+                    tank.setPosition(tank.getPosition().x, wallBounds.top - tankBounds.height + 32);
+                    cout << "top" << endl;
+                }
+                else if (minOverlap == overlapBottom) {
+                    tank.setPosition(tank.getPosition().x, wallBounds.top + wallBounds.height + 25);
+                    cout << "bottom" << endl;
+                }
+
+
+            }
         }
     }
 
