@@ -248,11 +248,12 @@ void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& 
     }
 }
 
-void map1complete(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& mapsWindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c)
+void map1complete(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& mapsWindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c, Mapwindow& mw)
 {
     if (enemies.size() == 0)
     {
         m1c = true;
+        mw.update(m1c, false, false);  // Wywołanie update po ustawieniu m1c
         mapsWindow.create(VideoMode(window_width, window_height), "mapwindow", Style::None);
         battleWindow.close();
     }
@@ -314,6 +315,8 @@ int main() {
 */
 
     loadingwindow.create(VideoMode(1300, 700), "Loadingscreen", Style::None);
+    loadingwindow.setVisible(true);
+    loadingwindow.requestFocus();
     Loadingscreen ls;
     Menu menu;
     Settings sts;
@@ -322,33 +325,40 @@ int main() {
 
     while (loadingwindow.isOpen())
     {
-        float pulseSpeed = 5.0f;
+        CircleShape loadingCircle(30);
+        loadingCircle.setFillColor(Color::Transparent);
+        loadingCircle.setOutlineThickness(5);
+        loadingCircle.setOutlineColor(Color::Green);
+        loadingCircle.setPosition(650, 600);
+
         Time elapsed = clock.getElapsedTime();
         Event loadingEvent;
+        float pulseSpeed = 5.0f;
 
         float scaleFactor = 1.0f + 0.2f * sin(pulseSpeed * elapsed.asSeconds());
-        ls.loadingCirlce.setRadius(30 * scaleFactor);
-        ls.loadingCirlce.setOrigin(ls.loadingCirlce.getRadius(), ls.loadingCirlce.getRadius());
-        
+        loadingCircle.setRadius(30 * scaleFactor);
+        loadingCircle.setOrigin(loadingCircle.getRadius(), loadingCircle.getRadius());
+
+
         if (elapsed.asSeconds() > 10.0f)
         {
-            menuwindow.create(VideoMode(window_width, window_height), "Menu", Style::None);
+            menuwindow.create(VideoMode(window_width, window_height), "basicWindow");
+
             loadingwindow.setVisible(false);
             break;
         }
 
-	while (loadingwindow.pollEvent(loadingEvent))
-	{
-        if (loadingEvent.type == Event::Closed)
+        while (loadingwindow.pollEvent(loadingEvent))
         {
-            loadingwindow.close();
-        }				
-        loadingwindow.clear();        
-        ls.drawGraphics(loadingwindow);
-        loadingwindow.display();           
-	}
+            if (loadingEvent.type == Event::Closed) loadingwindow.close();
+        }
 
+        loadingwindow.clear();
+        ls.drawGraphics(loadingwindow);
+        loadingwindow.draw(loadingCircle);
+        loadingwindow.display();
     }
+
 
     while (menuwindow.isOpen()) {
         Event event;
@@ -553,12 +563,14 @@ int main() {
                     drawEnemies(enemies, battleWindow);
                     battleWindow.draw(closeButton);
                     battleWindow.draw(closeText);
-                    map1complete(enemies, mapwindow, battleWindow, window_width, window_height, map1completed);
+                    map1complete(enemies, mapwindow, battleWindow, window_width, window_height, map1completed, mw);
+                    mw.update(map1completed, map2completed, map3completed);
                     battleWindow.display();
                 }
 
             }
             mapwindow.clear();
+            mw.update(map1completed, map2completed, map3completed);
             mw.drawGraphics(mapwindow);
             mapwindow.display();
         

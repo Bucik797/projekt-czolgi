@@ -20,6 +20,8 @@ public:
 	void drawGraphics(RenderWindow& window);
 	void musciRregulation(Sound& music, RenderWindow& settingswindow);
 	bool buttonClicked(RenderWindow& window, RectangleShape& button);
+	void updateSFXButtons(RenderWindow& window);
+	void updateMusicButtons(RenderWindow& window);
 
 private:
 	
@@ -30,6 +32,8 @@ private:
 
 	Sprite backgroundSPR, logoSPR, whiteSPR, butSPR;
 	Text musicText, settingsText, closeText, sfxText, music0Text, music20Text, music40Text, music60Text, music80Text, music100Text, sfx0Text, sfx20Text, sfx40Text, sfx60Text, sfx80Text, sfx100Text;
+	RectangleShape* selectedSFXButton;
+	RectangleShape* selectedMusicButton;
 
 	void update();
 	void loadAssets();

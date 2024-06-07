@@ -49,27 +49,30 @@ void Menu::loadAssets()
     if (!font.loadFromFile("arial.ttf")) {
         cout << "Failed to load font" << endl;
     }
+    if (!button_TXT.loadFromFile("buttonbackground.png")) {
+        cout << "Failed to load button background" << endl;
+    }
 
     this->setTexture(background_TXT);
 
     whiteSPR.setTexture(white_TXT);
     butSPR.setTexture(but_TXT);
     logoSPR.setTexture(logo_TXT);
+    playButton.setTexture(&button_TXT);
+    settingsButton.setTexture(&button_TXT);
+    closeButton.setTexture(&button_TXT);
 
 
     playButton.setOutlineColor(Color::Green);
-    playButton.setSize(Vector2f(300, 80));
-    playButton.setFillColor(Color::Black);
+    playButton.setSize(Vector2f(250, 80));
     playButton.setPosition(50, 280);
 
     settingsButton.setOutlineColor(Color::Green);
-    settingsButton.setSize(Vector2f(300, 80));
-    settingsButton.setFillColor(Color::Black);
+    settingsButton.setSize(Vector2f(250, 80));
     settingsButton.setPosition(50, 380);
 
     closeButton.setOutlineColor(Color::Green);
-    closeButton.setSize(Vector2f(200, 80));
-    closeButton.setFillColor(Color::Black);
+    closeButton.setSize(Vector2f(250, 80));
     closeButton.setPosition(50, 480);
 
     butSPR.setPosition(1000, 200);

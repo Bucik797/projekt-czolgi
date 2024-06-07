@@ -17,6 +17,9 @@ public:
 	}
 
 	void drawGraphics(RenderWindow& window);
+	bool buttonClicked(RenderWindow& window, RectangleShape& button);
+	bool selectedSprite(RenderWindow& window, Sprite& sprite);
+	void update(bool map1completed, bool map2completed, bool map3completed);
 
 	RectangleShape playButton, settingsButton, closeButton;
 	Sprite backgroundSPR, logoSPR, map1SPR, map2SPR, map3SPR, map4SPR;
@@ -27,11 +30,10 @@ private:
 	Texture background_TXT;
 	Texture logo_TXT;
 	Texture button_TXT;
-	Texture map1_TXT, map2_TXT, map3_TXT, map4_TXT;
+	Texture map_TXT, map1_TXT, map2_TXT, map3_TXT, map4_TXT;
 
 	Text mapsText, map1Text, map2Text, map3Text, map4Text, backText;
 
-	void update();
 	void loadAssets();
 };
 
