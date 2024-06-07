@@ -15,8 +15,9 @@ Map::Map(const string& backgroundFile, const string& longWallFile, const string&
     {
         // Ustawienie tekstury t³a
         this->setTexture(background_texture);
-        this->setScale(2, 2);
-        this->setPosition(0, 0);
+        
+        this->setScale(1.5,1.5);
+        this->setPosition(100, 0);
     }
 
     initializeMap();

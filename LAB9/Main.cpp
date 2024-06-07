@@ -372,7 +372,7 @@ int main() {
 
 
     Tank tank(1500, 800, 0.1f, 100, tank1Icon_texture, 0.2,false,30);
-    Map map1("map11.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
+    Map map1("map1background.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
     vector<unique_ptr<EnemyManager>> enemies;
     enemies.push_back(make_unique<MeleeEnemy>(100, 15, 5.0f,"meleeEnemy.png",100,100));
     enemies.push_back(make_unique<MeleeEnemy>(200, 20, 6.0f,"meleeEnemy.png",350,100));
@@ -587,7 +587,7 @@ int main() {
                     tank.boundCollision(battleWindow);
                     setBulletPosition(tank, bullets, bulletClock);
 
-                    //tank.checkCollisionsWithWalls(map1);
+                    
                     checkCollision(tank, map1); 
 
 
@@ -613,9 +613,7 @@ int main() {
                     battleWindow.draw(tank);
                     flyingBullets(bullets, battleWindow);
                     bulletsCollide(map1, bullets, battleWindow,enemies,tank);
-                    //bullet1.shooted(battleWindow);
-                    //bullet1.drawBullets(battleWindow);
-                    //battleWindow.draw(bullet1);
+                    
                     
                     
                     drawEnemies(enemies, battleWindow, tank);
