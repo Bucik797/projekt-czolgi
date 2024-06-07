@@ -14,7 +14,6 @@ public:
 	~Loadingscreen() {}
 	void update();
 	void drawGraphics(RenderWindow& window);
-	CircleShape loadingCirlce;
 
 
 private:
