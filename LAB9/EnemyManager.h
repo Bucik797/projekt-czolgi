@@ -20,7 +20,7 @@ public:
     EnemyManager(int hp, int strength, int speed, const string enemyFile, float xPos, float yPos);
 
     virtual void attack() = 0;
-    virtual void move() = 0;
+    virtual void move(Tank& tank) = 0;
     virtual ~EnemyManager() {}
     void takeDamage(Tank& tank);
     void dealDamage(Tank& tank);

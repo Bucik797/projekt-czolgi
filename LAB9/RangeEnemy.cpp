@@ -13,7 +13,18 @@ void RangeEnemy::attack()
 	cout << "attack";
 }
 
-void RangeEnemy::move()
+void RangeEnemy::move(Tank& tank)
 {
-	cout << "move";
+    Vector2f direction = Vector2f(static_cast<float>(tank.getCurrentPosition().x), static_cast<float>(tank.getCurrentPosition().y)) - this->getPosition();
+    float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
+
+    
+    if (distance != 0)
+    {
+        direction.x /= distance;
+        direction.y /= distance;
+    }
+
+    Vector2f movement = direction * this->speed * 0.01f;
+    Sprite::move(movement);
 }

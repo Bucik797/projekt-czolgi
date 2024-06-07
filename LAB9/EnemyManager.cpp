@@ -31,6 +31,7 @@ void EnemyManager::dealDamage(Tank& tank)
     cout << "tank after shoot has " << tank.getHealth() << " hp" << endl;
 }
 
+
 int EnemyManager::getHp() const
 {
     return hp;
