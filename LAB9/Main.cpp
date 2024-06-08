@@ -59,6 +59,22 @@ bool buttonClicked(RenderWindow& window, RectangleShape& button) {
     return false;
 }
 
+bool buttonClicked(RenderWindow& window, CircleShape& button) {
+    float mouseX = Mouse::getPosition(window).x;
+    float mouseY = Mouse::getPosition(window).y;
+
+    float btnPosX = button.getPosition().x;
+    float btnPosY = button.getPosition().y;
+
+    float btnxPosWidth = btnPosX + button.getLocalBounds().width;
+    float btnyPosHeight = btnPosY + button.getLocalBounds().height;
+
+    if (mouseX < btnxPosWidth && mouseX > btnPosX && mouseY < btnyPosHeight && mouseY > btnPosY) {
+        return true;
+    }
+    return false;
+}
+
 bool selectedSprite(RenderWindow& window, Sprite& sprite) {
     float mouseX = Mouse::getPosition(window).x;
     float mouseY = Mouse::getPosition(window).y;
@@ -705,7 +721,7 @@ int main()
     }
 
 
-    loadingwindow.create(VideoMode(1300, 700), "Loadingscreen", Style::None);
+    loadingwindow.create(VideoMode(1300, 700), "Loadingscreen");
     loadingwindow.setVisible(true);
     loadingwindow.requestFocus();
     Loadingscreen ls;
@@ -750,6 +766,7 @@ int main()
         loadingwindow.draw(loadingCircle);
         loadingwindow.display();
     }
+
 
 
     while (menuwindow.isOpen()) {
