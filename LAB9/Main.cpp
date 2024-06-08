@@ -137,19 +137,19 @@ void checkCollision(Tank& tank, const Map* map) {
 
             if (minOverlap == overlapLeft) {
                 tank.setPosition(wallBounds.left - tankBounds.width+32, tank.getPosition().y);
-                cout << "left" << endl;
+                //cout << "left" << endl;
             }
             else if (minOverlap == overlapRight) {
                 tank.setPosition(wallBounds.left + wallBounds.width+30, tank.getPosition().y);
-                cout << "roght" << endl;
+                //cout << "roght" << endl;
             }
             else if (minOverlap == overlapTop) {
                 tank.setPosition(tank.getPosition().x, wallBounds.top - tankBounds.height+30);
-                cout << "top" << endl;
+                //cout << "top" << endl;
             }
             else if (minOverlap == overlapBottom) {
                 tank.setPosition(tank.getPosition().x, wallBounds.top + wallBounds.height+25);
-                cout << "bottom" << endl;
+                //cout << "bottom" << endl;
             }
 
 
@@ -178,19 +178,19 @@ void checkCollision(Tank& tank, const Map* map) {
 
                 if (minOverlap == overlapLeft) {
                     tank.setPosition(wallBounds.left - tankBounds.width + 32, tank.getPosition().y);
-                    cout << "left" << endl;
+                    //cout << "left" << endl;
                 }
                 else if (minOverlap == overlapRight) {
                     tank.setPosition(wallBounds.left + wallBounds.width + 30, tank.getPosition().y);
-                    cout << "roght" << endl;
+                    //cout << "roght" << endl;
                 }
                 else if (minOverlap == overlapTop) {
                     tank.setPosition(tank.getPosition().x, wallBounds.top - tankBounds.height + 32);
-                    cout << "top" << endl;
+                    //cout << "top" << endl;
                 }
                 else if (minOverlap == overlapBottom) {
                     tank.setPosition(tank.getPosition().x, wallBounds.top + wallBounds.height + 25);
-                    cout << "bottom" << endl;
+                    //cout << "bottom" << endl;
                 }
 
 
@@ -333,7 +333,7 @@ void createEnemies(vector<unique_ptr<EnemyManager>>& enemies)
     enemies.push_back(make_unique<MeleeEnemy>(100, 50, 4.0f, "meleeEnemy.png", 100, 100, 1));
     enemies.push_back(make_unique<MeleeEnemy>(100, 50, 3.0f, "meleeEnemy.png", 350, 100, 2));
     enemies.push_back(make_unique<RangeEnemy>(80, 20, 2.0f, "rangeEnemy.png", 300, 300, 3));
-    enemies.push_back(make_unique<RangeEnemy>(80, 50, 2.0f, "rangeEnemy.png", 400, 500, 4));
+    enemies.push_back(make_unique<RangeEnemy>(80, 50, 2.0f, "demon.png", 400, 500, 4));
 }
 
 void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& window, Tank& tank)
@@ -895,9 +895,29 @@ int main()
                             if (buttonClicked(tankwindow, tw.playButton))
                             {
 
+                                if (choosen_map == &map2)
+                                {
+                                    enemies.push_back(make_unique<RangeEnemy>(80, 20, 2.0f, "rangeEnemy.png", 400, 350, 3));
+                                    enemies.push_back(make_unique<RangeEnemy>(80, 50, 2.0f, "demon.png", 450, 550, 4));
+                                }
+                                if (choosen_map == &map3)
+                                {
+                                    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 4.0f, "meleeEnemy.png", 400, 250, 1));
+                                    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 3.0f, "meleeEnemy.png", 550, 600, 2));
+                                    enemies.push_back(make_unique<RangeEnemy>(80, 20, 2.0f, "rangeEnemy.png", 400, 350, 3));
+                                    enemies.push_back(make_unique<RangeEnemy>(80, 50, 2.0f, "demon.png", 450, 550, 4));
+                                }
+
+                                if (choosen_map == &map4)
+                                {
+
+                                }
+
+
+
                                 battleWindow.create(VideoMode(window_width, window_height), "map1");
                                 createEnemies(enemies);
-                                tank.setHealth(5000);
+                                tank.setHealth(300);
                                 tank.setPosition(1500, 450);
                                 tankwindow.close();
                             }
@@ -911,16 +931,15 @@ int main()
 
                 while (battleWindow.isOpen())
                 {
-
+                    //cout << enemies.size() << endl;
                     Event event5;
                     battleWindow.clear();
                     choosen_map->drawGraphics(battleWindow);
-                    // if (choosen_map = &map4)
-                     //{
-
-                         map4.moveSprites(battleWindow);
-                     //}
-
+                    
+                         if (choosen_map == &map4)
+                         {
+                             map4.moveSprites(battleWindow);
+                         }
 
                     tank.driving();
                     tank.boundCollision(battleWindow);
