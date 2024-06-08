@@ -316,13 +316,23 @@ void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& 
     }
 }
 
-void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& mapsWindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c, Mapwindow& mw)
+void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& resultwindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c, Mapwindow& mw, Map& gameover, Map& ggwp, Tank& tank)
 {
     if (enemies.size() == 0)
     {
         m1c = true;
         mw.update(m1c, false, false);  // Wywołanie update po ustawieniu m1c
-        mapsWindow.create(VideoMode(window_width, window_height), "mapwindow", Style::None);
+        resultwindow.create(VideoMode(845,607), "resultwindow");
+        
+        
+        battleWindow.close();
+    }
+
+    if (tank.getHealth()==0)
+    {
+        cout << tank.getHealth();
+        mw.update(m1c, false, false);  // Wywołanie update po ustawieniu m1c
+        resultwindow.create(VideoMode(window_width, window_height), "resultwindow");
         battleWindow.close();
     }
 }
@@ -559,8 +569,11 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank& tank)
 int main() {
     int window_width = 1600;
     int window_height = 900;
-   
-    RenderWindow battleWindow, loadingwindow, menuwindow, settingswindow, mapwindow, tankwindow;
+    int resulstwin_width = 765;
+    int resultwin_height = 474;
+
+
+    RenderWindow battleWindow, loadingwindow, menuwindow, settingswindow, mapwindow, tankwindow,resultwindow;
     bool isFullscreen = false;
     bool loaded = false;
     bool driving_backwards;
@@ -581,7 +594,7 @@ int main() {
 
     Direction angle;
 
-    RectangleShape closeButton;
+    RectangleShape closeButton,resultButton;
     Sprite map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, tank1Icon_sprite;
     Sprite longWall1_sprite, shortWall_sprite, block1_sprite, block2_sprite;
     Texture longWall_texture, shortWall_texture, block1_texture, block2_texture;
@@ -602,6 +615,8 @@ int main() {
 
     Tank tank(1500, 800, 0.1f, 200, tank1Icon_texture, 0.2,false,30);
     Map map1("map1background.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
+    Map gameover("gameover.png");
+    Map ggwp("ggwp.png");
     vector<unique_ptr<EnemyManager>> enemies;
     enemies.push_back(make_unique<MeleeEnemy>(100, 50, 4.0f,"meleeEnemy.png",100,100,1));
     enemies.push_back(make_unique<MeleeEnemy>(100, 50, 3.0f,"meleeEnemy.png",350,100,2));
@@ -850,10 +865,52 @@ int main() {
                     
                     battleWindow.draw(closeButton);
                     battleWindow.draw(closeText);
-                    mapResult(enemies, mapwindow, battleWindow, window_width, window_height, map1completed, mw);
+                    mapResult(enemies, resultwindow, battleWindow, resulstwin_width, resultwin_height, map1completed, mw,gameover,ggwp,tank);
                     mw.update(map1completed, map2completed, map3completed);
                     battleWindow.display();
+
+                    
+
                 }
+
+                while (resultwindow.isOpen())
+                {
+                    resultwindow.clear();
+
+                    if (map1completed)
+                    {
+                        ggwp.drawGGWP(resultwindow, resultButton);
+                    }
+                    else
+                    {
+                        gameover.drawGameOver(resultwindow, resultButton);
+                    }
+                    
+                    Event resultevent;
+
+                    while (resultwindow.pollEvent(resultevent))
+                    {
+                        if (resultevent.type == Event::Closed)
+                        {
+                            resultwindow.close();
+                            battleWindow.close();
+                            mapwindow.create(VideoMode(window_width, window_height), "Mapwindow", Style::None);
+                        }
+
+                        if (resultevent.type == Event::MouseButtonPressed) {
+                            if (resultevent.mouseButton.button == Mouse::Left) {
+                                if (buttonClicked(resultwindow, resultButton))
+                                {
+                                    resultwindow.close();
+                                    battleWindow.close();
+                                    mapwindow.create(VideoMode(window_width, window_height), "Mapwindow", Style::None);
+                                }
+                            }
+                        }
+                    }
+                    resultwindow.display();
+                }
+                
 
             }
             mapwindow.clear();

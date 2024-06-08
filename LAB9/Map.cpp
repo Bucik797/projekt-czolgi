@@ -23,83 +23,26 @@ Map::Map(const string& backgroundFile, const string& longWallFile, const string&
     initializeMap();
 }
 
+Map::Map(const string& result_file)
+{
+    if (!result_texture.loadFromFile(result_file))
+    {
+        cout << "Failed to load gameover texture" << endl;
+    }
+    else
+    {
+        this->setTexture(result_texture);
+        //this->setScale(1.5, 1.5);
+        //this->setPosition(100, 0);
+
+    }
+}
+
 void Map::initializeMap()
 {
     // Tworzenie sprite'ów œcian i bloków
 
     /*
-    Sprite longWall_sprite1(longWall_texture);
-    longWall_sprite1.setPosition(1510, 0);
-    longWall_sprite1.setScale(0.3f, 0.3f);
-    walls.push_back(longWall_sprite1);
-
-
-    Sprite longWall_sprite2(longWall_texture);
-    longWall_sprite2.setPosition(1510, 274);
-    longWall_sprite2.setScale(0.3f, 0.3f);
-    walls.push_back(longWall_sprite2);
-
-    Sprite longWall_sprite3(longWall_texture);
-    longWall_sprite3.setPosition(1510, 548);
-    longWall_sprite3.setScale(0.3f, 0.3f);
-    walls.push_back(longWall_sprite3);
-
-    Sprite longWall_sprite4(longWall_texture);
-    longWall_sprite4.setPosition(1510, 822);
-    longWall_sprite4.setScale(0.3f, 0.3f);
-    walls.push_back(longWall_sprite4);
-
-    Sprite longWall_sprite5(longWall_texture);
-    longWall_sprite5.rotate(-90.0f);
-    longWall_sprite5.setPosition(1239, 87);
-    longWall_sprite5.setScale(0.3f, 0.3f);
-    walls.push_back(longWall_sprite5);
-
-    Sprite longWall_sprite6(longWall_texture);
-    longWall_sprite6.rotate(-90.0f);
-    longWall_sprite6.setPosition(965, 87);
-    longWall_sprite6.setScale(0.3f, 0.3f);
-    walls.push_back(longWall_sprite6);
-
-    Sprite longWall_sprite7(longWall_texture);
-    longWall_sprite7.rotate(-90.0f);
-    longWall_sprite7.setPosition(692, 87);
-    longWall_sprite7.setScale(0.3f, 0.3f);
-    walls.push_back(longWall_sprite7);
-
-    Sprite longWall_sprite8(longWall_texture);
-    longWall_sprite8.rotate(-90.0f);
-    longWall_sprite8.setPosition(419, 87);
-    longWall_sprite8.setScale(0.3f, 0.3f);
-    walls.push_back(longWall_sprite8);
-
-    Sprite longWall_sprite9(longWall_texture);
-    longWall_sprite9.rotate(-90.0f);
-    longWall_sprite9.setPosition(146, 87);
-    longWall_sprite9.setScale(0.3f, 0.3f);
-    walls.push_back(longWall_sprite9);
-
-    Sprite longWall_sprite10(longWall_texture);
-    longWall_sprite10.setPosition(0, 0);
-    longWall_sprite10.setScale(0.3f, 0.3f);
-    walls.push_back(longWall_sprite10);
-
-    Sprite block2_sprite(block2_texture);
-    block2_sprite.setPosition(1400, 500);
-    block2_sprite.setScale(0.5f, 0.5f);
-    blocks.push_back(block2_sprite);
-
-    Sprite block3_sprite(block1_texture);
-    block3_sprite.setPosition(900, 700);
-    block3_sprite.setScale(0.5f, 0.5f);
-    blocks.push_back(block3_sprite);
-
-    Sprite block4_sprite(block2_texture);
-    block4_sprite.setPosition(1200, 200);
-    block4_sprite.setScale(0.5f, 0.5f);
-    blocks.push_back(block4_sprite);
-
-
 
     182.6 57.8 lw
     117.8 58.6 sw
@@ -229,6 +172,25 @@ void Map::drawGraphics(RenderWindow& window)
     }
 }
 
+void Map::drawGameOver(RenderWindow& window, RectangleShape& resultButton)
+{
+    window.draw(*this);
+    resultButton.setPosition(320, 350);
+    resultButton.setFillColor(Color::Transparent);
+    resultButton.setSize(Vector2f(100, 40));
+    window.draw(resultButton);
+}
+
+void Map::drawGGWP(RenderWindow& window, RectangleShape& resultButton)
+{
+    
+    window.draw(*this);
+    resultButton.setPosition(250, 450);
+    resultButton.setFillColor(Color::Transparent);
+    resultButton.setSize(Vector2f(320,110));
+    window.draw(resultButton);
+
+}
 
 const vector<Sprite>& Map::getWalls() const {
     return walls;
