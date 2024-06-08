@@ -11,16 +11,9 @@ Map::Map(const string& backgroundFile, const string& longWallFile, const string&
     {
         cout << "Failed to load textures" << endl;
     }
-    else
-    {
-        // Ustawienie tekstury t³a
-        this->setTexture(background_texture);
-        
-        this->setScale(1.5,1.5);
-        this->setPosition(100, 0);
-    }
+    
 
-    initializeMap1();
+    initializeMap2();
 }
 
 Map::Map(const string& result_file)
@@ -40,6 +33,11 @@ Map::Map(const string& result_file)
 
 void Map::initializeMap1()
 {
+    this->setTexture(background_texture);
+
+    this->setScale(1.5, 1.5);
+    this->setPosition(100, 0);
+
     // Tworzenie sprite'ów œcian i bloków
 
     /*
@@ -156,7 +154,111 @@ void Map::initializeMap1()
 
 void Map::initializeMap2()
 {
+    
+    
+    this->setTexture(background_texture);
+    //this->setTextureRect(IntRect(0, 200, 1600, 900));
+    this->setScale(2, 2);
+    this->setPosition(0, 0);
 
+    // 1600 x 900
+    Sprite longWall_sprite1(longWall_texture);
+    longWall_sprite1.setPosition(500, 200);
+    longWall_sprite1.setScale(0.5f, 0.5f);
+    walls.push_back(longWall_sprite1);
+
+
+
+    Sprite longWall_sprite3(longWall_texture);
+    longWall_sprite3.rotate(90);
+    longWall_sprite3.setPosition(430, 280);
+    longWall_sprite3.setScale(0.5f, 0.5f);
+    walls.push_back(longWall_sprite3);
+
+    Sprite longWall_sprite2(longWall_texture);
+    longWall_sprite2.rotate(-90);
+    longWall_sprite2.setPosition(1180, 846);
+    longWall_sprite2.setScale(0.5f, 0.5f);
+    walls.push_back(longWall_sprite2);
+
+    Sprite longWall_sprite4(longWall_texture);
+    longWall_sprite4.setPosition(456, 789);
+    longWall_sprite4.setScale(0.5f, 0.5f);
+    walls.push_back(longWall_sprite4);
+
+
+
+    Sprite longWall_sprite5(longWall_texture);
+    longWall_sprite5.setPosition(1200, 400);
+    longWall_sprite5.setScale(0.5f, 0.5f);
+    walls.push_back(longWall_sprite5);
+
+    Sprite longWall_sprite6(longWall_texture);
+    longWall_sprite6.rotate(-90);
+    longWall_sprite6.setPosition(860, 315);
+    longWall_sprite6.setScale(0.5f, 0.5f);
+    walls.push_back(longWall_sprite6);
+
+    Sprite longWall_sprite7(longWall_texture);
+    longWall_sprite7.setPosition(656, 685);
+    longWall_sprite7.setScale(0.5f, 0.5f);
+    walls.push_back(longWall_sprite7);
+
+    Sprite longWall_sprite8(longWall_texture);
+    longWall_sprite8.rotate(90);
+    longWall_sprite8.setPosition(1500, 300);
+    longWall_sprite8.setScale(0.5f, 0.5f);
+    walls.push_back(longWall_sprite8);
+
+
+
+    //6 blok 8 sciana
+
+
+    Sprite shortWall_sprite(shortWall_texture);
+    shortWall_sprite.setPosition(200, 350);
+    shortWall_sprite.setScale(0.5f, 0.5f);
+    walls.push_back(shortWall_sprite);
+
+    Sprite shortWall2_sprite(shortWall_texture);
+    shortWall2_sprite.rotate(90);
+    shortWall2_sprite.setPosition(759, 568);
+    shortWall2_sprite.setScale(0.5f, 0.5f);
+    walls.push_back(shortWall2_sprite);
+
+    Sprite shortWall3_sprite(shortWall_texture);
+    shortWall3_sprite.setPosition(500, 450);
+    shortWall3_sprite.setScale(0.5f, 0.5f);
+    walls.push_back(shortWall3_sprite);
+
+
+
+    Sprite block1_sprite(block1_texture);
+    block1_sprite.setPosition(650, 440);
+    block1_sprite.setScale(0.5f, 0.5f);
+    blocks.push_back(block1_sprite);
+
+
+
+    Sprite block21_sprite(block2_texture);
+    block21_sprite.setPosition(1200, 90);
+    block21_sprite.setScale(0.5f, 0.5f);
+    blocks.push_back(block21_sprite);
+
+    Sprite block22_sprite(block2_texture);
+    block22_sprite.setPosition(200, 50);
+    block22_sprite.setScale(0.5f, 0.5f);
+    blocks.push_back(block22_sprite);
+
+    Sprite block23_sprite(block2_texture);
+    block23_sprite.setPosition(1030, 670);
+    block23_sprite.setScale(0.5f, 0.5f);
+    blocks.push_back(block23_sprite);
+
+    Sprite block24_sprite(block2_texture);
+    block24_sprite.setPosition(145, 678);
+    block24_sprite.setScale(0.5f, 0.5f);
+    blocks.push_back(block24_sprite);
 }
 
 void Map::drawGraphics(RenderWindow& window)
