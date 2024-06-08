@@ -623,7 +623,7 @@ int main() {
 
     Tank tank(1500, 800, 0.1f, 200, tank1Icon_texture, 0.2,false,30);
     Map map1("map1background.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
-    Map map2("map2background.png", "longWallmap2.png", "shortWallmap2.png", "block1map2.png", "block2map2.png");
+    Map map2("map2background2.png", "longWallmap2.png", "shortWallmap2.png", "block1map2.png", "block2map2.png");
     Map map3("map3background.png", "longWallmap3.png", "shortWallmap3.png", "block1map3.png", "block2map3.png");
     Map map4("map4background.png", "car1map4.png", "car2map4.png", "car2map4.png", "car3map4.png");
     Map* choosen_map;
@@ -826,7 +826,7 @@ int main() {
                                 
                                 battleWindow.create(VideoMode(window_width, window_height), "map1");
                                 createEnemies(enemies);
-                                tank.setHealth(200);
+                                tank.setHealth(5000);
                                 tankwindow.close();
                             }
                         }
