@@ -23,6 +23,7 @@ public:
 
     void setCompleted(bool c);
     bool getCompleted();
+    void createMovingSprites();
 
     const vector<Sprite>& getWalls() const;
     const vector<Sprite>& getBlocks() const;
