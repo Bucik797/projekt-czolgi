@@ -115,9 +115,9 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
 
 }
 
-void checkCollision(Tank& tank, const Map& map) {
+void checkCollision(Tank& tank, const Map* map) {
     // Sprawdzenie kolizji czo³gu z ka¿d¹ cian¹ na mapie
-    for (const auto& wall : map.getWalls()) {
+    for (const auto& wall : map->getWalls()) {
         if (tank.getGlobalBounds().intersects(wall.getGlobalBounds())) {
             //return true;  // Jeli wykryto kolizjê, zwróæ true
 
@@ -157,7 +157,7 @@ void checkCollision(Tank& tank, const Map& map) {
     }
 
     // Sprawdzenie kolizji czo³gu z ka¿dym blokiem na mapie
-    for (const auto& block : map.getBlocks()) {
+    for (const auto& block : map->getBlocks()) {
         if (tank.getGlobalBounds().intersects(block.getGlobalBounds())) {
             if (tank.getGlobalBounds().intersects(block.getGlobalBounds())) {
                 //return true;  // Jeli wykryto kolizjê, zwróæ true
@@ -234,7 +234,7 @@ void flyingBullets(vector<Bullet>& bullets, RenderWindow& window)
     }
 }
 
-void bulletsCollide(const Map& map, vector<Bullet>& bullets, RenderWindow& window, vector<std::unique_ptr<EnemyManager>>& enemies, Tank& tank)
+void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& window, vector<std::unique_ptr<EnemyManager>>& enemies, Tank& tank)
 {
     for (auto it = bullets.begin(); it != bullets.end();)
     {
@@ -251,7 +251,7 @@ void bulletsCollide(const Map& map, vector<Bullet>& bullets, RenderWindow& windo
         if (!isErased)
         {
             // Sprawdź kolizje z murami
-            for (const auto& wall : map.getWalls())
+            for (const auto& wall : map->getWalls())
             {
                 if (it->getGlobalBounds().intersects(wall.getGlobalBounds()))
                 {
@@ -265,7 +265,7 @@ void bulletsCollide(const Map& map, vector<Bullet>& bullets, RenderWindow& windo
         // Jeśli pocisk nie został jeszcze usunięty, sprawdź bloki
         if (!isErased)
         {
-            for (const auto& block : map.getBlocks())
+            for (const auto& block : map->getBlocks())
             {
                 if (it->getGlobalBounds().intersects(block.getGlobalBounds()))
                 {
@@ -305,6 +305,14 @@ void bulletsCollide(const Map& map, vector<Bullet>& bullets, RenderWindow& windo
         //cout << enemies.size() << endl;
 
     }
+}
+
+void createEnemies(vector<unique_ptr<EnemyManager>>& enemies)
+{
+    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 4.0f, "meleeEnemy.png", 100, 100, 1));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 3.0f, "meleeEnemy.png", 350, 100, 2));
+    enemies.push_back(make_unique<RangeEnemy>(80, 20, 2.0f, "rangeEnemy.png", 300, 300, 3));
+    enemies.push_back(make_unique<RangeEnemy>(80, 50, 2.0f, "rangeEnemy.png", 400, 500, 4));
 }
 
 void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& window, Tank& tank)
@@ -398,7 +406,7 @@ void flyingEnemyBullets(vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& 
 }
 
 
-void enemyBulletsCollide(const Map& map, vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& window, Tank& tank, vector<unique_ptr<EnemyManager>>& enemies)
+void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& window, Tank& tank, vector<unique_ptr<EnemyManager>>& enemies)
 {
     for (auto it = e1b.begin(); it != e1b.end();)
     {
@@ -415,7 +423,7 @@ void enemyBulletsCollide(const Map& map, vector<Bullet>& e1b, vector<Bullet>& e2
          if (!isErased)
         {
             // Sprawdź kolizje z murami
-            for (const auto& wall : map.getWalls())
+            for (const auto& wall : map->getWalls())
             {
                 if (it->getGlobalBounds().intersects(wall.getGlobalBounds()))
                 {
@@ -429,7 +437,7 @@ void enemyBulletsCollide(const Map& map, vector<Bullet>& e1b, vector<Bullet>& e2
         // Jeśli pocisk nie został jeszcze usunięty, sprawdź bloki
         if (!isErased)
         {
-            for (const auto& block : map.getBlocks())
+            for (const auto& block : map->getBlocks())
             {
                 if (it->getGlobalBounds().intersects(block.getGlobalBounds()))
                 {
@@ -488,7 +496,7 @@ void enemyBulletsCollide(const Map& map, vector<Bullet>& e1b, vector<Bullet>& e2
         if (!isErased)
         {
             // Sprawdź kolizje z murami
-            for (const auto& wall : map.getWalls())
+            for (const auto& wall : map->getWalls())
             {
                 if (it->getGlobalBounds().intersects(wall.getGlobalBounds()))
                 {
@@ -502,7 +510,7 @@ void enemyBulletsCollide(const Map& map, vector<Bullet>& e1b, vector<Bullet>& e2
         // Jeśli pocisk nie został jeszcze usunięty, sprawdź bloki
         if (!isErased)
         {
-            for (const auto& block : map.getBlocks())
+            for (const auto& block : map->getBlocks())
             {
                 if (it->getGlobalBounds().intersects(block.getGlobalBounds()))
                 {
@@ -615,13 +623,17 @@ int main() {
 
     Tank tank(1500, 800, 0.1f, 200, tank1Icon_texture, 0.2,false,30);
     Map map1("map1background.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
+    Map map2("map2background.png", "longWallmap2.png", "shortWallmap2.png", "block1map2.png", "block2map2.png");
+    Map map3("map3background.png", "longWallmap3.png", "shortWallmap3.png", "block1map3.png", "block2map3.png");
+    Map map4("map4background.png", "car1map4.png", "car2map4.png", "car2map4.png", "car3map4.png");
+    Map* choosen_map;
+    choosen_map = &map1;
     Map gameover("gameover.png");
     Map ggwp("ggwp.png");
+
     vector<unique_ptr<EnemyManager>> enemies;
-    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 4.0f,"meleeEnemy.png",100,100,1));
-    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 3.0f,"meleeEnemy.png",350,100,2));
-    enemies.push_back(make_unique<RangeEnemy>(80, 20, 2.0f,"rangeEnemy.png",300,300,3));
-    enemies.push_back(make_unique<RangeEnemy>(80, 50, 2.0f, "rangeEnemy.png",400, 500,4));
+    //createEnemies(enemies);
+
     for (auto& enemy : enemies) {
         cout << enemy->getPosition().x << " " << enemy->getPosition().y << endl;
 
@@ -756,32 +768,36 @@ int main() {
                         }
                         if (selectedSprite(mapwindow, mw.map1SPR))
                         {
+                            choosen_map = &map1;
                             tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                             mapwindow.close();
                         }
                         if (selectedSprite(mapwindow, mw.map2SPR))
                         {
-                            if (map1completed)
-                            {
+                            //if (map1completed)
+                            //{
+                                choosen_map = &map2;
                                 tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                                 mapwindow.close();
-                            }                            
+                            //}                            
                         }
                         if (selectedSprite(mapwindow, mw.map3SPR))
                         {
-                            if (map2completed)
-                            {
+                            //if (map2completed)
+                            //{
+                                choosen_map = &map3;
                                 tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                                 mapwindow.close();
-                            }                            
+                            //}                            
                         }
                         if (selectedSprite(mapwindow, mw.map4SPR))
                         {
-                            if (map3completed)
-                            {
+                            //if (map3completed)
+                            //{
+                                choosen_map = &map4;
                                 tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                                 mapwindow.close();
-                            }                            
+                            //}                            
                         }
                     }
                 }
@@ -809,6 +825,8 @@ int main() {
                             {
                                 
                                 battleWindow.create(VideoMode(window_width, window_height), "map1");
+                                createEnemies(enemies);
+                                tank.setHealth(200);
                                 tankwindow.close();
                             }
                         }
@@ -824,7 +842,8 @@ int main() {
                     
                     Event event5;
                     battleWindow.clear();
-                    map1.drawGraphics(battleWindow);
+                    choosen_map->drawGraphics(battleWindow);
+                    //map2.drawGraphics(battleWindow);
                     
                     
                     tank.driving();
@@ -832,7 +851,7 @@ int main() {
                     setBulletPosition(tank, bullets, bulletClock);
                     setEnemybulletPosition(enemies, enemy1_bullets, enemy2_bullets, enemy1ShootsClock, enemy2ShootsClock, tank);
                     
-                    checkCollision(tank, map1); 
+                    checkCollision(tank, choosen_map); 
 
 
                     while (battleWindow.pollEvent(event5))
@@ -857,8 +876,8 @@ int main() {
                     battleWindow.draw(tank);
                     flyingBullets(bullets, battleWindow);
                     flyingEnemyBullets(enemy1_bullets, enemy2_bullets, battleWindow, 0.2f,0.5f);
-                    bulletsCollide(map1, bullets, battleWindow,enemies,tank);
-                    enemyBulletsCollide(map1, enemy1_bullets, enemy2_bullets, battleWindow, tank, enemies);
+                    bulletsCollide(choosen_map, bullets, battleWindow,enemies,tank);
+                    enemyBulletsCollide(choosen_map, enemy1_bullets, enemy2_bullets, battleWindow, tank, enemies);
                     collisionDamage(enemies, tank);
                     
                     drawEnemies(enemies, battleWindow, tank);
@@ -877,14 +896,14 @@ int main() {
                 {
                     resultwindow.clear();
 
-                    if (map1completed)
-                    {
-                        ggwp.drawGGWP(resultwindow, resultButton);
-                    }
-                    else
-                    {
-                        gameover.drawGameOver(resultwindow, resultButton);
-                    }
+                    //if (map1completed)
+                    //{
+                      //  ggwp.drawGGWP(resultwindow, resultButton);
+                    //}
+                    //else
+                    //{
+                        gameover.drawGameOver(resultwindow, resultButton,enemies);
+                    //}
                     
                     Event resultevent;
 

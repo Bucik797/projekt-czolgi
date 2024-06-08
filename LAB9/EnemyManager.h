@@ -35,6 +35,8 @@ public:
     float getSpeed() const;
     Vector2f getCurrentPosition();
     vector <Sprite> objects;
+
+    
     
 };
 
