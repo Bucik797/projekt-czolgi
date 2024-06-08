@@ -1,8 +1,9 @@
 #include "Map.h"
 #include <vector>
 
-Map::Map(const string& backgroundFile, const string& longWallFile, const string& shortWallFile, const string& block1File, const string& block2File)
+Map::Map(const string& backgroundFile, const string& longWallFile, const string& shortWallFile, const string& block1File, const string& block2File,bool c)
 {
+    this->completed = c;
     if (!background_texture.loadFromFile(backgroundFile) ||
         !longWall_texture.loadFromFile(longWallFile) ||
         !shortWall_texture.loadFromFile(shortWallFile) ||
@@ -13,7 +14,7 @@ Map::Map(const string& backgroundFile, const string& longWallFile, const string&
     }
     
 
-    initializeMap3();
+   // initializeMap3();
 }
 
 Map::Map(const string& result_file)
@@ -33,6 +34,7 @@ Map::Map(const string& result_file)
 
 void Map::initializeMap1()
 {
+    //cout << " init 1" << endl;
     this->setTexture(background_texture);
 
     this->setScale(1.5, 1.5);
@@ -155,7 +157,7 @@ void Map::initializeMap1()
 void Map::initializeMap2()
 {
     
-    
+    //cout << " init 2" << endl;
     this->setTexture(background_texture);
     //this->setTextureRect(IntRect(0, 200, 1600, 900));
     this->setScale(2, 2);
@@ -264,7 +266,7 @@ void Map::initializeMap2()
 void Map::initializeMap3()
 {
     
-
+    //cout << " init 3" << endl;
     this->setTexture(background_texture);
     //this->setTextureRect(IntRect(0, 200, 1600, 900));
     this->setScale(2, 2);
@@ -351,8 +353,72 @@ void Map::initializeMap3()
     blocks.push_back(block24_sprite);
 }
 
+void Map::initializeMap4()
+{
+    this->setTexture(background_texture);
+    this->setScale(1.9, 1.9);
+    this->setPosition(0, 0);
+
+    // 1600 x 900
+    Sprite longWall_sprite1(longWall_texture);
+    longWall_sprite1.rotate(90);
+    longWall_sprite1.setPosition(250, 300);
+    longWall_sprite1.setScale(0.7f, 0.7f);
+    walls.push_back(longWall_sprite1);
+
+
+
+    Sprite shortWall_sprite(shortWall_texture);
+    shortWall_sprite.rotate(90);
+    shortWall_sprite.setPosition(600, 300);
+    shortWall_sprite.setScale(0.7f, 0.7f);
+    walls.push_back(shortWall_sprite);
+
+
+
+    Sprite block1_sprite(block1_texture);
+    block1_sprite.rotate(90);
+    block1_sprite.setPosition(850, 420);
+    block1_sprite.setScale(0.7f, 0.7f);
+    blocks.push_back(block1_sprite);
+    
+    Sprite shortWall_sprite2(shortWall_texture);
+    shortWall_sprite2.rotate(90);
+    shortWall_sprite2.setPosition(1200, 300);
+    shortWall_sprite2.setScale(0.7f, 0.7f);
+    walls.push_back(shortWall_sprite2);
+
+
+    Sprite moving_sprite1(longWall_texture);
+    //moving_sprite1.setTexture(longWall_texture);
+    moving_sprite1.setPosition(100, 120);
+    moving_sprite1.setScale(0.7f, 0.7f);
+    movingCars.push_back(moving_sprite1);
+
+    Sprite moving_sprite2(longWall_texture);
+    moving_sprite2.setPosition(1500, 220);
+    moving_sprite2.setScale(0.7f, 0.7f);
+    movingCars.push_back(moving_sprite2);
+
+    Sprite moving_sprite3(longWall_texture);
+    moving_sprite3.setPosition(100, 800);
+    moving_sprite3.setScale(0.7f, 0.7f);
+    movingCars.push_back(moving_sprite3);
+
+    Sprite moving_sprite4(longWall_texture);
+    moving_sprite4.setPosition(1500, 650);
+    moving_sprite4.setScale(0.7f, 0.7f);
+    movingCars.push_back(moving_sprite4);
+    
+
+}
+
+
+
 void Map::drawGraphics(RenderWindow& window)
 {
+
+    //cout << "DRAAAAAAAAAAAAAAAWING" << endl;
     // Rysowanie t³a
     window.draw(*this);
 
@@ -366,6 +432,35 @@ void Map::drawGraphics(RenderWindow& window)
     for (const auto& block : blocks)
     {
         window.draw(block);
+    }
+
+    for (const auto& car : movingCars)
+    {
+        window.draw(car);
+    }
+
+
+}
+
+
+void Map::moveSprites(RenderWindow& window)
+{
+    movingCars[0].move(0.17, 0);
+    movingCars[1].move(-0.15, 0);
+    movingCars[2].move(0.12, 0);
+    movingCars[3].move(-0.2, 0);
+
+    if (movingCars[0].getPosition().x > window.getSize().x) {
+        movingCars[0].setPosition(-movingCars[0].getGlobalBounds().width, movingCars[0].getPosition().y); // Reset to start from the left again
+    }
+    if (movingCars[1].getPosition().x < 0) {
+        movingCars[1].setPosition(movingCars[1].getGlobalBounds().width + window.getSize().x, movingCars[1].getPosition().y); // Reset to start from the left again
+    }
+    if (movingCars[2].getPosition().x > window.getSize().x) {
+        movingCars[2].setPosition(-movingCars[2].getGlobalBounds().width, movingCars[2].getPosition().y); // Reset to start from the left again
+    }
+    if (movingCars[3].getPosition().x <0) {
+        movingCars[3].setPosition(movingCars[3].getGlobalBounds().width + window.getSize().x, movingCars[3].getPosition().y); // Reset to start from the left again
     }
 }
 
@@ -400,6 +495,18 @@ void Map::drawGGWP(RenderWindow& window, RectangleShape& resultButton)
 
 }
 
+
+void Map::setCompleted(bool c)
+{
+    completed = true;
+}
+
+bool Map::getCompleted()
+{
+    return completed;
+}
+
+
 const vector<Sprite>& Map::getWalls() const {
     return walls;
 }
@@ -408,4 +515,8 @@ const vector<Sprite>& Map::getBlocks() const {
     return blocks;
 }
 
+const vector<Sprite>& Map::getmovingCars() const
+{
+    return movingCars;
+}
 
