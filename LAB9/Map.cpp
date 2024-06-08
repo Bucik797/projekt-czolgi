@@ -389,26 +389,7 @@ void Map::initializeMap4()
     walls.push_back(shortWall_sprite2);
 
 
-    Sprite moving_sprite1(longWall_texture);
-    //moving_sprite1.setTexture(longWall_texture);
-    moving_sprite1.setPosition(100, 120);
-    moving_sprite1.setScale(0.7f, 0.7f);
-    movingCars.push_back(moving_sprite1);
-
-    Sprite moving_sprite2(longWall_texture);
-    moving_sprite2.setPosition(1500, 220);
-    moving_sprite2.setScale(0.7f, 0.7f);
-    movingCars.push_back(moving_sprite2);
-
-    Sprite moving_sprite3(longWall_texture);
-    moving_sprite3.setPosition(100, 800);
-    moving_sprite3.setScale(0.7f, 0.7f);
-    movingCars.push_back(moving_sprite3);
-
-    Sprite moving_sprite4(longWall_texture);
-    moving_sprite4.setPosition(1500, 650);
-    moving_sprite4.setScale(0.7f, 0.7f);
-    movingCars.push_back(moving_sprite4);
+    
     
 
 }
@@ -442,9 +423,33 @@ void Map::drawGraphics(RenderWindow& window)
 
 }
 
+void Map::createMovingSprites()
+{
+    Sprite moving_sprite1(longWall_texture);
+    //moving_sprite1.setTexture(longWall_texture);
+    moving_sprite1.setPosition(100, 120);
+    moving_sprite1.setScale(0.7f, 0.7f);
+    movingCars.push_back(moving_sprite1);
+
+    Sprite moving_sprite2(longWall_texture);
+    moving_sprite2.setPosition(1500, 220);
+    moving_sprite2.setScale(0.7f, 0.7f);
+    movingCars.push_back(moving_sprite2);
+
+    Sprite moving_sprite3(longWall_texture);
+    moving_sprite3.setPosition(100, 800);
+    moving_sprite3.setScale(0.7f, 0.7f);
+    movingCars.push_back(moving_sprite3);
+
+    Sprite moving_sprite4(longWall_texture);
+    moving_sprite4.setPosition(1500, 650);
+    moving_sprite4.setScale(0.7f, 0.7f);
+    movingCars.push_back(moving_sprite4);
+}
 
 void Map::moveSprites(RenderWindow& window)
 {
+
     movingCars[0].move(0.17, 0);
     movingCars[1].move(-0.15, 0);
     movingCars[2].move(0.12, 0);

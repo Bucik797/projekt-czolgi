@@ -697,7 +697,8 @@ int main()
     Map ggwp("ggwp.png");
 
     vector<unique_ptr<EnemyManager>> enemies;
-    //createEnemies(enemies);
+    
+    map4.createMovingSprites();
 
     for (auto& enemy : enemies) {
         cout << enemy->getPosition().x << " " << enemy->getPosition().y << endl;
@@ -917,7 +918,7 @@ int main()
                     // if (choosen_map = &map4)
                      //{
 
-                         //map4.moveSprites(battleWindow);
+                         map4.moveSprites(battleWindow);
                      //}
 
 
