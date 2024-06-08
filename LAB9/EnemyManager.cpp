@@ -28,6 +28,10 @@ void EnemyManager::dealDamage(Tank& tank)
 {
     cout << "tank before shoot has " << tank.getHealth() << " hp" << endl;
     tank.setHealth(tank.getHealth() - strength);
+    if (tank.getHealth() < 0)
+    {
+        tank.setHealth(0);
+    }
     cout << "tank after shoot has " << tank.getHealth() << " hp" << endl;
 }
 
