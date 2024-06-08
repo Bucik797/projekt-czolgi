@@ -678,19 +678,33 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
 
 }
 
-void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank& tank)
+void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank& tank,Clock& zc)
 {
     for (auto it = enemies.begin(); it != enemies.end(); ++it) {
         if ((*it)->getGlobalBounds().intersects(tank.getGlobalBounds()))
         {
-            if ((*it)->getId() == 1 || (*it)->getId() == 2) {
+
+            if ((*it)->getId() == 2 && zc.getElapsedTime().asSeconds()>1.0f)
+            {
                 (*it)->dealDamage(tank);
+                zc.restart();
             }
-            if ((*it)->getId() == 3 || (*it)->getId() == 4) {
+
+
+            if ((*it)->getId() == 1) 
+            {
+                (*it)->dealDamage(tank);
+                enemies.erase(it);
+                break;
+            }
+            if ((*it)->getId() == 3 || (*it)->getId() == 4) 
+            {
                 tank.setHealth(0);
+                enemies.erase(it);
+                break;
             }
-            enemies.erase(it); // Bezpieczne usunięcie
-            break; // Zatrzymaj pętlę po usunięciu elementu
+             // Bezpieczne usunięcie
+             // Zatrzymaj pętlę po usunięciu elementu
         }
     }
 
@@ -718,6 +732,7 @@ int main()
     Clock enemy1ShootsClock;
     Clock enemy2ShootsClock;
     Clock enemy3ShootsClock;
+    Clock zombie_clock;
 
 
     vector <Bullet> bullets;
@@ -1037,7 +1052,7 @@ int main()
                     flyingEnemyBullets(enemy_bullets, enemy2_bullets, battleWindow, 0.2f, 0.5f);
                     bulletsCollide(choosen_map, bullets, battleWindow, enemies, tank);
                     enemyBulletsCollide(choosen_map, enemy_bullets, enemy2_bullets, battleWindow, tank, enemies);
-                    collisionDamage(enemies, tank);
+                    collisionDamage(enemies, tank,zombie_clock);
 
                     drawEnemies(enemies, battleWindow, tank);
 
