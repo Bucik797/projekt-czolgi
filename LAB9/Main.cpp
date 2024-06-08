@@ -344,13 +344,41 @@ void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& windo
     }
 }
 
-void createEnemies(vector<unique_ptr<EnemyManager>>& enemies)
+void createEnemiesMap1(vector<unique_ptr<EnemyManager>>& enemies)
 {
     enemies.push_back(make_unique<MeleeEnemy>(100, 50, 4.0f, "meleeEnemy.png", 100, 100, 1));
-    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 3.0f, "meleeEnemy.png", 350, 100, 2));
-    enemies.push_back(make_unique<RangeEnemy>(80, 20, 2.0f, "rangeEnemy.png", 300, 300, 3));
-    enemies.push_back(make_unique<RangeEnemy>(80, 50, 2.0f, "demon.png", 400, 500, 4));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 3.0f, "meleeEnemy.png", 350, 100, 1));
+    enemies.push_back(make_unique<RangeEnemy>(80, 30, 2.0f, "rangeEnemy.png", 300, 300, 3));
+    enemies.push_back(make_unique<RangeEnemy>(80, 30, 2.0f, "rangeEnemy.png", 400, 500, 3));
 }
+
+void createEnemiesMap2(vector<unique_ptr<EnemyManager>>& enemies)
+{
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 4.0f, "meleeEnemy.png", 100, 100, 1));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 3.0f, "meleeEnemy.png", 350, 100, 1));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 400, 350, 4));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 450, 550, 5));
+}
+
+void createEnemiesMap3(vector<unique_ptr<EnemyManager>>& enemies)
+{
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 4.0f, "zombie.png", 100, 100, 2));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 3.0f, "zombie.png", 350, 100, 2));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 400, 350, 4));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 450, 550, 5));
+}
+
+void createEnemiesMap4(vector<unique_ptr<EnemyManager>>& enemies)
+{
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 4.0f, "zombie.png", 100, 100, 2));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 3.0f, "zombie.png", 450, 100, 2));
+    enemies.push_back(make_unique<RangeEnemy>(80, 30, 2.0f, "rangeEnemy.png", 300, 300, 3));
+    enemies.push_back(make_unique<RangeEnemy>(80, 30, 2.0f, "rangeEnemy.png", 400, 500, 3));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 400, 350, 4));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 650, 550, 4));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 750, 650, 4));
+}
+
 
 void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& window, Tank& tank)
 {
@@ -396,7 +424,7 @@ void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& re
 }
 
 
-void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies,vector<Bullet>& e1b, vector<Bullet>& e2b, Clock& e1sc, Clock& e2sc, Tank& tank)
+void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vector<Bullet>& e1b, vector<Bullet>& e2b, Clock& e1sc, Clock& e2sc, Tank& tank, Clock& e3sc)
 {
     
     if (e1sc.getElapsedTime().asSeconds() > 1.2)
@@ -406,11 +434,11 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies,vect
 
                 e1sc.restart();
                 e1b.push_back(Bullet(0.15f, 50));
-                e1b.back().setPosition(enemy->getCurrentPosition());
+                e1b.back().setPosition(enemy->getCurrentPosition().x+20,enemy->getCurrentPosition().y+20);
                 e1b.back().setOrigin(5, 5);
                 e1b.back().setRadius(5);
                 e1b.back().setAngle(atan2(tank.getPosition().y - e1b.back().getPosition().y, tank.getPosition().x - e1b.back().getPosition().x));
-                break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
+                //break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
             }
         }
         
@@ -425,15 +453,32 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies,vect
 
                 e2sc.restart();
                 e2b.push_back(Bullet(0.8f, 10));
-                e2b.back().setPosition(enemy->getCurrentPosition());
+                e2b.back().setPosition(enemy->getCurrentPosition().x + 20, enemy->getCurrentPosition().y + 20);
                 e2b.back().setOrigin(5, 5);
                 e2b.back().setRadius(7);
                 e2b.back().setAngle(atan2(tank.getPosition().y - e2b.back().getPosition().y, tank.getPosition().x - e2b.back().getPosition().x));
-                break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
+                
             }
         }
         
     }
+
+    if (e3sc.getElapsedTime().asSeconds() > 2.5)
+    {
+        for (const auto& enemy : enemies) {
+            if (enemy->getId() == 5) {
+
+                e3sc.restart();
+                e2b.push_back(Bullet(1.5f, 10));
+                e2b.back().setPosition(enemy->getCurrentPosition().x + 20, enemy->getCurrentPosition().y + 20);
+                e2b.back().setOrigin(5, 5);
+                e2b.back().setRadius(7);
+                e2b.back().setAngle(atan2(tank.getPosition().y - e2b.back().getPosition().y, tank.getPosition().x - e2b.back().getPosition().x));
+
+            }
+        }
+    }
+
 
 }
 
@@ -446,7 +491,6 @@ void flyingEnemyBullets(vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& 
         window.draw(e1b[i]);
         e1b[i].move(cos(e1b[i].getAngle())*v1,sin(e1b[i].getAngle()) * v1);
     }
-
     for (int i = 0; i < e2b.size(); i++)
     {
         window.draw(e2b[i]);
@@ -454,8 +498,9 @@ void flyingEnemyBullets(vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& 
         
     }
 }
+    
 
-
+    
 void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& window, Tank& tank, vector<unique_ptr<EnemyManager>>& enemies)
 {
     for (auto it = e1b.begin(); it != e1b.end();)
@@ -543,7 +588,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
         
 
     }
-
+    
     for (auto it = e2b.begin(); it != e2b.end();)
     {
         bool isErased = false;
@@ -628,6 +673,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
 
 
     }
+    
 
 
 }
@@ -671,10 +717,11 @@ int main()
     Clock bulletClock;
     Clock enemy1ShootsClock;
     Clock enemy2ShootsClock;
+    Clock enemy3ShootsClock;
 
 
     vector <Bullet> bullets;
-    vector <Bullet> enemy1_bullets;
+    vector <Bullet> enemy_bullets;
     vector <Bullet> enemy2_bullets;
     //vector <CircleShape> cirlcles;
 
@@ -911,30 +958,30 @@ int main()
                             }
                             if (buttonClicked(tankwindow, tw.playButton))
                             {
+                                if (choosen_map == &map1)
+                                {
+                                    createEnemiesMap1(enemies);
+                                }
 
                                 if (choosen_map == &map2)
                                 {
-                                    enemies.push_back(make_unique<RangeEnemy>(80, 20, 2.0f, "rangeEnemy.png", 400, 350, 3));
-                                    enemies.push_back(make_unique<RangeEnemy>(80, 50, 2.0f, "demon.png", 450, 550, 4));
+                                    createEnemiesMap2(enemies);
                                 }
                                 if (choosen_map == &map3)
                                 {
-                                    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 4.0f, "meleeEnemy.png", 400, 250, 1));
-                                    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 3.0f, "meleeEnemy.png", 550, 600, 2));
-                                    enemies.push_back(make_unique<RangeEnemy>(80, 20, 2.0f, "rangeEnemy.png", 400, 350, 3));
-                                    enemies.push_back(make_unique<RangeEnemy>(80, 50, 2.0f, "demon.png", 450, 550, 4));
+                                    createEnemiesMap3(enemies);
                                 }
 
                                 if (choosen_map == &map4)
                                 {
-
+                                    createEnemiesMap4(enemies);
                                 }
 
 
 
                                 battleWindow.create(VideoMode(window_width, window_height), "map1");
-                                createEnemies(enemies);
-                                tank.setHealth(300);
+                                
+                                tank.setHealth(3000);
                                 tank.setPosition(1500, 450);
                                 tankwindow.close();
                             }
@@ -961,7 +1008,7 @@ int main()
                     tank.driving();
                     tank.boundCollision(battleWindow);
                     setBulletPosition(tank, bullets, bulletClock);
-                    setEnemybulletPosition(enemies, enemy1_bullets, enemy2_bullets, enemy1ShootsClock, enemy2ShootsClock, tank);
+                    setEnemybulletPosition(enemies, enemy_bullets, enemy2_bullets, enemy1ShootsClock, enemy2ShootsClock, tank,enemy3ShootsClock);
 
                     checkCollision(tank, choosen_map);
 
@@ -987,9 +1034,9 @@ int main()
 
                     battleWindow.draw(tank);
                     flyingBullets(bullets, battleWindow);
-                    flyingEnemyBullets(enemy1_bullets, enemy2_bullets, battleWindow, 0.2f, 0.5f);
+                    flyingEnemyBullets(enemy_bullets, enemy2_bullets, battleWindow, 0.2f, 0.5f);
                     bulletsCollide(choosen_map, bullets, battleWindow, enemies, tank);
-                    enemyBulletsCollide(choosen_map, enemy1_bullets, enemy2_bullets, battleWindow, tank, enemies);
+                    enemyBulletsCollide(choosen_map, enemy_bullets, enemy2_bullets, battleWindow, tank, enemies);
                     collisionDamage(enemies, tank);
 
                     drawEnemies(enemies, battleWindow, tank);
