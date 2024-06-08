@@ -16,7 +16,7 @@ void MeleeEnemy::attack()
 
 void MeleeEnemy::move(Tank& tank)
 {
-	Vector2f direction = Vector2f(static_cast<float>(tank.getCurrentPosition().x-20), static_cast<float>(tank.getCurrentPosition().y-20)) - this->getPosition();
+	Vector2f direction = Vector2f(static_cast<float>(tank.getCurrentPosition().x-25), static_cast<float>(tank.getCurrentPosition().y-20)) - this->getPosition();
     float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
 
     
