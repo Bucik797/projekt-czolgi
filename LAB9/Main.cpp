@@ -302,7 +302,7 @@ void bulletsCollide(const Map& map, vector<Bullet>& bullets, RenderWindow& windo
         }
 
         enemies.erase(remove(enemies.begin(), enemies.end(), nullptr), enemies.end());
-        cout << enemies.size() << endl;
+        //cout << enemies.size() << endl;
 
     }
 }
@@ -316,7 +316,7 @@ void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& 
     }
 }
 
-void map1complete(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& mapsWindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c, Mapwindow& mw)
+void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& mapsWindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c, Mapwindow& mw)
 {
     if (enemies.size() == 0)
     {
@@ -537,7 +537,24 @@ void enemyBulletsCollide(const Map& map, vector<Bullet>& e1b, vector<Bullet>& e2
 
 }
 
+void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank& tank)
+{
+    for (auto it = enemies.begin(); it != enemies.end(); ++it) {
+        if ((*it)->getGlobalBounds().intersects(tank.getGlobalBounds()))
+        {
+            if ((*it)->getId() == 1 || (*it)->getId() == 2) {
+                (*it)->dealDamage(tank);
+            }
+            if ((*it)->getId() == 3 || (*it)->getId() == 4) {
+                tank.setHealth(0);
+            }
+            enemies.erase(it); // Bezpieczne usunięcie
+            break; // Zatrzymaj pętlę po usunięciu elementu
+        }
+    }
 
+    
+}
 
 int main() {
     int window_width = 1600;
@@ -583,11 +600,11 @@ int main() {
         //music.play();
 
 
-    Tank tank(1500, 800, 0.1f, 100, tank1Icon_texture, 0.2,false,30);
+    Tank tank(1500, 800, 0.1f, 200, tank1Icon_texture, 0.2,false,30);
     Map map1("map1background.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
     vector<unique_ptr<EnemyManager>> enemies;
-    enemies.push_back(make_unique<MeleeEnemy>(100, 15, 4.0f,"meleeEnemy.png",100,100,1));
-    enemies.push_back(make_unique<MeleeEnemy>(100, 20, 3.0f,"meleeEnemy.png",350,100,2));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 4.0f,"meleeEnemy.png",100,100,1));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 3.0f,"meleeEnemy.png",350,100,2));
     enemies.push_back(make_unique<RangeEnemy>(80, 20, 2.0f,"rangeEnemy.png",300,300,3));
     enemies.push_back(make_unique<RangeEnemy>(80, 50, 2.0f, "rangeEnemy.png",400, 500,4));
     for (auto& enemy : enemies) {
@@ -827,13 +844,13 @@ int main() {
                     flyingEnemyBullets(enemy1_bullets, enemy2_bullets, battleWindow, 0.2f,0.5f);
                     bulletsCollide(map1, bullets, battleWindow,enemies,tank);
                     enemyBulletsCollide(map1, enemy1_bullets, enemy2_bullets, battleWindow, tank, enemies);
-                    
+                    collisionDamage(enemies, tank);
                     
                     drawEnemies(enemies, battleWindow, tank);
                     
                     battleWindow.draw(closeButton);
                     battleWindow.draw(closeText);
-                    map1complete(enemies, mapwindow, battleWindow, window_width, window_height, map1completed, mw);
+                    mapResult(enemies, mapwindow, battleWindow, window_width, window_height, map1completed, mw);
                     mw.update(map1completed, map2completed, map3completed);
                     battleWindow.display();
                 }
