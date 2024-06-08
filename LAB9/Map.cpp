@@ -20,7 +20,7 @@ Map::Map(const string& backgroundFile, const string& longWallFile, const string&
         this->setPosition(100, 0);
     }
 
-    initializeMap();
+    initializeMap1();
 }
 
 Map::Map(const string& result_file)
@@ -38,7 +38,7 @@ Map::Map(const string& result_file)
     }
 }
 
-void Map::initializeMap()
+void Map::initializeMap1()
 {
     // Tworzenie sprite'ów œcian i bloków
 
@@ -103,7 +103,7 @@ void Map::initializeMap()
 
 
 
-   // cout << longWall_sprite1.getGlobalBounds().height << " " << longWall_sprite1.getGlobalBounds().width << endl;
+   
 
     Sprite shortWall_sprite(shortWall_texture);
     shortWall_sprite.setPosition(800, 50);
@@ -121,14 +121,14 @@ void Map::initializeMap()
     shortWall3_sprite.setScale(0.2f, 0.2f);
     walls.push_back(shortWall3_sprite);
 
-    //cout << shortWall_sprite.getGlobalBounds().height << " " << shortWall_sprite.getGlobalBounds().width << endl;
+    
 
     Sprite block1_sprite(block1_texture);
     block1_sprite.setPosition(500, 240);
     block1_sprite.setScale(0.2f, 0.2f);
     blocks.push_back(block1_sprite);
 
-    //cout << block1_sprite.getGlobalBounds().height << " " << block1_sprite.getGlobalBounds().width << endl;
+    
 
     Sprite block21_sprite(block2_texture);
     block21_sprite.setPosition(1200, 90);
@@ -154,6 +154,11 @@ void Map::initializeMap()
     
 }
 
+void Map::initializeMap2()
+{
+
+}
+
 void Map::drawGraphics(RenderWindow& window)
 {
     // Rysowanie t³a
@@ -172,13 +177,24 @@ void Map::drawGraphics(RenderWindow& window)
     }
 }
 
-void Map::drawGameOver(RenderWindow& window, RectangleShape& resultButton)
+void Map::drawGameOver(RenderWindow& window, RectangleShape& resultButton, vector<unique_ptr<EnemyManager>>& enemies)
 {
     window.draw(*this);
     resultButton.setPosition(320, 350);
     resultButton.setFillColor(Color::Transparent);
     resultButton.setSize(Vector2f(100, 40));
     window.draw(resultButton);
+    for (auto& enemy : enemies)
+    {
+        
+            
+            
+            enemy.reset(); // Usuń obiekt przeciwnika
+            break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+        
+    }
+    cout << enemies.size() << endl;
+    enemies.erase(remove(enemies.begin(), enemies.end(), nullptr), enemies.end());
 }
 
 void Map::drawGGWP(RenderWindow& window, RectangleShape& resultButton)
