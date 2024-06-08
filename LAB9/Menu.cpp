@@ -16,12 +16,9 @@ void Menu::drawGraphics(RenderWindow& window)
     window.draw(playButton);
     window.draw(settingsButton);
     window.draw(closeButton);
-    window.draw(playText);
-    window.draw(settingsText);
-    window.draw(closeText);
+
     window.draw(whiteSPR);
     window.draw(butSPR);
-    window.draw(creditsText);
     window.draw(whiteName);
     window.draw(butName);
     window.draw(whiteLastname);
@@ -34,7 +31,7 @@ void Menu::update()
 
 void Menu::loadAssets()
 {
-    if (!background_TXT.loadFromFile("mainBackground.png")) {
+    if (!background_TXT.loadFromFile("maininterface.png")) {
         cout << "Failed to load background texture" << endl;
     }
     if (!white_TXT.loadFromFile("lajcior.png")) {
@@ -49,72 +46,39 @@ void Menu::loadAssets()
     if (!font.loadFromFile("arial.ttf")) {
         cout << "Failed to load font" << endl;
     }
-    if (!button_TXT.loadFromFile("buttonbackground.png")) {
-        cout << "Failed to load button background" << endl;
-    }
-
+    
     this->setTexture(background_TXT);
-
     whiteSPR.setTexture(white_TXT);
     butSPR.setTexture(but_TXT);
     logoSPR.setTexture(logo_TXT);
-    playButton.setTexture(&button_TXT);
-    settingsButton.setTexture(&button_TXT);
-    closeButton.setTexture(&button_TXT);
 
 
-    playButton.setOutlineColor(Color::Green);
-    playButton.setSize(Vector2f(250, 80));
-    playButton.setPosition(50, 280);
+    playButton.setPosition(520, 650);
+    playButton.setOutlineColor(Color::Transparent);
+    playButton.setFillColor(Color::Transparent);
+    playButton.setOutlineThickness(5);  
+    playButton.setRadius(120);
 
-    settingsButton.setOutlineColor(Color::Green);
-    settingsButton.setSize(Vector2f(250, 80));
-    settingsButton.setPosition(50, 380);
+    settingsButton.setOutlineColor(Color::Transparent);
+    settingsButton.setFillColor(Color::Transparent);
+    settingsButton.setPosition(800, 650);
+    settingsButton.setRadius(120);
+    settingsButton.setOutlineThickness(5);
 
-    closeButton.setOutlineColor(Color::Green);
-    closeButton.setSize(Vector2f(250, 80));
-    closeButton.setPosition(50, 480);
+    closeButton.setOutlineColor(Color::Transparent);
+    closeButton.setFillColor(Color::Transparent);
+    closeButton.setPosition(1070, 650);
+    closeButton.setRadius(120);
+    closeButton.setOutlineThickness(5);
 
-    butSPR.setPosition(1000, 200);
+    butSPR.setPosition(100, 100);
     butSPR.setScale(0.5, 0.5);
 
     whiteSPR.setScale(0.5, 0.5);
-    whiteSPR.setPosition(600, 200);
+    whiteSPR.setPosition(1000, 100);
 
     logoSPR.setScale(0.2, 0.2);
     logoSPR.setPosition(50, 50);
-
-    playText.setFont(font);
-    playText.setString("Play");
-    playText.setCharacterSize(45);
-    playText.setFillColor(Color::Black);
-    playText.setPosition(60, 290);
-    playText.setOutlineColor(Color::Green);
-    playText.setOutlineThickness(3);
-
-    settingsText.setFont(font);
-    settingsText.setString("Settings");
-    settingsText.setCharacterSize(45);
-    settingsText.setFillColor(Color::Black);
-    settingsText.setPosition(60, 390);
-    settingsText.setOutlineColor(Color::Green);
-    settingsText.setOutlineThickness(3);
-
-    closeText.setFont(font);
-    closeText.setString("Exit");
-    closeText.setCharacterSize(45);
-    closeText.setFillColor(Color::Black);
-    closeText.setPosition(60, 490);
-    closeText.setOutlineColor(Color::Green);
-    closeText.setOutlineThickness(3);
-
-    creditsText.setFont(font);
-    creditsText.setString("Credits");
-    creditsText.setCharacterSize(80);
-    creditsText.setFillColor(Color::Black);
-    creditsText.setPosition(800, 100);
-    creditsText.setOutlineColor(Color::Red);
-    creditsText.setOutlineThickness(8);
     
     whiteName.setFont(font);
     whiteName.setString("Gregorio");

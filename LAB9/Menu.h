@@ -20,23 +20,22 @@ public:
 	}
 
 	
-	RectangleShape playButton, settingsButton, closeButton;
+	CircleShape playButton, settingsButton, closeButton;
 	void update();
 	void drawGraphics(RenderWindow& window);
 	
 	
 private:
 	
-	Font font;
+	Font font; 
 	Texture background_TXT;
 	Texture white_TXT;
 	Texture but_TXT;
 	Texture logo_TXT;
-	Texture button_TXT;
 
 	
 	Sprite backgroundSPR, logoSPR, whiteSPR, butSPR;
-	Text playText, settingsText, closeText, whiteName, butName, whiteLastname, butLastname, creditsText;
+	Text whiteName, butName, whiteLastname, butLastname;
 
 	void loadAssets();
 };
