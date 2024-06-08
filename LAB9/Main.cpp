@@ -624,7 +624,7 @@ int main() {
     Tank tank(1500, 800, 0.1f, 200, tank1Icon_texture, 0.2,false,30);
     Map map1("map1background.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
     Map map2("map2background2.png", "longWallmap2.png", "shortWallmap2.png", "block1map2.png", "block2map2.png");
-    Map map3("map3background.png", "longWallmap3.png", "shortWallmap3.png", "block1map3.png", "block2map3.png");
+    Map map3("map3background3.png", "longWallmap3.png", "shortWallmap3.png", "block1map3.png", "block2map3.png");
     Map map4("map4background.png", "car1map4.png", "car2map4.png", "car2map4.png", "car3map4.png");
     Map* choosen_map;
     choosen_map = &map1;
@@ -769,6 +769,7 @@ int main() {
                         if (selectedSprite(mapwindow, mw.map1SPR))
                         {
                             choosen_map = &map1;
+                            choosen_map->initializeMap1();
                             tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                             mapwindow.close();
                         }
@@ -777,6 +778,7 @@ int main() {
                             //if (map1completed)
                             //{
                                 choosen_map = &map2;
+                                choosen_map->initializeMap2();
                                 tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                                 mapwindow.close();
                             //}                            
@@ -786,6 +788,7 @@ int main() {
                             //if (map2completed)
                             //{
                                 choosen_map = &map3;
+                                choosen_map->initializeMap3();
                                 tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                                 mapwindow.close();
                             //}                            
@@ -795,6 +798,7 @@ int main() {
                             //if (map3completed)
                             //{
                                 choosen_map = &map4;
+                                choosen_map->initializeMap4();
                                 tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                                 mapwindow.close();
                             //}                            

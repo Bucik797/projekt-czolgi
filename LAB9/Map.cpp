@@ -13,7 +13,7 @@ Map::Map(const string& backgroundFile, const string& longWallFile, const string&
     }
     
 
-    initializeMap2();
+    initializeMap3();
 }
 
 Map::Map(const string& result_file)
@@ -258,6 +258,96 @@ void Map::initializeMap2()
     Sprite block24_sprite(block2_texture);
     block24_sprite.setPosition(145, 678);
     block24_sprite.setScale(0.5f, 0.5f);
+    blocks.push_back(block24_sprite);
+}
+
+void Map::initializeMap3()
+{
+    
+
+    this->setTexture(background_texture);
+    //this->setTextureRect(IntRect(0, 200, 1600, 900));
+    this->setScale(2, 2);
+    this->setPosition(0, 0);
+
+    // 1600 x 900
+    Sprite longWall_sprite1(longWall_texture);
+    longWall_sprite1.setPosition(750, 150);
+    longWall_sprite1.setScale(0.5f, 0.5f);
+    walls.push_back(longWall_sprite1);
+
+    Sprite longWall_sprite2(longWall_texture);
+    longWall_sprite2.rotate(-90);
+    longWall_sprite2.setPosition(1180, 746);
+    longWall_sprite2.setScale(0.5f, 0.5f);
+    walls.push_back(longWall_sprite2);
+    
+    Sprite longWall_sprite7(longWall_texture);
+    longWall_sprite7.setPosition(256, 485);
+    longWall_sprite7.setScale(0.5f, 0.5f);
+    walls.push_back(longWall_sprite7);
+
+    Sprite longWall_sprite8(longWall_texture);
+    longWall_sprite8.rotate(90);
+    longWall_sprite8.setPosition(1550, 200);
+    longWall_sprite8.setScale(0.5f, 0.5f);
+    walls.push_back(longWall_sprite8);
+
+
+
+    //6 blok 8 sciana
+
+
+    Sprite shortWall_sprite(shortWall_texture);
+    shortWall_sprite.setPosition(250, 150);
+    shortWall_sprite.setScale(0.5f, 0.5f);
+    walls.push_back(shortWall_sprite);
+
+    Sprite shortWall2_sprite(shortWall_texture);
+    shortWall2_sprite.rotate(90);
+    shortWall2_sprite.setPosition(559, 768);
+    shortWall2_sprite.setScale(0.5f, 0.5f);
+    walls.push_back(shortWall2_sprite);
+
+    Sprite shortWall3_sprite(shortWall_texture);
+    shortWall3_sprite.rotate(90);
+    shortWall3_sprite.setPosition(1000, 350);
+    shortWall3_sprite.setScale(0.5f, 0.5f);
+    walls.push_back(shortWall3_sprite);
+
+    Sprite shortWall4_sprite(shortWall_texture);
+    //shortWall4_sprite.rotate(90);
+    shortWall4_sprite.setPosition(666, 666);
+    shortWall4_sprite.setScale(0.5f, 0.5f);
+    walls.push_back(shortWall4_sprite);
+
+
+
+    Sprite block1_sprite(block1_texture);
+    block1_sprite.setPosition(650, 440);
+    block1_sprite.setScale(0.7f, 0.7f);
+    blocks.push_back(block1_sprite);
+
+
+
+    Sprite block21_sprite(block1_texture);
+    block21_sprite.setPosition(1200, 90);
+    block21_sprite.setScale(0.7f, 0.7f);
+    blocks.push_back(block21_sprite);
+
+    Sprite block22_sprite(block1_texture);
+    block22_sprite.setPosition(200, 50);
+    block22_sprite.setScale(0.7f, 0.7f);
+    blocks.push_back(block22_sprite);
+
+    Sprite block23_sprite(block2_texture);
+    block23_sprite.setPosition(1030, 670);
+    block23_sprite.setScale(0.7f, 0.7f);
+    blocks.push_back(block23_sprite);
+
+    Sprite block24_sprite(block2_texture);
+    block24_sprite.setPosition(145, 678);
+    block24_sprite.setScale(0.7f, 0.7f);
     blocks.push_back(block24_sprite);
 }
 
