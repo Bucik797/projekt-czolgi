@@ -198,6 +198,14 @@ void checkCollision(Tank& tank, const Map* map) {
         }
     }
 
+    for (const auto car : map->getmovingCars())
+    {
+        if (tank.getGlobalBounds().intersects(car.getGlobalBounds()))
+        {
+            tank.setHealth(0);
+        }
+    }
+
     //return false;  // Jeli nie wykryto ¿adnej kolizji, zwróæ false
 }
 
@@ -278,6 +286,19 @@ void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& windo
 
         if (!isErased)
         {
+            for (const auto& car : map->getmovingCars())
+            {
+                if (it->getGlobalBounds().intersects(car.getGlobalBounds()))
+                {
+                    it = bullets.erase(it);
+                    isErased = true;
+                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                }
+            }
+        }
+
+        if (!isErased)
+        {
             for ( auto& enemy : enemies)
             {
                 if (it->getGlobalBounds().intersects(enemy->getGlobalBounds()))
@@ -324,10 +345,11 @@ void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& 
     }
 }
 
-void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& resultwindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c, Mapwindow& mw, Map& gameover, Map& ggwp, Tank& tank)
+void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& resultwindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c, Mapwindow& mw, Map& gameover, Map& ggwp, Tank& tank, Map* choosen_map)
 {
     if (enemies.size() == 0)
     {
+        choosen_map->setCompleted(true);
         m1c = true;
         mw.update(m1c, false, false);  // Wywołanie update po ustawieniu m1c
         resultwindow.create(VideoMode(845,607), "resultwindow");
@@ -447,6 +469,19 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
                 }
             }
         }
+
+        if (!isErased)
+        {
+            for (const auto& car : map->getmovingCars())
+            {
+                if (it->getGlobalBounds().intersects(car.getGlobalBounds()))
+                {
+                    it = e1b.erase(it);
+                    isErased = true;
+                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                }
+            }
+        }
         
         if (!isErased)
         {
@@ -523,6 +558,20 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
 
         if (!isErased)
         {
+            for (const auto& car : map->getmovingCars())
+            {
+                if (it->getGlobalBounds().intersects(car.getGlobalBounds()))
+                {
+                    it = e2b.erase(it);
+                    isErased = true;
+                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                }
+            }
+        }
+
+
+        if (!isErased)
+        {
             if (it->getGlobalBounds().intersects(tank.getGlobalBounds()))
             {
                 it = e2b.erase(it);
@@ -574,14 +623,15 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank& tank)
     
 }
 
-int main() {
+int main()
+{
     int window_width = 1600;
     int window_height = 900;
     int resulstwin_width = 765;
     int resultwin_height = 474;
 
 
-    RenderWindow battleWindow, loadingwindow, menuwindow, settingswindow, mapwindow, tankwindow,resultwindow;
+    RenderWindow battleWindow, loadingwindow, menuwindow, settingswindow, mapwindow, tankwindow, resultwindow;
     bool isFullscreen = false;
     bool loaded = false;
     bool driving_backwards;
@@ -593,7 +643,7 @@ int main() {
     Clock bulletClock;
     Clock enemy1ShootsClock;
     Clock enemy2ShootsClock;
-    
+
 
     vector <Bullet> bullets;
     vector <Bullet> enemy1_bullets;
@@ -602,30 +652,33 @@ int main() {
 
     Direction angle;
 
-    RectangleShape closeButton,resultButton;
+    RectangleShape closeButton, resultButton;
     Sprite map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, tank1Icon_sprite;
     Sprite longWall1_sprite, shortWall_sprite, block1_sprite, block2_sprite;
     Texture longWall_texture, shortWall_texture, block1_texture, block2_texture;
     Texture map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_texture;
-    Text closeText; 
+    Text closeText;
     Font font;
-       
+
     Sound music;
     SoundBuffer music_buffer;
-        //Music music;
+    //Music music;
 
-   closebutton(closeButton, closeText, font, "Close", 1200, 800);
+    closebutton(closeButton, closeText, font, "Close", 1200, 800);
     setBattleGraphics(map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_sprite, tank1Icon_texture);
 
     playMusic(music, music_buffer);
-        //music.play();
+    //music.play();
 
 
-    Tank tank(1500, 800, 0.1f, 200, tank1Icon_texture, 0.2,false,30);
-    Map map1("map1background.png", "longWall.png", "shortWall.png", "block1.png", "block2.png");
-    Map map2("map2background2.png", "longWallmap2.png", "shortWallmap2.png", "block1map2.png", "block2map2.png");
-    Map map3("map3background3.png", "longWallmap3.png", "shortWallmap3.png", "block1map3.png", "block2map3.png");
-    Map map4("map4background.png", "car1map4.png", "car2map4.png", "car2map4.png", "car3map4.png");
+    Tank tank(1500, 400, 0.1f, 200, tank1Icon_texture, 0.2, false, 30);
+    Tank tank1(1500, 800, 0.1f, 200, tank1Icon_texture, 0.2, false, 30);
+    Tank tank2(1500, 800, 0.1f, 200, tank1Icon_texture, 0.2, false, 30);
+    Tank* choosen_tank;
+    Map map1("map1background.png", "longWall.png", "shortWall.png", "block1.png", "block2.png", false);
+    Map map2("map2background2.png", "longWallmap2.png", "shortWallmap2.png", "block1map2.png", "block2map2.png", false);
+    Map map3("map3background3.png", "longWallmap3.png", "shortWallmap3.png", "block1map3.png", "block2map3.png", false);
+    Map map4("map4background4.png", "car1map4.png", "car2map4.png", "car3map4.png", "car4map4.png", false);
     Map* choosen_map;
     choosen_map = &map1;
     Map gameover("gameover.png");
@@ -637,7 +690,7 @@ int main() {
     for (auto& enemy : enemies) {
         cout << enemy->getPosition().x << " " << enemy->getPosition().y << endl;
 
-  }
+    }
 
 
     loadingwindow.create(VideoMode(1300, 700), "Loadingscreen", Style::None);
@@ -647,7 +700,7 @@ int main() {
     Menu menu;
     Settings sts;
     Mapwindow mw;
-    Tankwindow tw;    
+    Tankwindow tw;
     battleWindow.setFramerateLimit(30);
 
     while (loadingwindow.isOpen())
@@ -692,7 +745,7 @@ int main() {
 
         while (menuwindow.pollEvent(event))
         {
-            
+
             if (event.type == Event::Closed)
             {
                 menuwindow.close();
@@ -716,7 +769,7 @@ int main() {
                         mapwindow.create(VideoMode(window_width, window_height), "Mapwindow", Style::None);
                         //menuwindow.setVisible(false);
                         menuwindow.close();
-                    }                    
+                    }
                 }
             }
         }
@@ -730,7 +783,8 @@ int main() {
 
                     menuwindow.setVisible(true);
                     settingswindow.close();
-;                }
+                    ;
+                }
                 if (event2.type == Event::MouseButtonPressed) {
                     if (event2.mouseButton.button == Mouse::Left) {
                         if (buttonClicked(settingswindow, sts.closeButton))
@@ -775,33 +829,33 @@ int main() {
                         }
                         if (selectedSprite(mapwindow, mw.map2SPR))
                         {
-                            //if (map1completed)
-                            //{
+                            if (map1.getCompleted())
+                            {
                                 choosen_map = &map2;
                                 choosen_map->initializeMap2();
                                 tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                                 mapwindow.close();
-                            //}                            
+                            }
                         }
                         if (selectedSprite(mapwindow, mw.map3SPR))
                         {
-                            //if (map2completed)
-                            //{
+                            if (map2.getCompleted())
+                            {
                                 choosen_map = &map3;
                                 choosen_map->initializeMap3();
                                 tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                                 mapwindow.close();
-                            //}                            
+                            }
                         }
                         if (selectedSprite(mapwindow, mw.map4SPR))
                         {
-                            //if (map3completed)
-                            //{
+                            if (map3.getCompleted())
+                            {
                                 choosen_map = &map4;
                                 choosen_map->initializeMap4();
                                 tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                                 mapwindow.close();
-                            //}                            
+                            }
                         }
                     }
                 }
@@ -827,10 +881,11 @@ int main() {
                             }
                             if (buttonClicked(tankwindow, tw.playButton))
                             {
-                                
+
                                 battleWindow.create(VideoMode(window_width, window_height), "map1");
                                 createEnemies(enemies);
                                 tank.setHealth(5000);
+                                tank.setPosition(1500, 450);
                                 tankwindow.close();
                             }
                         }
@@ -843,27 +898,31 @@ int main() {
 
                 while (battleWindow.isOpen())
                 {
-                    
+
                     Event event5;
                     battleWindow.clear();
                     choosen_map->drawGraphics(battleWindow);
-                    //map2.drawGraphics(battleWindow);
-                    
-                    
+                    // if (choosen_map = &map4)
+                     //{
+
+                         //map4.moveSprites(battleWindow);
+                     //}
+
+
                     tank.driving();
                     tank.boundCollision(battleWindow);
                     setBulletPosition(tank, bullets, bulletClock);
                     setEnemybulletPosition(enemies, enemy1_bullets, enemy2_bullets, enemy1ShootsClock, enemy2ShootsClock, tank);
-                    
-                    checkCollision(tank, choosen_map); 
+
+                    checkCollision(tank, choosen_map);
 
 
                     while (battleWindow.pollEvent(event5))
                     {
                         if (event5.type == Event::Closed)
                         {
-                            tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None)
-;                           battleWindow.close();
+                            tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
+                            battleWindow.close();
 
                         }
                         if (event5.type == Event::MouseButtonPressed) {
@@ -875,24 +934,24 @@ int main() {
                                 }
                             }
                         }
-                    }                                       
-                    
+                    }
+
                     battleWindow.draw(tank);
                     flyingBullets(bullets, battleWindow);
-                    flyingEnemyBullets(enemy1_bullets, enemy2_bullets, battleWindow, 0.2f,0.5f);
-                    bulletsCollide(choosen_map, bullets, battleWindow,enemies,tank);
+                    flyingEnemyBullets(enemy1_bullets, enemy2_bullets, battleWindow, 0.2f, 0.5f);
+                    bulletsCollide(choosen_map, bullets, battleWindow, enemies, tank);
                     enemyBulletsCollide(choosen_map, enemy1_bullets, enemy2_bullets, battleWindow, tank, enemies);
                     collisionDamage(enemies, tank);
-                    
+
                     drawEnemies(enemies, battleWindow, tank);
-                    
+
                     battleWindow.draw(closeButton);
                     battleWindow.draw(closeText);
-                    mapResult(enemies, resultwindow, battleWindow, resulstwin_width, resultwin_height, map1completed, mw,gameover,ggwp,tank);
+                    mapResult(enemies, resultwindow, battleWindow, resulstwin_width, resultwin_height, map1completed, mw, gameover, ggwp, tank, choosen_map);
                     mw.update(map1completed, map2completed, map3completed);
                     battleWindow.display();
 
-                    
+
 
                 }
 
@@ -900,15 +959,15 @@ int main() {
                 {
                     resultwindow.clear();
 
-                    //if (map1completed)
-                    //{
-                      //  ggwp.drawGGWP(resultwindow, resultButton);
-                    //}
-                    //else
-                    //{
-                        gameover.drawGameOver(resultwindow, resultButton,enemies);
-                    //}
-                    
+                    if (choosen_map->getCompleted())
+                    {
+                        ggwp.drawGGWP(resultwindow, resultButton);
+                    }
+                    else
+                    {
+                        gameover.drawGameOver(resultwindow, resultButton, enemies);
+                    }
+
                     Event resultevent;
 
                     while (resultwindow.pollEvent(resultevent))
@@ -933,23 +992,29 @@ int main() {
                     }
                     resultwindow.display();
                 }
-                
+
 
             }
+
             mapwindow.clear();
             mw.update(map1completed, map2completed, map3completed);
             mw.drawGraphics(mapwindow);
             mapwindow.display();
-        
         }
+
+
         menuwindow.clear();
         menu.drawGraphics(menuwindow);
         menuwindow.display();
-
     }
-
     return 0;
 }
+        
+
+    
+
+        
+
 
 
 

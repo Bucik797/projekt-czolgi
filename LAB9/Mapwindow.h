@@ -26,6 +26,7 @@ public:
 
 private:
 	
+
 	Font font, mapFont;
 	Texture background_TXT;
 	Texture logo_TXT;
