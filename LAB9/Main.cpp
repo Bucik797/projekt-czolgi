@@ -345,13 +345,25 @@ void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& 
     }
 }
 
-void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& resultwindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c, Mapwindow& mw, Map& gameover, Map& ggwp, Tank& tank, Map* choosen_map)
+void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& resultwindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c,bool& m2c, bool& m3c,bool& gmc, Mapwindow& mw, Map& gameover, Map& ggwp, Tank& tank, Map* choosen_map, Map& map2, Map& map3,Map& map4)
 {
     if (enemies.size() == 0)
     {
         choosen_map->setCompleted(true);
+        if (map2.getCompleted())
+        {
+            m2c = true;
+        }
+        if (map3.getCompleted())
+        {
+            m3c = true;
+        }
+        if (map4.getCompleted())
+        {
+            gmc = true;
+        }
         m1c = true;
-        mw.update(m1c, false, false);  // Wywołanie update po ustawieniu m1c
+        mw.update(m1c, m2c, m3c);  // Wywołanie update po ustawieniu m1c
         resultwindow.create(VideoMode(845,607), "resultwindow");
         
         
@@ -361,7 +373,7 @@ void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& re
     if (tank.getHealth()==0)
     {
         cout << tank.getHealth();
-        mw.update(m1c, false, false);  // Wywołanie update po ustawieniu m1c
+        //mw.update(m1c, false, false);  // Wywołanie update po ustawieniu m1c
         resultwindow.create(VideoMode(window_width, window_height), "resultwindow");
         battleWindow.close();
     }
@@ -947,8 +959,8 @@ int main()
 
                     battleWindow.draw(closeButton);
                     battleWindow.draw(closeText);
-                    mapResult(enemies, resultwindow, battleWindow, resulstwin_width, resultwin_height, map1completed, mw, gameover, ggwp, tank, choosen_map);
-                    mw.update(map1completed, map2completed, map3completed);
+                    mapResult(enemies, resultwindow, battleWindow, resulstwin_width, resultwin_height, map1completed,map2completed, map3completed,gamecompleted, mw, gameover, ggwp, tank, choosen_map,map2,map3,map4);
+                    //mw.update(map1completed, map2completed, map3completed);
                     battleWindow.display();
 
 
@@ -997,7 +1009,7 @@ int main()
             }
 
             mapwindow.clear();
-            mw.update(map1completed, map2completed, map3completed);
+           // mw.update(map1completed, map2completed, map3completed);
             mw.drawGraphics(mapwindow);
             mapwindow.display();
         }
