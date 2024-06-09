@@ -16,6 +16,7 @@ EnemyManager::EnemyManager(int hp, int strength, int speed, const string enemyFi
     }
     explosion_texture.loadFromFile("boom.png");
     explosion_sprite.setTexture(explosion_texture);
+    explosion_sprite2.setTexture(explosion_texture);
 
 }
 
@@ -49,12 +50,33 @@ void EnemyManager::dealRangeDamageAnimation(Tank& tank)
 
 }
 
-void EnemyManager::update(float dt) {
-    if (show_explosion) {
+
+void EnemyManager::takeDamageAnimation(Tank& tank)
+{
+    explosion_sprite2.setPosition(this->getCurrentPosition().x, this->getCurrentPosition().y);
+    show_E_explosion = true;
+    explosion_E_timer = 0.0;
+
+}
+
+
+void EnemyManager::update(float dt,float dt1) {
+    if (show_explosion) 
+    {
         explosion_timer += dt;
-        if (explosion_timer >= explosion_duration) {
+        if (explosion_timer >= explosion_duration) 
+        {
             show_explosion = false;
             animation_finished = true;
+        }
+    }
+
+    if (show_E_explosion)
+    {
+        explosion_E_timer +=dt1;
+        if (explosion_E_timer >= explosion_duration)
+        {
+            show_E_explosion = false;
         }
     }
 }
@@ -95,5 +117,10 @@ void EnemyManager::drawEnemy(RenderWindow& window)
     if (show_explosion)
     {
         window.draw(explosion_sprite);
+    }
+
+    if (show_E_explosion)
+    {
+        window.draw(explosion_sprite2);
     }
 }

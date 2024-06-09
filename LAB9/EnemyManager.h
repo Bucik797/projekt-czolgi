@@ -17,10 +17,13 @@ protected:
     int id;
     Texture explosion_texture;
     Sprite explosion_sprite;
+    Sprite explosion_sprite2;
     bool show_explosion = false;
+    bool show_E_explosion = false;
     bool animation_finished = false;
     float explosion_duration = 0.2; 
     float explosion_timer = 0.0;
+    float explosion_E_timer = 0.0;
 
 
 public:
@@ -32,8 +35,9 @@ public:
     void takeDamage(Tank& tank);
     void dealDamage(Tank& tank);
     void dealRangeDamageAnimation(Tank& tank);
+    void takeDamageAnimation(Tank& tank);
     void drawEnemy(RenderWindow& window);
-    void update(float dt);
+    void update(float dt,float dt1);
     
 
     //Gettery 
