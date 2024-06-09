@@ -101,13 +101,15 @@ void playMusic(Sound& music, SoundBuffer& music_buffer)
     music.setBuffer(music_buffer);
 }
 
-void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_sprite, Sprite& map3Background_sprite, Sprite& map4Background_sprite, Texture& map1Background_texture, Texture& map2Background_texture, Texture& map3Background_texture, Texture& map4Background_texture, Sprite& tank1Icon_sprite, Texture& tank1Icon_texture)
+void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_sprite, Sprite& map3Background_sprite, Sprite& map4Background_sprite, Texture& map1Background_texture, Texture& map2Background_texture, Texture& map3Background_texture, Texture& map4Background_texture, Texture& tank1Icon_texture, Texture& tank2Icon_texture, Texture& tank3Icon_texture)
 {
     if (//!map1Background_texture.loadFromFile("map11.png")
          !map2Background_texture.loadFromFile("map1.png")
         || !map3Background_texture.loadFromFile("map1.png")
         || !map4Background_texture.loadFromFile("map1.png")
-        || !tank1Icon_texture.loadFromFile("redTank.png"))
+        || !tank1Icon_texture.loadFromFile("yellow1Tank.png")
+        || !tank2Icon_texture.loadFromFile("red1Tank.png")
+        || !tank3Icon_texture.loadFromFile("blue1Tank.png"))
         
     {
         cout << "Failed to load textures" << endl;
@@ -131,14 +133,14 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
 
 }
 
-void checkCollision(Tank& tank, const Map* map) {
+void checkCollision(Tank* tank, const Map* map) {
     // Sprawdzenie kolizji czo³gu z ka¿d¹ cian¹ na mapie
     for (const auto& wall : map->getWalls()) {
-        if (tank.getGlobalBounds().intersects(wall.getGlobalBounds())) {
+        if (tank->getGlobalBounds().intersects(wall.getGlobalBounds())) {
             //return true;  // Jeli wykryto kolizjê, zwróæ true
 
 
-            FloatRect tankBounds = tank.getGlobalBounds();
+            FloatRect tankBounds = tank->getGlobalBounds();
             
             FloatRect wallBounds = wall.getGlobalBounds();
 
@@ -152,19 +154,19 @@ void checkCollision(Tank& tank, const Map* map) {
             float minOverlap = min({ overlapLeft, overlapRight, overlapTop, overlapBottom });
 
             if (minOverlap == overlapLeft) {
-                tank.setPosition(wallBounds.left - tankBounds.width+32, tank.getPosition().y);
+                tank->setPosition(wallBounds.left - tankBounds.width+32, tank->getPosition().y);
                 //cout << "left" << endl;
             }
             else if (minOverlap == overlapRight) {
-                tank.setPosition(wallBounds.left + wallBounds.width+30, tank.getPosition().y);
+                tank->setPosition(wallBounds.left + wallBounds.width+30, tank->getPosition().y);
                 //cout << "roght" << endl;
             }
             else if (minOverlap == overlapTop) {
-                tank.setPosition(tank.getPosition().x, wallBounds.top - tankBounds.height+30);
+                tank->setPosition(tank->getPosition().x, wallBounds.top - tankBounds.height+30);
                 //cout << "top" << endl;
             }
             else if (minOverlap == overlapBottom) {
-                tank.setPosition(tank.getPosition().x, wallBounds.top + wallBounds.height+25);
+                tank->setPosition(tank->getPosition().x, wallBounds.top + wallBounds.height+25);
                 //cout << "bottom" << endl;
             }
 
@@ -174,12 +176,12 @@ void checkCollision(Tank& tank, const Map* map) {
 
     // Sprawdzenie kolizji czo³gu z ka¿dym blokiem na mapie
     for (const auto& block : map->getBlocks()) {
-        if (tank.getGlobalBounds().intersects(block.getGlobalBounds())) {
-            if (tank.getGlobalBounds().intersects(block.getGlobalBounds())) {
+        if (tank->getGlobalBounds().intersects(block.getGlobalBounds())) {
+            if (tank->getGlobalBounds().intersects(block.getGlobalBounds())) {
                 //return true;  // Jeli wykryto kolizjê, zwróæ true
 
 
-                FloatRect tankBounds = tank.getGlobalBounds();
+                FloatRect tankBounds = tank->getGlobalBounds();
 
                 FloatRect wallBounds = block.getGlobalBounds();
 
@@ -193,19 +195,19 @@ void checkCollision(Tank& tank, const Map* map) {
                 float minOverlap = min({ overlapLeft, overlapRight, overlapTop, overlapBottom });
 
                 if (minOverlap == overlapLeft) {
-                    tank.setPosition(wallBounds.left - tankBounds.width + 32, tank.getPosition().y);
+                    tank->setPosition(wallBounds.left - tankBounds.width + 32, tank->getPosition().y);
                     //cout << "left" << endl;
                 }
                 else if (minOverlap == overlapRight) {
-                    tank.setPosition(wallBounds.left + wallBounds.width + 30, tank.getPosition().y);
+                    tank->setPosition(wallBounds.left + wallBounds.width + 30, tank->getPosition().y);
                     //cout << "roght" << endl;
                 }
                 else if (minOverlap == overlapTop) {
-                    tank.setPosition(tank.getPosition().x, wallBounds.top - tankBounds.height + 32);
+                    tank->setPosition(tank->getPosition().x, wallBounds.top - tankBounds.height + 32);
                     //cout << "top" << endl;
                 }
                 else if (minOverlap == overlapBottom) {
-                    tank.setPosition(tank.getPosition().x, wallBounds.top + wallBounds.height + 25);
+                    tank->setPosition(tank->getPosition().x, wallBounds.top + wallBounds.height + 25);
                     //cout << "bottom" << endl;
                 }
 
@@ -216,26 +218,26 @@ void checkCollision(Tank& tank, const Map* map) {
 
     for (const auto car : map->getmovingCars())
     {
-        if (tank.getGlobalBounds().intersects(car.getGlobalBounds()))
+        if (tank->getGlobalBounds().intersects(car.getGlobalBounds()))
         {
-            tank.setHealth(0);
+            tank->setHealth(0);
         }
     }
 
     //return false;  // Jeli nie wykryto ¿adnej kolizji, zwróæ false
 }
 
-void setBulletPosition(Tank& tank, vector<Bullet>& bullets, Clock& bulletClock)
+void setBulletPosition(Tank* tank, vector<Bullet>& bullets, Clock& bulletClock)
 {
     
     if (Keyboard::isKeyPressed(Keyboard::Space) && bulletClock.getElapsedTime().asSeconds()>0.5)
     {
 
         bullets.push_back(Bullet(0.3f,10));
-        bullets.back().setPosition(tank.getCurrentPosition());
+        bullets.back().setPosition(tank->getCurrentPosition());
         bullets.back().setOrigin(5, 5);
         bullets.back().setRadius(5);
-        bullets.back().setRotation(tank.getRotation());
+        bullets.back().setRotation(tank->getRotation());
         bulletClock.restart();
         //tank.setSpeed(tank.getSpeed() + 0.02f);
         //cout << bullets.size();
@@ -258,7 +260,7 @@ void flyingBullets(vector<Bullet>& bullets, RenderWindow& window)
     }
 }
 
-void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& window, vector<std::unique_ptr<EnemyManager>>& enemies, Tank& tank)
+void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& window, vector<std::unique_ptr<EnemyManager>>& enemies, Tank* tank)
 {
     for (auto it = bullets.begin(); it != bullets.end();)
     {
@@ -319,8 +321,8 @@ void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& windo
             {
                 if (it->getGlobalBounds().intersects(enemy->getGlobalBounds()))
                 {
-                    enemy->takeDamageAnimation(tank);
-                    enemy->takeDamage(tank);
+                    enemy->takeDamageAnimation(*tank);
+                    enemy->takeDamage(*tank);
                     if (enemy->getHp() <= 0) {
                         enemy.reset(); // Usuń obiekt przeciwnika
                     }
@@ -380,20 +382,56 @@ void createEnemiesMap4(vector<unique_ptr<EnemyManager>>& enemies)
     enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 750, 650, 4));
 }
 
+void mapSelect(Map* choosen_map, Map& map1, Map map2, Map& map3, Map& map4, vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& battleWindow, RenderWindow& tankwindow)
+{
+    if (choosen_map == &map1)
+    {
+        cout << "created enemies 1" << endl;
+        createEnemiesMap1(enemies);
+    }
 
-void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& window, Tank& tank)
+    if (choosen_map == &map2)
+    {
+        cout << "create enemies 2" << endl;
+        createEnemiesMap2(enemies);
+    }
+    if (choosen_map == &map3)
+    {
+        cout << "create enemies 3" << endl;
+        createEnemiesMap3(enemies);
+    }
+
+    if (choosen_map == &map4)
+    {
+        cout << "create enemies 4" << endl;
+        createEnemiesMap4(enemies);
+    }
+    battleWindow.create(VideoMode(1600,900), "map1");
+    tankwindow.close();
+}
+
+void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& window, Tank* tank)
 {
     for (const auto& enemy : enemies) {
         enemy->drawEnemy(window);
-        enemy->move(tank);
+        enemy->move(*tank);
         
     }
 }
 
-void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& resultwindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c,bool& m2c, bool& m3c,bool& gmc, Mapwindow& mw, Map& gameover, Map& ggwp, Tank& tank, Map* choosen_map, Map& map2, Map& map3,Map& map4)
+void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& resultwindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c,bool& m2c, bool& m3c,bool& gmc, Mapwindow& mw, Map& gameover, Map& ggwp, Tank* tank, Map* choosen_map, Map& map2, Map& map3,Map& map4)
 {
-    if (enemies.size() == 0)
+
+    if (tank->getHealth() == 0)
     {
+        cout << "TANK DEAD" << endl;
+        //mw.update(m1c, false, false);  // Wywołanie update po ustawieniu m1c
+        resultwindow.create(VideoMode(window_width, window_height), "resultwindow");
+        battleWindow.close();
+    }
+    else if(enemies.size() == 0)
+    {
+        cout << "enemies dead" << endl;
         choosen_map->setCompleted(true);
         if (map2.getCompleted())
         {
@@ -409,23 +447,19 @@ void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& re
         }
         m1c = true;
         mw.update(m1c, m2c, m3c);  // Wywołanie update po ustawieniu m1c
-        resultwindow.create(VideoMode(845,607), "resultwindow");
-        
-        
+        resultwindow.create(VideoMode(845, 607), "resultwindow");
+
+
         battleWindow.close();
     }
 
-    if (tank.getHealth()==0)
-    {
-        cout << tank.getHealth();
-        //mw.update(m1c, false, false);  // Wywołanie update po ustawieniu m1c
-        resultwindow.create(VideoMode(window_width, window_height), "resultwindow");
-        battleWindow.close();
-    }
+    //cout << "playing" << endl;
+
+    
 }
 
 
-void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vector<Bullet>& e1b, vector<Bullet>& e2b, Clock& e1sc, Clock& e2sc, Tank& tank, Clock& e3sc)
+void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vector<Bullet>& e1b, vector<Bullet>& e2b, Clock& e1sc, Clock& e2sc, Tank* tank, Clock& e3sc)
 {
     
     if (e1sc.getElapsedTime().asSeconds() > 1.2)
@@ -438,7 +472,7 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vec
                 e1b.back().setPosition(enemy->getCurrentPosition().x+20,enemy->getCurrentPosition().y+20);
                 e1b.back().setOrigin(5, 5);
                 e1b.back().setRadius(5);
-                e1b.back().setAngle(atan2(tank.getPosition().y - e1b.back().getPosition().y, tank.getPosition().x - e1b.back().getPosition().x));
+                e1b.back().setAngle(atan2(tank->getPosition().y - e1b.back().getPosition().y, tank->getPosition().x - e1b.back().getPosition().x));
                 //break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
             }
         }
@@ -457,7 +491,7 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vec
                 e2b.back().setPosition(enemy->getCurrentPosition().x + 20, enemy->getCurrentPosition().y + 20);
                 e2b.back().setOrigin(5, 5);
                 e2b.back().setRadius(7);
-                e2b.back().setAngle(atan2(tank.getPosition().y - e2b.back().getPosition().y, tank.getPosition().x - e2b.back().getPosition().x));
+                e2b.back().setAngle(atan2(tank->getPosition().y - e2b.back().getPosition().y, tank->getPosition().x - e2b.back().getPosition().x));
                 
             }
         }
@@ -474,7 +508,7 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vec
                 e2b.back().setPosition(enemy->getCurrentPosition().x + 20, enemy->getCurrentPosition().y + 20);
                 e2b.back().setOrigin(5, 5);
                 e2b.back().setRadius(7);
-                e2b.back().setAngle(atan2(tank.getPosition().y - e2b.back().getPosition().y, tank.getPosition().x - e2b.back().getPosition().x));
+                e2b.back().setAngle(atan2(tank->getPosition().y - e2b.back().getPosition().y, tank->getPosition().x - e2b.back().getPosition().x));
 
             }
         }
@@ -508,7 +542,7 @@ void boomAnimation(const vector<unique_ptr<EnemyManager>>& enemies,float dt,floa
     }
 }
     
-void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& window, Tank& tank, vector<unique_ptr<EnemyManager>>& enemies)
+void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& window, Tank* tank, vector<unique_ptr<EnemyManager>>& enemies)
 {
     for (auto it = e1b.begin(); it != e1b.end();)
     {
@@ -565,13 +599,13 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
         
         if (!isErased)
         {
-            if (it->getGlobalBounds().intersects(tank.getGlobalBounds()))
+            if (it->getGlobalBounds().intersects(tank->getGlobalBounds()))
             {
                 it = e1b.erase(it);
                 for (const auto& enemy : enemies) {
                     if (enemy->getId() == 3) {
-                        enemy->dealRangeDamageAnimation(tank);
-                        enemy->dealDamage(tank);
+                        enemy->dealRangeDamageAnimation(*tank);
+                        enemy->dealDamage(*tank);
                         break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
                     }
                 }
@@ -652,14 +686,14 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
 
         if (!isErased)
         {
-            if (it->getGlobalBounds().intersects(tank.getGlobalBounds()))
+            if (it->getGlobalBounds().intersects(tank->getGlobalBounds()))
             {
                 it = e2b.erase(it);
                 for (const auto& enemy : enemies) {
                     if (enemy->getId() == 4) {
 
-                        enemy->dealRangeDamageAnimation(tank);
-                        enemy->dealDamage(tank);
+                        enemy->dealRangeDamageAnimation(*tank);
+                        enemy->dealDamage(*tank);
                         break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
                     }
                 }
@@ -686,17 +720,17 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
 
 }
 
-void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank& tank,Clock& zc)
+void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank* tank,Clock& zc)
 {
     for (auto it = enemies.begin(); it != enemies.end(); ++it) {
-        if ((*it)->getGlobalBounds().intersects(tank.getGlobalBounds()))
+        if ((*it)->getGlobalBounds().intersects(tank->getGlobalBounds()))
         {
 
             if ((*it)->getId() == 1)
             {
                 cout << "11111111111111111" << endl;
                 
-                (*it)->dealDamage(tank); 
+                (*it)->dealDamage(*tank); 
                 enemies.erase(it);
                 break;
                 
@@ -705,8 +739,8 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank& tank,Clock
             if ((*it)->getId() == 2 && zc.getElapsedTime().asSeconds()>1.0f)
             {
                 cout << "222222222222222222" << endl;
-                (*it)->dealDamage(tank);
-                (*it)->dealRangeDamageAnimation(tank);
+                (*it)->dealDamage(*tank);
+                (*it)->dealRangeDamageAnimation(*tank);
                 zc.restart();
             }
 
@@ -715,7 +749,7 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank& tank,Clock
             if ((*it)->getId() == 3 || (*it)->getId() == 4) 
             {
                 //(*it)->dealRangeDamageAnimation(tank);
-                tank.setHealth(0);
+                tank->setHealth(0);
                 enemies.erase(it);
                 break;
             }
@@ -764,7 +798,7 @@ int main()
     Sprite map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, tank1Icon_sprite;
     Sprite longWall1_sprite, shortWall_sprite, block1_sprite, block2_sprite;
     Texture longWall_texture, shortWall_texture, block1_texture, block2_texture;
-    Texture map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_texture;
+    Texture map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_texture, tank2Icon_texture, tank3Icon_texture;
     Text closeText;
     Font font;
 
@@ -773,16 +807,17 @@ int main()
     //Music music;
 
     closebutton(closeButton, closeText, font, "Close", 1200, 800);
-    setBattleGraphics(map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_sprite, tank1Icon_texture);
+    setBattleGraphics(map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_texture, tank2Icon_texture, tank3Icon_texture);
 
     playMusic(music, music_buffer);
     //music.play();
 
 
-    Tank tank(1500, 400, 0.1f, 200, tank1Icon_texture, 0.2, false, 30);
-    Tank tank1(1500, 800, 0.1f, 200, tank1Icon_texture, 0.2, false, 30);
-    Tank tank2(1500, 800, 0.1f, 200, tank1Icon_texture, 0.2, false, 30);
+    Tank tank1(1500, 450, 0.25f, 200, tank1Icon_texture, 0.25, false, 30);
+    Tank tank2(1500, 450, 0.15f, 400, tank2Icon_texture, 0.15, false, 45);
+    Tank tank3(1500, 450, 0.05f, 600, tank3Icon_texture, 0.05, false, 70);
     Tank* choosen_tank;
+    choosen_tank = &tank1;
     Map map1("map1background.png", "longWall.png", "shortWall.png", "block1.png", "block2.png", false);
     Map map2("map2background2.png", "longWallmap2.png", "shortWallmap2.png", "block1map2.png", "block2map2.png", false);
     Map map3("map3background3.png", "longWallmap3.png", "shortWallmap3.png", "block1map3.png", "block2map3.png", false);
@@ -989,35 +1024,32 @@ int main()
                                 mapwindow.create(VideoMode(window_width, window_height), "mapwindow", Style::None);
                                 tankwindow.close();
                             }
+
                             if (buttonClicked(tankwindow, tw.tank1button))
                             {
-                                if (choosen_map == &map1)
-                                {
-                                    createEnemiesMap1(enemies);
-                                }
-
-                                if (choosen_map == &map2)
-                                {
-                                    createEnemiesMap2(enemies);
-                                }
-                                if (choosen_map == &map3)
-                                {
-                                    createEnemiesMap3(enemies);
-                                }
-
-                                if (choosen_map == &map4)
-                                {
-                                    createEnemiesMap4(enemies);
-                                }
-
-
-
-                                battleWindow.create(VideoMode(window_width, window_height), "map1");
+                                choosen_tank = &tank1;
+                                choosen_tank->setHealth(200);
+                                choosen_tank->setPosition(1500, 450);
+                                mapSelect(choosen_map, map1, map2, map3, map4, enemies, battleWindow,tankwindow);    
                                 
-                                tank.setHealth(3000);
-                                tank.setPosition(1500, 450);
-                                tankwindow.close();
                             }
+
+                            if (buttonClicked(tankwindow, tw.tank2button))
+                            {
+                                choosen_tank = &tank2;
+                                choosen_tank->setHealth(400);
+                                choosen_tank->setPosition(1500, 450);
+                                mapSelect(choosen_map, map1, map2, map3, map4, enemies, battleWindow, tankwindow);
+                            }
+
+                            if (buttonClicked(tankwindow, tw.tank3button))
+                            {
+                                choosen_tank = &tank3; 
+                                choosen_tank->setHealth(600);
+                                choosen_tank->setPosition(1500, 450);
+                                mapSelect(choosen_map, map1, map2, map3, map4, enemies, battleWindow, tankwindow);
+                            }
+
                         }
                     }
                 }
@@ -1038,12 +1070,12 @@ int main()
                              map4.moveSprites(battleWindow);
                          }
 
-                    tank.driving();
-                    tank.boundCollision(battleWindow);
-                    setBulletPosition(tank, bullets, bulletClock);
-                    setEnemybulletPosition(enemies, enemy_bullets, enemy2_bullets, enemy1ShootsClock, enemy2ShootsClock, tank,enemy3ShootsClock);
+                    choosen_tank->driving();
+                    choosen_tank->boundCollision(battleWindow);
+                    setBulletPosition(choosen_tank, bullets, bulletClock);
+                    setEnemybulletPosition(enemies, enemy_bullets, enemy2_bullets, enemy1ShootsClock, enemy2ShootsClock, choosen_tank,enemy3ShootsClock);
 
-                    checkCollision(tank, choosen_map);
+                    checkCollision(choosen_tank, choosen_map);
 
 
                     while (battleWindow.pollEvent(event5))
@@ -1070,18 +1102,18 @@ int main()
 
                     // Update
                     boomAnimation(enemies, dt,dt1);
-                    battleWindow.draw(tank);
+                    battleWindow.draw(*choosen_tank);
                     flyingBullets(bullets, battleWindow);
                     flyingEnemyBullets(enemy_bullets, enemy2_bullets, battleWindow, 0.2f, 0.5f);
-                    bulletsCollide(choosen_map, bullets, battleWindow, enemies, tank);
-                    enemyBulletsCollide(choosen_map, enemy_bullets, enemy2_bullets, battleWindow, tank, enemies);
-                    collisionDamage(enemies, tank,zombie_clock);
+                    bulletsCollide(choosen_map, bullets, battleWindow, enemies, choosen_tank);
+                    enemyBulletsCollide(choosen_map, enemy_bullets, enemy2_bullets, battleWindow, choosen_tank, enemies);
+                    collisionDamage(enemies, choosen_tank,zombie_clock);
 
-                    drawEnemies(enemies, battleWindow, tank);
+                    drawEnemies(enemies, battleWindow, choosen_tank);
 
                     battleWindow.draw(closeButton);
                     battleWindow.draw(closeText);
-                    mapResult(enemies, resultwindow, battleWindow, resulstwin_width, resultwin_height, map1completed,map2completed, map3completed,gamecompleted, mw, gameover, ggwp, tank, choosen_map,map2,map3,map4);
+                    mapResult(enemies, resultwindow, battleWindow, resulstwin_width, resultwin_height, map1completed,map2completed, map3completed,gamecompleted, mw, gameover, ggwp, choosen_tank, choosen_map,map2,map3,map4);
                     //mw.update(map1completed, map2completed, map3completed);
                     battleWindow.display();
 
@@ -1095,7 +1127,7 @@ int main()
 
                     if (choosen_map->getCompleted())
                     {
-                        ggwp.drawGGWP(resultwindow, resultButton);
+                        ggwp.drawGGWP(resultwindow, resultButton,enemies);
                     }
                     else
                     {

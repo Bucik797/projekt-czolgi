@@ -482,13 +482,20 @@ void Map::drawGameOver(RenderWindow& window, RectangleShape& resultButton, vecto
             break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
         
     }
-    cout << enemies.size() << endl;
+    //cout << enemies.size() << endl;
     enemies.erase(remove(enemies.begin(), enemies.end(), nullptr), enemies.end());
 }
 
-void Map::drawGGWP(RenderWindow& window, RectangleShape& resultButton)
+void Map::drawGGWP(RenderWindow& window, RectangleShape& resultButton, vector<unique_ptr<EnemyManager>>& enemies)
 {
     
+    for (auto& enemy : enemies)
+    {
+        enemy.reset(); // Usuń obiekt przeciwnika
+        break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+
+    }
+
     window.draw(*this);
     resultButton.setPosition(250, 450);
     resultButton.setFillColor(Color::Transparent);
