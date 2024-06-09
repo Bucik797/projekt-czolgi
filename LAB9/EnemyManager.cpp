@@ -14,6 +14,9 @@ EnemyManager::EnemyManager(int hp, int strength, int speed, const string enemyFi
         this->setTexture(enemy_texture);
         this->setPosition(xPos, yPos);
     }
+    explosion_texture.loadFromFile("boom.png");
+    explosion_sprite.setTexture(explosion_texture);
+
 }
 
 void EnemyManager::takeDamage(Tank& tank)
@@ -35,7 +38,32 @@ void EnemyManager::dealDamage(Tank& tank)
     cout << "tank after shoot has " << tank.getHealth() << " hp" << endl;
 }
 
+void EnemyManager::dealRangeDamageAnimation(Tank& tank)
+{
+    
+    explosion_sprite.setPosition(tank.getPosition().x-25, tank.getPosition().y-20);
+    show_explosion = true;
+    explosion_timer = 0.0;
+    animation_finished = false;
 
+
+}
+
+void EnemyManager::update(float dt) {
+    if (show_explosion) {
+        explosion_timer += dt;
+        if (explosion_timer >= explosion_duration) {
+            show_explosion = false;
+            animation_finished = true;
+        }
+    }
+}
+
+
+bool EnemyManager::isAnimationFinished()
+{
+    return animation_finished;
+}
 
 Vector2f EnemyManager::getCurrentPosition()
 {
@@ -64,4 +92,8 @@ float EnemyManager::getSpeed()const
 void EnemyManager::drawEnemy(RenderWindow& window)
 {
     window.draw(*this);
+    if (show_explosion)
+    {
+        window.draw(explosion_sprite);
+    }
 }

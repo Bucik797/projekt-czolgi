@@ -499,7 +499,13 @@ void flyingEnemyBullets(vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& 
     }
 }
     
-
+void boomAnimation(const vector<unique_ptr<EnemyManager>>& enemies,float dt)
+{
+    for (const auto& enemy : enemies)
+    {
+        enemy->update(dt);
+    }
+}
     
 void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& window, Tank& tank, vector<unique_ptr<EnemyManager>>& enemies)
 {
@@ -563,7 +569,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
                 it = e1b.erase(it);
                 for (const auto& enemy : enemies) {
                     if (enemy->getId() == 3) {
-
+                        enemy->dealRangeDamageAnimation(tank);
                         enemy->dealDamage(tank);
                         break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
                     }
@@ -651,6 +657,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
                 for (const auto& enemy : enemies) {
                     if (enemy->getId() == 4) {
 
+                        enemy->dealRangeDamageAnimation(tank);
                         enemy->dealDamage(tank);
                         break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
                     }
@@ -684,21 +691,47 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank& tank,Clock
         if ((*it)->getGlobalBounds().intersects(tank.getGlobalBounds()))
         {
 
+            if ((*it)->getId() == 1)
+            {
+                cout << "11111111111111111" << endl;
+                
+                (*it)->dealDamage(tank); 
+                /*try
+                {
+                    if (enemies.size() > 1)
+                    {
+                        enemies[1]->dealRangeDamageAnimation(tank);
+                    }
+                    else
+                    {
+                        throw std::out_of_range("Index 1 is out of range in enemies vector.");       DO POPRAWY BO RZUCA WYJATKAMI
+                    }
+
+                }
+                catch (const std::out_of_range& e)
+                {
+                    std::cout << "Exception caught: " << e.what() << std::endl;
+                }*/
+                
+                
+                enemies.erase(it);
+                
+                
+            }
+
             if ((*it)->getId() == 2 && zc.getElapsedTime().asSeconds()>1.0f)
             {
+                cout << "222222222222222222" << endl;
                 (*it)->dealDamage(tank);
+                (*it)->dealRangeDamageAnimation(tank);
                 zc.restart();
             }
 
 
-            if ((*it)->getId() == 1) 
-            {
-                (*it)->dealDamage(tank);
-                enemies.erase(it);
-                break;
-            }
+            
             if ((*it)->getId() == 3 || (*it)->getId() == 4) 
             {
+                (*it)->dealRangeDamageAnimation(tank);
                 tank.setHealth(0);
                 enemies.erase(it);
                 break;
@@ -733,6 +766,7 @@ int main()
     Clock enemy2ShootsClock;
     Clock enemy3ShootsClock;
     Clock zombie_clock;
+    Clock explosion_clock;
 
 
     vector <Bullet> bullets;
@@ -1047,6 +1081,10 @@ int main()
                         }
                     }
 
+                    float dt = clock.restart().asSeconds();
+
+                    // Update
+                    boomAnimation(enemies, dt);
                     battleWindow.draw(tank);
                     flyingBullets(bullets, battleWindow);
                     flyingEnemyBullets(enemy_bullets, enemy2_bullets, battleWindow, 0.2f, 0.5f);

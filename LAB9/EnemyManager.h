@@ -15,6 +15,12 @@ protected:
     float xPos;
     float yPos;
     int id;
+    Texture explosion_texture;
+    Sprite explosion_sprite;
+    bool show_explosion = false;
+    bool animation_finished = false;
+    float explosion_duration = 0.2; 
+    float explosion_timer = 0.0;
 
 
 public:
@@ -25,10 +31,14 @@ public:
     virtual ~EnemyManager() {}
     void takeDamage(Tank& tank);
     void dealDamage(Tank& tank);
+    void dealRangeDamageAnimation(Tank& tank);
     void drawEnemy(RenderWindow& window);
+    void update(float dt);
+    
 
     //Gettery 
 
+    bool isAnimationFinished();
     int getId() const;
     int getHp() const;
     int getStrength() const;

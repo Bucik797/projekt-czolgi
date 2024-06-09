@@ -16,6 +16,8 @@ Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture
     setPosition(x, y);
     setTexture(texture);
     setScale(1,1);
+
+    
     
 }
 
