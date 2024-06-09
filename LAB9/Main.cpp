@@ -394,12 +394,12 @@ void createEnemiesMap4(vector<unique_ptr<EnemyManager>>& enemies)
     enemies.push_back(make_unique<RangeEnemy>(80, 30, 2.0f, "rangeEnemy.png", 400, 500, 3));
     enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 400, 350, 4));
     enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 650, 550, 4));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 750, 650, 4));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 750, 650, 5));
 }
 
 void mapSelect(Map* choosen_map, Map& map1, Map map2, Map& map3, Map& map4, vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& battleWindow, RenderWindow& tankwindow)
 {
-    cout << "map select" << endl;
+    
     if (choosen_map == &map1)
     {
         cout << "created enemies 1" << endl;
@@ -424,6 +424,7 @@ void mapSelect(Map* choosen_map, Map& map1, Map map2, Map& map3, Map& map4, vect
     }
     battleWindow.create(VideoMode(1600,900), "map1");
     tankwindow.close();
+    
 }
 
 void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& window, Tank* tank)
@@ -480,9 +481,10 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vec
     
     if (e1sc.getElapsedTime().asSeconds() > 1.2)
     {
+        
         for (const auto& enemy : enemies) {
-            if (enemy->getId() == 3) {
-
+            if (enemy->getId() == 3) { /////////////////RZUCA WYJATEK ALE CHUJ TAM NAPRAWI SIE
+                
                 e1sc.restart();
                 e1b.push_back(Bullet(0.15f, 50));
                 e1b.back().setPosition(enemy->getCurrentPosition().x+20,enemy->getCurrentPosition().y+20);
@@ -497,12 +499,12 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vec
 
 
     }
-
+    
     if (e2sc.getElapsedTime().asSeconds() > 2.1)
     {
         for (const auto& enemy : enemies) {
             if (enemy->getId() == 4) {
-
+                
                 e2sc.restart();
                 e2b.push_back(Bullet(0.8f, 10));
                 e2b.back().setPosition(enemy->getCurrentPosition().x + 20, enemy->getCurrentPosition().y + 20);
@@ -514,12 +516,12 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vec
         }
         
     }
-
+    
     if (e3sc.getElapsedTime().asSeconds() > 2.5)
     {
         for (const auto& enemy : enemies) {
             if (enemy->getId() == 5) {
-
+                
                 e3sc.restart();
                 e2b.push_back(Bullet(1.5f, 10));
                 e2b.back().setPosition(enemy->getCurrentPosition().x + 20, enemy->getCurrentPosition().y + 20);
@@ -530,7 +532,7 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vec
             }
         }
     }
-
+    
 
 }
 
@@ -707,7 +709,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
             {
                 it = e2b.erase(it);
                 for (const auto& enemy : enemies) {
-                    if (enemy->getId() == 4) {
+                    if (enemy->getId() == 4 || enemy->getId() == 5) {
 
                         enemy->dealRangeDamageAnimation(*tank);
                         enemy->dealDamage(*tank);
@@ -765,7 +767,7 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank* tank,Clock
 
 
             
-            if ((*it)->getId() == 3 || (*it)->getId() == 4) 
+            if ((*it)->getId() == 3 || (*it)->getId() == 4 || (*it)->getId() == 5) 
             {
                 //(*it)->dealRangeDamageAnimation(tank);
                 sfx.playerdamaged.play();
@@ -829,7 +831,7 @@ int main()
     setBattleGraphics(map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_texture, tank2Icon_texture, tank3Icon_texture);
 
     playMusic(music1, happymusic, gameOver);
-    music1.play();
+    //music1.play();
 
 
     Tank tank1(1500, 450, 0.25f, 200, tank1Icon_texture, 0.25, false, 30);
@@ -1078,7 +1080,7 @@ int main()
 
                 while (battleWindow.isOpen())
                 {
-                    //cout << enemies.size() << endl;
+                    
                     Event event5;
                     battleWindow.clear();
                     choosen_map->drawGraphics(battleWindow);
@@ -1089,12 +1091,15 @@ int main()
                          }
 
                     choosen_tank->driving();
+                    //cout << " 1111111111111111111111111111111" << endl;
                     choosen_tank->boundCollision(battleWindow);
+                    //cout << "222222222222222222222222" << endl;
                     setBulletPosition(choosen_tank, bullets, bulletClock,soundeffects);
+                    //cout << "3333333333333333333333333333333" << endl;
                     setEnemybulletPosition(enemies, enemy_bullets, enemy2_bullets, enemy1ShootsClock, enemy2ShootsClock, choosen_tank,enemy3ShootsClock,soundeffects);
-
+                    //cout << "4444444444444444444444444444" << endl;
                     checkCollision(choosen_tank, choosen_map);
-
+                    //cout << "555555555555555555555555555" << endl;
 
                     while (battleWindow.pollEvent(event5))
                     {
@@ -1158,7 +1163,7 @@ int main()
                         if (resultevent.type == Event::Closed)
                         {
                             happymusic.stop();
-                            music1.play();
+                            //music1.play();
                             resultwindow.close();
                             mapwindow.create(VideoMode(window_width, window_height), "Mapwindow", Style::None);
                         }
@@ -1168,7 +1173,7 @@ int main()
                                 if (buttonClicked(soundeffects, resultwindow, resultButton))
                                 {
                                     happymusic.stop();
-                                    music1.play();
+                                    //music1.play();
                                     resultwindow.close();
                                     mapwindow.create(VideoMode(window_width, window_height), "Mapwindow", Style::None);
                                 }
