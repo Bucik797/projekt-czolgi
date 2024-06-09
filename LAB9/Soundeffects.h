@@ -18,14 +18,14 @@ public:
 
 	void loadsounds();
 	void adjustSFXVolume(float volume);
-	Sound buttonclicked, enemydeath, enemydamaged, playerdamaged, enemyshoot;
+	Sound buttonclicked, enemydeath, enemydamaged, playerdamaged, enemyshoot,playershoot;
 
 
 
 private:
 	vector<Sound*> sounds;
 
-	SoundBuffer buttonclickedbuffer, enemydeathbuffer, enemydamagedbuffer, playerdamagedbuffer, enemyshootbuffer;
+	SoundBuffer buttonclickedbuffer, enemydeathbuffer, enemydamagedbuffer, playerdamagedbuffer, enemyshootbuffer,playershootbuffer;
 };
 
 
