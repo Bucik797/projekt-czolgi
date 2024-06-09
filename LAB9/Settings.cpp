@@ -165,7 +165,7 @@ void Settings::loadAssets()
     musicText.setString("MUSIC");
     musicText.setCharacterSize(60);
     musicText.setFillColor(Color::Black);
-    musicText.setPosition(750, 200);
+    musicText.setPosition(750, 225);
     musicText.setOutlineColor(Color::Green);
     musicText.setOutlineThickness(3);
 
@@ -173,7 +173,7 @@ void Settings::loadAssets()
     sfxText.setString("SFX");
     sfxText.setCharacterSize(60);
     sfxText.setFillColor(Color::Black);
-    sfxText.setPosition(770, 400);
+    sfxText.setPosition(770, 425);
     sfxText.setOutlineColor(Color::Green);
     sfxText.setOutlineThickness(3);
 

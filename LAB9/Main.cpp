@@ -868,7 +868,7 @@ int main()
 
         Time elapsed = clock.getElapsedTime();
 
-        if (elapsed.asSeconds() > 10.0f) {
+        if (elapsed.asSeconds() > 6.0f) {
             menuwindow.create(VideoMode(window_width, window_height), "Menu");
             loadingwindow.close();
             break;
