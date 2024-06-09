@@ -29,9 +29,9 @@ void Tankwindow::loadAssets()
 
 
     closeButton.setOutlineColor(Color::Transparent);
-    closeButton.setSize(Vector2f(600, 200));
+    closeButton.setSize(Vector2f(610, 150));
     closeButton.setFillColor(Color::Transparent);
-    closeButton.setPosition(500, 650);
+    closeButton.setPosition(500, 660);
     closeButton.setOutlineThickness(5);
 
     tank1button.setSize(Vector2f(350, 350));
