@@ -13,7 +13,9 @@ public:
 	Loadingscreen();
 	~Loadingscreen() {}
 	void update();
-	void drawGraphics(RenderWindow& window);
+	void drawGraphics(RenderWindow& window, Clock& clock);
+	CircleShape loadingCircle;
+
 
 
 private:
