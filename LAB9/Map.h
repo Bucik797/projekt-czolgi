@@ -13,7 +13,7 @@ public:
 
     void drawGraphics(RenderWindow& window);
     void drawGameOver(RenderWindow& window, RectangleShape& resultButton, vector<unique_ptr<EnemyManager>>& enemies);
-    void drawGGWP(RenderWindow& window, RectangleShape& resultButton);
+    void drawGGWP(RenderWindow& window, RectangleShape& resultButton, vector<unique_ptr<EnemyManager>>& enemies);
 
     void initializeMap1();
     void initializeMap2();
