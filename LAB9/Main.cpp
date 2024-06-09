@@ -371,6 +371,7 @@ void createEnemiesMap1(vector<unique_ptr<EnemyManager>>& enemies)
 
 void createEnemiesMap2(vector<unique_ptr<EnemyManager>>& enemies)
 {
+    cout << "create enemies map 2" << endl;
     enemies.push_back(make_unique<MeleeEnemy>(100, 80, 4.0f, "meleeEnemy.png", 100, 100, 1));
     enemies.push_back(make_unique<MeleeEnemy>(100, 80, 3.0f, "meleeEnemy.png", 350, 100, 1));
     enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 400, 350, 4));
@@ -398,6 +399,7 @@ void createEnemiesMap4(vector<unique_ptr<EnemyManager>>& enemies)
 
 void mapSelect(Map* choosen_map, Map& map1, Map map2, Map& map3, Map& map4, vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& battleWindow, RenderWindow& tankwindow)
 {
+    cout << "map select" << endl;
     if (choosen_map == &map1)
     {
         cout << "created enemies 1" << endl;
@@ -1035,7 +1037,10 @@ int main()
                                 choosen_tank->setHealth(200);
                                 choosen_tank->setPosition(1500, 450);
                                 mapSelect(choosen_map, map1, map2, map3, map4, enemies, battleWindow,tankwindow);    
-                                
+                                if (choosen_map == &map2)
+                                {
+                                    createEnemiesMap2(enemies);
+                                }
                             }
 
                             if (buttonClicked(soundeffects, tankwindow, tw.tank2button))
@@ -1044,6 +1049,11 @@ int main()
                                 choosen_tank->setHealth(400);
                                 choosen_tank->setPosition(1500, 450);
                                 mapSelect(choosen_map, map1, map2, map3, map4, enemies, battleWindow, tankwindow);
+                                if (choosen_map == &map2)
+                                {
+                                    createEnemiesMap2(enemies);
+                                }
+                                
                             }
 
                             if (buttonClicked(soundeffects, tankwindow, tw.tank3button))
@@ -1052,6 +1062,10 @@ int main()
                                 choosen_tank->setHealth(600);
                                 choosen_tank->setPosition(1500, 450);
                                 mapSelect(choosen_map, map1, map2, map3, map4, enemies, battleWindow, tankwindow);
+                                if (choosen_map == &map2)
+                                {
+                                    createEnemiesMap2(enemies);
+                                }
                             }
 
                         }

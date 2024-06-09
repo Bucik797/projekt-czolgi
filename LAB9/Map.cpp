@@ -157,7 +157,7 @@ void Map::initializeMap1()
 void Map::initializeMap2()
 {
     
-    //cout << " init 2" << endl;
+    cout << " init 2" << endl;
     this->setTexture(background_texture);
     //this->setTextureRect(IntRect(0, 200, 1600, 900));
     this->setScale(2, 2);
