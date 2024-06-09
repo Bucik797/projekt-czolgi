@@ -319,6 +319,7 @@ void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& windo
             {
                 if (it->getGlobalBounds().intersects(enemy->getGlobalBounds()))
                 {
+                    enemy->takeDamageAnimation(tank);
                     enemy->takeDamage(tank);
                     if (enemy->getHp() <= 0) {
                         enemy.reset(); // Usuń obiekt przeciwnika
@@ -499,11 +500,11 @@ void flyingEnemyBullets(vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& 
     }
 }
     
-void boomAnimation(const vector<unique_ptr<EnemyManager>>& enemies,float dt)
+void boomAnimation(const vector<unique_ptr<EnemyManager>>& enemies,float dt,float dt1)
 {
     for (const auto& enemy : enemies)
     {
-        enemy->update(dt);
+        enemy->update(dt,dt1);
     }
 }
     
@@ -749,6 +750,7 @@ int main()
     Clock enemy3ShootsClock;
     Clock zombie_clock;
     Clock explosion_clock;
+    Clock explosion_E_clock;
 
 
     vector <Bullet> bullets;
@@ -1063,10 +1065,11 @@ int main()
                         }
                     }
 
-                    float dt = clock.restart().asSeconds();
+                    float dt = explosion_clock.restart().asSeconds();
+                    float dt1 = explosion_E_clock.restart().asSeconds();
 
                     // Update
-                    boomAnimation(enemies, dt);
+                    boomAnimation(enemies, dt,dt1);
                     battleWindow.draw(tank);
                     flyingBullets(bullets, battleWindow);
                     flyingEnemyBullets(enemy_bullets, enemy2_bullets, battleWindow, 0.2f, 0.5f);
