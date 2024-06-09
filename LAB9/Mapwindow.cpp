@@ -64,8 +64,8 @@ void Mapwindow::loadAssets()
     closeButton.setOutlineColor(Color::Transparent);
     closeButton.setFillColor(Color::Transparent);
     closeButton.setOutlineThickness(5);
-    closeButton.setSize(Vector2f(600, 200));
-    closeButton.setPosition(500, 650);
+    closeButton.setSize(Vector2f(520, 195));
+    closeButton.setPosition(550, 665);
 
     map1button.setTexture(&map1_TXT);
     map1button.setSize(Vector2f(350, 350));
@@ -110,7 +110,7 @@ void Mapwindow::loadAssets()
     map2Text.setString("DEZERCJA");
     map2Text.setCharacterSize(30);
     map2Text.setFillColor(Color::Black);
-    map2Text.setPosition(500, 600);
+    map2Text.setPosition(520, 600);
     map2Text.setOutlineColor(Color::White);
     map2Text.setOutlineThickness(3);
 
@@ -118,7 +118,7 @@ void Mapwindow::loadAssets()
     map3Text.setString("PLAIN PLANES");
     map3Text.setCharacterSize(30);
     map3Text.setFillColor(Color::Black);
-    map3Text.setPosition(800, 600);
+    map3Text.setPosition(870, 600);
     map3Text.setOutlineColor(Color::White);
     map3Text.setOutlineThickness(3);
 
@@ -126,7 +126,7 @@ void Mapwindow::loadAssets()
     map4Text.setString("MARIANOWO CITY");
     map4Text.setCharacterSize(30);
     map4Text.setFillColor(Color::Black);
-    map4Text.setPosition(1150, 600);
+    map4Text.setPosition(1260, 600);
     map4Text.setOutlineColor(Color::White);
     map4Text.setOutlineThickness(3);
 }

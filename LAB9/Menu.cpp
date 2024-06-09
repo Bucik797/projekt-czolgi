@@ -53,21 +53,21 @@ void Menu::loadAssets()
     logoSPR.setTexture(logo_TXT);
 
 
-    playButton.setPosition(520, 650);
-    playButton.setOutlineColor(Color::Transparent);
+    playButton.setPosition(450, 570);
+    playButton.setOutlineColor(Color::Green);
     playButton.setFillColor(Color::Transparent);
     playButton.setOutlineThickness(5);
     playButton.setRadius(120);
 
-    settingsButton.setOutlineColor(Color::Transparent);
+    settingsButton.setOutlineColor(Color::Green);
     settingsButton.setFillColor(Color::Transparent);
-    settingsButton.setPosition(800, 650);
+    settingsButton.setPosition(700, 570);
     settingsButton.setRadius(120);
     settingsButton.setOutlineThickness(5);
 
-    closeButton.setOutlineColor(Color::Transparent);
+    closeButton.setOutlineColor(Color::Green);
     closeButton.setFillColor(Color::Transparent);
-    closeButton.setPosition(1070, 650);
+    closeButton.setPosition(950, 570);
     closeButton.setRadius(120);
     closeButton.setOutlineThickness(5);
 
