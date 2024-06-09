@@ -478,9 +478,6 @@ void Map::drawGameOver(RenderWindow& window, RectangleShape& resultButton, vecto
     window.draw(resultButton);
     for (auto& enemy : enemies)
     {
-        
-            
-            
             enemy.reset(); // Usuń obiekt przeciwnika
             break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
         

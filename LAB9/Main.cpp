@@ -696,26 +696,8 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank& tank,Clock
                 cout << "11111111111111111" << endl;
                 
                 (*it)->dealDamage(tank); 
-                /*try
-                {
-                    if (enemies.size() > 1)
-                    {
-                        enemies[1]->dealRangeDamageAnimation(tank);
-                    }
-                    else
-                    {
-                        throw std::out_of_range("Index 1 is out of range in enemies vector.");       DO POPRAWY BO RZUCA WYJATKAMI
-                    }
-
-                }
-                catch (const std::out_of_range& e)
-                {
-                    std::cout << "Exception caught: " << e.what() << std::endl;
-                }*/
-                
-                
                 enemies.erase(it);
-                
+                break;
                 
             }
 
@@ -731,7 +713,7 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank& tank,Clock
             
             if ((*it)->getId() == 3 || (*it)->getId() == 4) 
             {
-                (*it)->dealRangeDamageAnimation(tank);
+                //(*it)->dealRangeDamageAnimation(tank);
                 tank.setHealth(0);
                 enemies.erase(it);
                 break;
