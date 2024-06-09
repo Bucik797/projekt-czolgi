@@ -155,6 +155,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="RangeEnemy.cpp" />
     <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="Soundeffects.cpp" />
     <ClCompile Include="Tank.cpp" />
     <ClCompile Include="Tankwindow.cpp" />
   </ItemGroup>
@@ -168,6 +169,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="RangeEnemy.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="Soundeffects.h" />
     <ClInclude Include="Tank.h" />
     <ClInclude Include="Tankwindow.h" />
   </ItemGroup>
