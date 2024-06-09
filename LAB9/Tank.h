@@ -41,6 +41,8 @@ public:
 
 private:
     // W³asciwoœci czo³gu
+    
+    bool show_explosion = false;
     float speed;    // Prêdkoœæ
     int health;     // Zdrowie
     float rotation_speed;
