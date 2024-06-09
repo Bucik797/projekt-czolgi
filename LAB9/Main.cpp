@@ -850,14 +850,14 @@ int main()
                             menuwindow.create(VideoMode(window_width, window_height), "Menu", Style::None);
                             mapwindow.close();
                         }
-                        if (selectedSprite(mapwindow, mw.map1SPR))
+                        if (buttonClicked(mapwindow, mw.map1button))
                         {
                             choosen_map = &map1;
                             choosen_map->initializeMap1();
                             tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                             mapwindow.close();
                         }
-                        if (selectedSprite(mapwindow, mw.map2SPR))
+                        if (buttonClicked(mapwindow, mw.map2button))
                         {
                             if (map1.getCompleted())
                             {
@@ -867,7 +867,7 @@ int main()
                                 mapwindow.close();
                             }
                         }
-                        if (selectedSprite(mapwindow, mw.map3SPR))
+                        if (buttonClicked(mapwindow, mw.map3button))
                         {
                             if (map2.getCompleted())
                             {
@@ -877,7 +877,7 @@ int main()
                                 mapwindow.close();
                             }
                         }
-                        if (selectedSprite(mapwindow, mw.map4SPR))
+                        if (buttonClicked(mapwindow, mw.map4button))
                         {
                             if (map3.getCompleted())
                             {
@@ -909,7 +909,7 @@ int main()
                                 mapwindow.create(VideoMode(window_width, window_height), "mapwindow", Style::None);
                                 tankwindow.close();
                             }
-                            if (buttonClicked(tankwindow, tw.playButton))
+                            if (buttonClicked(tankwindow, tw.tank1button))
                             {
 
                                 if (choosen_map == &map2)

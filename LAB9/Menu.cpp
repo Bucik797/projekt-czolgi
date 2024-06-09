@@ -16,13 +16,12 @@ void Menu::drawGraphics(RenderWindow& window)
     window.draw(playButton);
     window.draw(settingsButton);
     window.draw(closeButton);
-
     window.draw(whiteSPR);
     window.draw(butSPR);
     window.draw(whiteName);
     window.draw(butName);
     window.draw(whiteLastname);
-    window.draw(butLastname);        
+    window.draw(butLastname);
 }
 
 void Menu::update()
@@ -46,8 +45,9 @@ void Menu::loadAssets()
     if (!font.loadFromFile("arial.ttf")) {
         cout << "Failed to load font" << endl;
     }
-    
+
     this->setTexture(background_TXT);
+    this->setScale(0.9, 0.9);
     whiteSPR.setTexture(white_TXT);
     butSPR.setTexture(but_TXT);
     logoSPR.setTexture(logo_TXT);
@@ -56,7 +56,7 @@ void Menu::loadAssets()
     playButton.setPosition(520, 650);
     playButton.setOutlineColor(Color::Transparent);
     playButton.setFillColor(Color::Transparent);
-    playButton.setOutlineThickness(5);  
+    playButton.setOutlineThickness(5);
     playButton.setRadius(120);
 
     settingsButton.setOutlineColor(Color::Transparent);
@@ -71,20 +71,20 @@ void Menu::loadAssets()
     closeButton.setRadius(120);
     closeButton.setOutlineThickness(5);
 
-    butSPR.setPosition(100, 100);
+    butSPR.setPosition(1200, 50);
     butSPR.setScale(0.5, 0.5);
 
     whiteSPR.setScale(0.5, 0.5);
-    whiteSPR.setPosition(1000, 100);
+    whiteSPR.setPosition(80, 50);
 
     logoSPR.setScale(0.2, 0.2);
-    logoSPR.setPosition(50, 50);
-    
+    logoSPR.setPosition(700, 50);
+
     whiteName.setFont(font);
     whiteName.setString("Gregorio");
     whiteName.setCharacterSize(50);
     whiteName.setFillColor(Color::White);
-    whiteName.setPosition(600, 670);
+    whiteName.setPosition(80, 520);
     whiteName.setOutlineColor(Color::Black);
     whiteName.setOutlineThickness(8);
 
@@ -92,7 +92,7 @@ void Menu::loadAssets()
     butName.setString("Domenico");
     butName.setCharacterSize(50);
     butName.setFillColor(Color::White);
-    butName.setPosition(1000, 670);
+    butName.setPosition(1200, 520);
     butName.setOutlineColor(Color::Black);
     butName.setOutlineThickness(8);
 
@@ -100,7 +100,7 @@ void Menu::loadAssets()
     whiteLastname.setString("Bianco");
     whiteLastname.setCharacterSize(50);
     whiteLastname.setFillColor(Color::White);
-    whiteLastname.setPosition(600, 730);
+    whiteLastname.setPosition(80, 570);
     whiteLastname.setOutlineColor(Color::Black);
     whiteLastname.setOutlineThickness(8);
 
@@ -108,7 +108,7 @@ void Menu::loadAssets()
     butLastname.setString("Stivale");
     butLastname.setCharacterSize(50);
     butLastname.setFillColor(Color::White);
-    butLastname.setPosition(1000, 730);
+    butLastname.setPosition(1200, 570);
     butLastname.setOutlineColor(Color::Black);
     butLastname.setOutlineThickness(8);
 }

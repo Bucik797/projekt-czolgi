@@ -15,25 +15,25 @@ class Menu : public Sprite
 {
 public:
 	Menu();
-	~Menu() 
+	~Menu()
 	{
 	}
 
-	
+
 	CircleShape playButton, settingsButton, closeButton;
 	void update();
 	void drawGraphics(RenderWindow& window);
-	
-	
+
+
 private:
-	
-	Font font; 
+
+	Font font;
 	Texture background_TXT;
 	Texture white_TXT;
 	Texture but_TXT;
 	Texture logo_TXT;
 
-	
+
 	Sprite backgroundSPR, logoSPR, whiteSPR, butSPR;
 	Text whiteName, butName, whiteLastname, butLastname;
 

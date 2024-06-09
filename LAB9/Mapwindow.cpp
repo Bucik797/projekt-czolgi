@@ -2,7 +2,7 @@
 
 Mapwindow::Mapwindow()
 {
-	loadAssets();
+    loadAssets();
 }
 
 
@@ -43,13 +43,13 @@ void Mapwindow::loadAssets()
     if (!map1_TXT.loadFromFile("map1background.png") ||
         !map2_TXT.loadFromFile("map2background.png") ||
         !map3_TXT.loadFromFile("map3background.png") ||
-        !map4_TXT.loadFromFile("map4background.png") ||
-        !map_TXT.loadFromFile("map1.png") ||
-        !button_TXT.loadFromFile("buttonbackground.png"))
+        !map4_TXT.loadFromFile("marianowocity.png") ||
+        !map_TXT.loadFromFile("map1.png"))
+
     {
         cout << "Failed to load textures" << endl;
     }
-    if (!background_TXT.loadFromFile("mainBackground.png")) {
+    if (!background_TXT.loadFromFile("mapinterface.png")) {
         cout << "Failed to load background texture" << endl;
     }
     if (!logo_TXT.loadFromFile("gameLogo.png"))
@@ -58,27 +58,31 @@ void Mapwindow::loadAssets()
     }
 
     this->setTexture(background_TXT);
+    this->setScale(0.9, 0.9);
 
-    map1SPR.setTexture(map1_TXT);
-    map1SPR.setScale(0.3, 0.3);
-    map1SPR.setPosition(100, 400);
 
-    map2SPR.setTexture(map_TXT);
-    map2SPR.setScale(0.3, 0.3);
-    map2SPR.setPosition(450, 400);
+    closeButton.setOutlineColor(Color::Transparent);
+    closeButton.setFillColor(Color::Transparent);
+    closeButton.setOutlineThickness(5);
+    closeButton.setSize(Vector2f(600, 200));
+    closeButton.setPosition(500, 650);
 
-    map3SPR.setTexture(map_TXT);
-    map3SPR.setScale(0.3, 0.3);
-    map3SPR.setPosition(800, 400);
+    map1button.setTexture(&map1_TXT);
+    map1button.setSize(Vector2f(350, 350));
+    map1button.setPosition(25, 250);
 
-    map4SPR.setTexture(map_TXT);
-    map4SPR.setScale(0.3, 0.3);
-    map4SPR.setPosition(1150, 400);
+    map2button.setTexture(&map_TXT);
+    map2button.setSize(Vector2f(350, 350));
+    map2button.setPosition(425, 250);
 
-    closeButton.setOutlineColor(Color::Green);
-    closeButton.setSize(Vector2f(200, 80));
-    closeButton.setPosition(700, 800);
-    closeButton.setTexture(&button_TXT);
+    map3button.setTexture(&map_TXT);
+    map3button.setSize(Vector2f(350, 350));
+    map3button.setPosition(825, 250);
+
+    map4button.setTexture(&map_TXT);
+    map4button.setSize(Vector2f(350, 350));
+    map4button.setPosition(1225, 250);
+
 
     if (!font.loadFromFile("arial.ttf") ||
         !mapFont.loadFromFile("mapFont.ttf"))
@@ -94,35 +98,27 @@ void Mapwindow::loadAssets()
     mapsText.setOutlineColor(Color::Black);
     mapsText.setOutlineThickness(8);
 
-    backText.setFont(font);
-    backText.setString("BACK");
-    backText.setCharacterSize(50);
-    backText.setFillColor(Color::Black);
-    backText.setPosition(730, 810);
-    backText.setOutlineColor(Color::Green);
-    backText.setOutlineThickness(3);
-
     map1Text.setFont(mapFont);
     map1Text.setString("BLACK MAP");
     map1Text.setCharacterSize(30);
     map1Text.setFillColor(Color::Black);
-    map1Text.setPosition(100, 660);
+    map1Text.setPosition(100, 600);
     map1Text.setOutlineColor(Color::White);
     map1Text.setOutlineThickness(3);
 
     map2Text.setFont(mapFont);
-    map2Text.setString("MAGIC PANTIES");
+    map2Text.setString("DEZERCJA");
     map2Text.setCharacterSize(30);
     map2Text.setFillColor(Color::Black);
-    map2Text.setPosition(450, 660);
+    map2Text.setPosition(500, 600);
     map2Text.setOutlineColor(Color::White);
     map2Text.setOutlineThickness(3);
 
     map3Text.setFont(mapFont);
-    map3Text.setString("WILD WOOLVES");
+    map3Text.setString("PLAIN PLANES");
     map3Text.setCharacterSize(30);
     map3Text.setFillColor(Color::Black);
-    map3Text.setPosition(800, 660);
+    map3Text.setPosition(800, 600);
     map3Text.setOutlineColor(Color::White);
     map3Text.setOutlineThickness(3);
 
@@ -130,7 +126,7 @@ void Mapwindow::loadAssets()
     map4Text.setString("MARIANOWO CITY");
     map4Text.setCharacterSize(30);
     map4Text.setFillColor(Color::Black);
-    map4Text.setPosition(1150, 660);
+    map4Text.setPosition(1150, 600);
     map4Text.setOutlineColor(Color::White);
     map4Text.setOutlineThickness(3);
 }
@@ -139,30 +135,27 @@ void Mapwindow::update(bool map1completed, bool map2completed, bool map3complete
 {
     if (map1completed)
     {
-        map2SPR.setTexture(map2_TXT);
+        map2button.setTexture(&map2_TXT);
     }
     if (map2completed)
     {
-        map3SPR.setTexture(map3_TXT);
-        map3SPR.setPosition(800, 390);
+        map3button.setTexture(&map3_TXT);
     }
     if (map3completed)
     {
-        map4SPR.setTexture(map4_TXT);
-        map4SPR.setPosition(1150, 370);
+        map4button.setTexture(&map4_TXT);
     }
 }
 
 void Mapwindow::drawGraphics(RenderWindow& window)
 {
     window.draw(*this);
-    window.draw(map1SPR);
-    window.draw(map2SPR);
-    window.draw(map3SPR);
-    window.draw(map4SPR);
     window.draw(closeButton);
+    window.draw(map1button);
+    window.draw(map2button);
+    window.draw(map3button);
+    window.draw(map4button);
     window.draw(mapsText);
-    window.draw(backText);
     window.draw(map1Text);
     window.draw(map2Text);
     window.draw(map3Text);
