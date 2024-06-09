@@ -27,6 +27,10 @@ void Soundeffects::loadsounds()
     {
         cout << "Failed to load enemy shot sound" << endl;
     }
+    if (!playershootbuffer.loadFromFile("tankshot.wav"))
+    {
+        cout << "Failed to load player shot sound" << endl;
+    }
     
 
     enemydamaged.setBuffer(enemydamagedbuffer);
@@ -43,6 +47,9 @@ void Soundeffects::loadsounds()
 
     buttonclicked.setBuffer(buttonclickedbuffer);
     sounds.push_back(&buttonclicked);
+
+    playershoot.setBuffer(playershootbuffer);
+    sounds.push_back(&playershoot);
 }
 
 void Soundeffects::adjustSFXVolume(float volume)

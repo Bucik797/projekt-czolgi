@@ -57,6 +57,7 @@ bool buttonClicked(Soundeffects& sfx,RenderWindow& window, RectangleShape& butto
     if (mouseX < btnxPosWidth && mouseX > btnPosX && mouseY < btnyPosHeight && mouseY > btnPosY) {
         sfx.buttonclicked.play();
         return true;
+       
     }
     return false;
 }
@@ -239,20 +240,19 @@ void checkCollision(Tank* tank, const Map* map) {
     //return false;  // Jeli nie wykryto ¿adnej kolizji, zwróæ false
 }
 
-void setBulletPosition(Tank* tank, vector<Bullet>& bullets, Clock& bulletClock)
+void setBulletPosition(Tank* tank, vector<Bullet>& bullets, Clock& bulletClock,Soundeffects& sfx)
 {
     
-    if (Keyboard::isKeyPressed(Keyboard::Space) && bulletClock.getElapsedTime().asSeconds()>0.5)
+    if (Keyboard::isKeyPressed(Keyboard::Space) && bulletClock.getElapsedTime().asSeconds()>1)
     {
-
+        
         bullets.push_back(Bullet(0.3f,10));
         bullets.back().setPosition(tank->getCurrentPosition());
         bullets.back().setOrigin(5, 5);
         bullets.back().setRadius(5);
         bullets.back().setRotation(tank->getRotation());
         bulletClock.restart();
-        //tank.setSpeed(tank.getSpeed() + 0.02f);
-        //cout << bullets.size();
+        sfx.playershoot.play();
         
     }
     
@@ -272,7 +272,7 @@ void flyingBullets(vector<Bullet>& bullets, RenderWindow& window)
     }
 }
 
-void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& window, vector<std::unique_ptr<EnemyManager>>& enemies, Tank* tank)
+void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& window, vector<std::unique_ptr<EnemyManager>>& enemies, Tank* tank, Soundeffects& sfx)
 {
     for (auto it = bullets.begin(); it != bullets.end();)
     {
@@ -335,6 +335,8 @@ void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& windo
                 {
                     enemy->takeDamageAnimation(*tank);
                     enemy->takeDamage(*tank);
+                    sfx.enemydamaged.play();
+                    
                     if (enemy->getHp() <= 0) {
                         enemy.reset(); // Usuń obiekt przeciwnika
                     }
@@ -471,7 +473,7 @@ void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& re
     }
 }
 
-void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vector<Bullet>& e1b, vector<Bullet>& e2b, Clock& e1sc, Clock& e2sc, Tank* tank, Clock& e3sc)
+void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vector<Bullet>& e1b, vector<Bullet>& e2b, Clock& e1sc, Clock& e2sc, Tank* tank, Clock& e3sc,Soundeffects& sfx)
 {
     
     if (e1sc.getElapsedTime().asSeconds() > 1.2)
@@ -485,6 +487,7 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vec
                 e1b.back().setOrigin(5, 5);
                 e1b.back().setRadius(5);
                 e1b.back().setAngle(atan2(tank->getPosition().y - e1b.back().getPosition().y, tank->getPosition().x - e1b.back().getPosition().x));
+                sfx.enemyshoot.play();
                 //break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
             }
         }
@@ -504,7 +507,7 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vec
                 e2b.back().setOrigin(5, 5);
                 e2b.back().setRadius(7);
                 e2b.back().setAngle(atan2(tank->getPosition().y - e2b.back().getPosition().y, tank->getPosition().x - e2b.back().getPosition().x));
-                
+                sfx.enemyshoot.play();
             }
         }
         
@@ -521,7 +524,7 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vec
                 e2b.back().setOrigin(5, 5);
                 e2b.back().setRadius(7);
                 e2b.back().setAngle(atan2(tank->getPosition().y - e2b.back().getPosition().y, tank->getPosition().x - e2b.back().getPosition().x));
-
+                sfx.enemyshoot.play();
             }
         }
     }
@@ -553,7 +556,7 @@ void boomAnimation(const vector<unique_ptr<EnemyManager>>& enemies,float dt,floa
     }
 }
     
-void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& window, Tank* tank, vector<unique_ptr<EnemyManager>>& enemies)
+void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2b, RenderWindow& window, Tank* tank, vector<unique_ptr<EnemyManager>>& enemies, Soundeffects& sfx)
 {
     for (auto it = e1b.begin(); it != e1b.end();)
     {
@@ -617,6 +620,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
                     if (enemy->getId() == 3) {
                         enemy->dealRangeDamageAnimation(*tank);
                         enemy->dealDamage(*tank);
+                        sfx.playerdamaged.play();
                         break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
                     }
                 }
@@ -705,6 +709,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
 
                         enemy->dealRangeDamageAnimation(*tank);
                         enemy->dealDamage(*tank);
+                        sfx.playerdamaged.play();
                         break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
                     }
                 }
@@ -731,7 +736,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
 
 }
 
-void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank* tank,Clock& zc)
+void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank* tank,Clock& zc,Soundeffects& sfx)
 {
     for (auto it = enemies.begin(); it != enemies.end(); ++it) {
         if ((*it)->getGlobalBounds().intersects(tank->getGlobalBounds()))
@@ -740,7 +745,7 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank* tank,Clock
             if ((*it)->getId() == 1)
             {
                 cout << "11111111111111111" << endl;
-                
+                sfx.playerdamaged.play();
                 (*it)->dealDamage(*tank); 
                 enemies.erase(it);
                 break;
@@ -750,6 +755,7 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank* tank,Clock
             if ((*it)->getId() == 2 && zc.getElapsedTime().asSeconds()>1.0f)
             {
                 cout << "222222222222222222" << endl;
+                sfx.playerdamaged.play();
                 (*it)->dealDamage(*tank);
                 (*it)->dealRangeDamageAnimation(*tank);
                 zc.restart();
@@ -760,6 +766,7 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank* tank,Clock
             if ((*it)->getId() == 3 || (*it)->getId() == 4) 
             {
                 //(*it)->dealRangeDamageAnimation(tank);
+                sfx.playerdamaged.play();
                 tank->setHealth(0);
                 enemies.erase(it);
                 break;
@@ -1069,8 +1076,8 @@ int main()
 
                     choosen_tank->driving();
                     choosen_tank->boundCollision(battleWindow);
-                    setBulletPosition(choosen_tank, bullets, bulletClock);
-                    setEnemybulletPosition(enemies, enemy_bullets, enemy2_bullets, enemy1ShootsClock, enemy2ShootsClock, choosen_tank,enemy3ShootsClock);
+                    setBulletPosition(choosen_tank, bullets, bulletClock,soundeffects);
+                    setEnemybulletPosition(enemies, enemy_bullets, enemy2_bullets, enemy1ShootsClock, enemy2ShootsClock, choosen_tank,enemy3ShootsClock,soundeffects);
 
                     checkCollision(choosen_tank, choosen_map);
 
@@ -1102,9 +1109,9 @@ int main()
                     battleWindow.draw(*choosen_tank);
                     flyingBullets(bullets, battleWindow);
                     flyingEnemyBullets(enemy_bullets, enemy2_bullets, battleWindow, 0.2f, 0.5f);
-                    bulletsCollide(choosen_map, bullets, battleWindow, enemies, choosen_tank);
-                    enemyBulletsCollide(choosen_map, enemy_bullets, enemy2_bullets, battleWindow, choosen_tank, enemies);
-                    collisionDamage(enemies, choosen_tank,zombie_clock);
+                    bulletsCollide(choosen_map, bullets, battleWindow, enemies, choosen_tank, soundeffects);
+                    enemyBulletsCollide(choosen_map, enemy_bullets, enemy2_bullets, battleWindow, choosen_tank, enemies,soundeffects);
+                    collisionDamage(enemies, choosen_tank,zombie_clock,soundeffects);
 
                     drawEnemies(enemies, battleWindow, choosen_tank);
 

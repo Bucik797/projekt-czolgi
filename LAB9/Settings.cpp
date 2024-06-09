@@ -182,96 +182,96 @@ void Settings::loadAssets()
     music0Text.setCharacterSize(35);
     music0Text.setFillColor(Color::Transparent);
     music0Text.setPosition(430, 330);
-    music0Text.setOutlineColor(Color::Red);
-    music0Text.setOutlineThickness(3);
+    music0Text.setOutlineColor(Color::Green);
+    music0Text.setOutlineThickness(1);
 
     music20Text.setFont(font);
     music20Text.setString("20%");
     music20Text.setCharacterSize(35);
     music20Text.setFillColor(Color::Transparent);
     music20Text.setPosition(565, 330);
-    music20Text.setOutlineColor(Color::Red);
-    music20Text.setOutlineThickness(3);
+    music20Text.setOutlineColor(Color::Green);
+    music20Text.setOutlineThickness(1);
 
     music40Text.setFont(font);
     music40Text.setString("40%");
     music40Text.setCharacterSize(35);
     music40Text.setFillColor(Color::Transparent);
     music40Text.setPosition(715, 330);
-    music40Text.setOutlineColor(Color::Red);
-    music40Text.setOutlineThickness(3);
+    music40Text.setOutlineColor(Color::Green);
+    music40Text.setOutlineThickness(1);
 
     music60Text.setFont(font);
     music60Text.setString("60%");
     music60Text.setCharacterSize(35);
     music60Text.setFillColor(Color::Transparent);
     music60Text.setPosition(865, 330);
-    music60Text.setOutlineColor(Color::Red);
-    music60Text.setOutlineThickness(3);
+    music60Text.setOutlineColor(Color::Green);
+    music60Text.setOutlineThickness(1);
 
     music80Text.setFont(font);
     music80Text.setString("80%");
     music80Text.setCharacterSize(35);
     music80Text.setFillColor(Color::Transparent);
     music80Text.setPosition(1015, 330);
-    music80Text.setOutlineColor(Color::Red);
-    music80Text.setOutlineThickness(3);
+    music80Text.setOutlineColor(Color::Green);
+    music80Text.setOutlineThickness(1);
 
     music100Text.setFont(font);
     music100Text.setString("100%");
     music100Text.setCharacterSize(35);
     music100Text.setFillColor(Color::Transparent);
     music100Text.setPosition(1160, 330);
-    music100Text.setOutlineColor(Color::Red);
-    music100Text.setOutlineThickness(3);
+    music100Text.setOutlineColor(Color::Green);
+    music100Text.setOutlineThickness(1);
 
     sfx0Text.setFont(font);
     sfx0Text.setString("0%");
     sfx0Text.setCharacterSize(35);
     sfx0Text.setFillColor(Color::Transparent);
     sfx0Text.setPosition(430, 530);
-    sfx0Text.setOutlineColor(Color::Red);
-    sfx0Text.setOutlineThickness(3);
+    sfx0Text.setOutlineColor(Color::Green);
+    sfx0Text.setOutlineThickness(1);
 
     sfx20Text.setFont(font);
     sfx20Text.setString("20%");
     sfx20Text.setCharacterSize(35);
     sfx20Text.setFillColor(Color::Transparent);
     sfx20Text.setPosition(565, 530);
-    sfx20Text.setOutlineColor(Color::Red);
-    sfx20Text.setOutlineThickness(3);
+    sfx20Text.setOutlineColor(Color::Green);
+    sfx20Text.setOutlineThickness(1);
 
     sfx40Text.setFont(font);
     sfx40Text.setString("40%");
     sfx40Text.setCharacterSize(35);
     sfx40Text.setFillColor(Color::Transparent);
     sfx40Text.setPosition(715, 530);
-    sfx40Text.setOutlineColor(Color::Red);
-    sfx40Text.setOutlineThickness(3);
+    sfx40Text.setOutlineColor(Color::Green);
+    sfx40Text.setOutlineThickness(1);
 
     sfx60Text.setFont(font);
     sfx60Text.setString("60%");
     sfx60Text.setCharacterSize(35);
     sfx60Text.setFillColor(Color::Transparent);
     sfx60Text.setPosition(865, 530);
-    sfx60Text.setOutlineColor(Color::Red);
-    sfx60Text.setOutlineThickness(3);
+    sfx60Text.setOutlineColor(Color::Green);
+    sfx60Text.setOutlineThickness(1);
 
     sfx80Text.setFont(font);
     sfx80Text.setString("80%");
     sfx80Text.setCharacterSize(35);
     sfx80Text.setFillColor(Color::Transparent);
     sfx80Text.setPosition(1015, 530);
-    sfx80Text.setOutlineColor(Color::Red);
-    sfx80Text.setOutlineThickness(3);
+    sfx80Text.setOutlineColor(Color::Green);
+    sfx80Text.setOutlineThickness(1);
 
     sfx100Text.setFont(font);
     sfx100Text.setString("100%");
     sfx100Text.setCharacterSize(35);
     sfx100Text.setFillColor(Color::Transparent);
     sfx100Text.setPosition(1160, 530);
-    sfx100Text.setOutlineColor(Color::Red);
-    sfx100Text.setOutlineThickness(3);
+    sfx100Text.setOutlineColor(Color::Green);
+    sfx100Text.setOutlineThickness(1);
 
 
 }
