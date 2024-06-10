@@ -19,6 +19,7 @@ public:
 	void drawGraphics(RenderWindow& window);
 
 	RectangleShape tank1button, tank2button, tank3button, closeButton;
+	void update(bool mc1, bool mc3);
 
 private:
 
@@ -31,9 +32,11 @@ private:
 	Sprite player1_sprite, player2_sprite, P1R_sprite, P1L_sprite, P2R_sprite, P2L_sprite;
 	Sprite backgroundSPR, logoSPR, tank1SPR, tank2SPR, tank3SPR;
 	Text tank1Text, tank2Text, tank3Text;
+	Text tank2locked, tank3locked;
 
-	void update();
-
+	
+	
+	
 	void loadAssets();
 };
 

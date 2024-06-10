@@ -13,7 +13,7 @@ void Endscreen::loadAssets()
 	}
 	this->setTexture(backgroundTXT);
 
-	closebutton.setSize(Vector2f(765, 474));
+	closebutton.setSize(Vector2f(1024, 1024));
 	closebutton.setPosition(0, 0);
 	closebutton.setFillColor(Color::Transparent);
 	closebutton.setOutlineColor(Color::Transparent);

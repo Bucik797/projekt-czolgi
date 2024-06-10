@@ -426,7 +426,7 @@ void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& 
     }
 }
 
-void mapResult(Music& tututu, RenderWindow& endwindow, const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& resultwindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c, bool& m2c, bool& m3c, bool& gmc, Mapwindow& mw, Map& gameover, Map& ggwp, Tank* tank, Map* choosen_map, Map& map2, Map& map3, Map& map4, Music& music1, Music& happymusic, Music& gameOver)
+void mapResult(Music& tututu, RenderWindow& endwindow, const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& resultwindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c, bool& m2c, bool& m3c, bool& gmc, Mapwindow& mw, Map& gameover, Map& ggwp, Tank* tank, Map* choosen_map, Map& map2, Map& map3, Map& map4, Music& music1, Music& happymusic, Music& gameOver, Tankwindow& tw)
 {
     if (tank->getHealth() == 0)
     {
@@ -457,6 +457,7 @@ void mapResult(Music& tututu, RenderWindow& endwindow, const vector<unique_ptr<E
         }
         m1c = true;
         mw.update(m1c, m2c, m3c);
+        tw.update(m1c, m3c);
         if (gmc)
         {
             endwindow.create(VideoMode(1024, 1024), "endwindow", Style::None);
@@ -750,7 +751,7 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank* tank,Clock
 
             if ((*it)->getId() == 1)
             {
-                cout << "11111111111111111" << endl;
+                
                 sfx.playerdamaged.play();
                 (*it)->dealDamage(*tank); 
                 enemies.erase(it);
@@ -760,7 +761,7 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank* tank,Clock
 
             if ((*it)->getId() == 2 && zc.getElapsedTime().asSeconds()>1.0f)
             {
-                cout << "222222222222222222" << endl;
+                
                 sfx.playerdamaged.play();
                 (*it)->dealDamage(*tank);
                 (*it)->dealRangeDamageAnimation(*tank);
@@ -919,13 +920,13 @@ int main()
                     if (buttonClicked(soundeffects, menuwindow, menu.settingsButton))
                     {
                         settingswindow.create(VideoMode(window_width, window_height), "Settings", Style::None);
-                        //menuwindow.setVisible(false);
+                        
                         menuwindow.close();
                     }
                     if (buttonClicked(soundeffects, menuwindow, menu.playButton))
                     {
                         mapwindow.create(VideoMode(window_width, window_height), "Mapwindow", Style::None);
-                        //menuwindow.setVisible(false);
+                        
                         menuwindow.close();
                     }
                 }
@@ -979,29 +980,41 @@ int main()
                         }
                         if (buttonClicked(soundeffects, mapwindow, mw.map1button))
                         {
-                            choosen_map = &map1;
-                            choosen_map->initializeMap1();
-                            tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
-                            mapwindow.close();
+                            if (!map1completed)
+                            {
+                                choosen_map = &map1;
+                                choosen_map->initializeMap1();
+                                tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
+                                mapwindow.close();
+                            }
+                            
                         }
                         if (buttonClicked(soundeffects, mapwindow, mw.map2button))
                         {
                             if (map1.getCompleted())
                             {
-                                choosen_map = &map2;
-                                choosen_map->initializeMap2();
-                                tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
-                                mapwindow.close();
+                                if (!map2completed)
+                                {
+                                    choosen_map = &map2;
+                                    choosen_map->initializeMap2();
+                                    tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
+                                    mapwindow.close();
+                                }
+                                
                             }
                         }
                         if (buttonClicked(soundeffects, mapwindow, mw.map3button))
                         {
                             if (map2.getCompleted())
                             {
-                                choosen_map = &map3;
-                                choosen_map->initializeMap3();
-                                tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
-                                mapwindow.close();
+                                if (!map3completed)
+                                {
+                                    choosen_map = &map3;
+                                    choosen_map->initializeMap3();
+                                    tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
+                                    mapwindow.close();
+                                }
+                                
                             }
                         }
                         if (buttonClicked(soundeffects, mapwindow, mw.map4button))
@@ -1051,27 +1064,35 @@ int main()
 
                             if (buttonClicked(soundeffects, tankwindow, tw.tank2button))
                             {
-                                choosen_tank = &tank2;
-                                choosen_tank->setHealth(400);
-                                choosen_tank->setPosition(1500, 450);
-                                mapSelect(choosen_map, map1, map2, map3, map4, enemies, battleWindow, tankwindow);
-                                if (choosen_map == &map2)
+                                if (map1completed)
                                 {
-                                    createEnemiesMap2(enemies);
+                                    choosen_tank = &tank2;
+                                    choosen_tank->setHealth(400);
+                                    choosen_tank->setPosition(1500, 450);
+                                    mapSelect(choosen_map, map1, map2, map3, map4, enemies, battleWindow, tankwindow);
+                                    if (choosen_map == &map2)
+                                    {
+                                        createEnemiesMap2(enemies);
+                                    }
                                 }
+                                
                                 
                             }
 
                             if (buttonClicked(soundeffects, tankwindow, tw.tank3button))
                             {
-                                choosen_tank = &tank3; 
-                                choosen_tank->setHealth(6000);
-                                choosen_tank->setPosition(1500, 450);
-                                mapSelect(choosen_map, map1, map2, map3, map4, enemies, battleWindow, tankwindow);
-                                if (choosen_map == &map2)
+                                if (map3completed)
                                 {
-                                    createEnemiesMap2(enemies);
+                                    choosen_tank = &tank3;
+                                    choosen_tank->setHealth(600);
+                                    choosen_tank->setPosition(1500, 450);
+                                    mapSelect(choosen_map, map1, map2, map3, map4, enemies, battleWindow, tankwindow);
+                                    if (choosen_map == &map2)
+                                    {
+                                        createEnemiesMap2(enemies);
+                                    }
                                 }
+                                
                             }
 
                         }
@@ -1095,15 +1116,11 @@ int main()
                          }
 
                     choosen_tank->driving();
-                    //cout << " 1111111111111111111111111111111" << endl;
                     choosen_tank->boundCollision(battleWindow);
-                    //cout << "222222222222222222222222" << endl;
                     setBulletPosition(choosen_tank, bullets, bulletClock,soundeffects);
-                    //cout << "3333333333333333333333333333333" << endl;
                     setEnemybulletPosition(enemies, enemy_bullets, enemy2_bullets, enemy1ShootsClock, enemy2ShootsClock, choosen_tank,enemy3ShootsClock,soundeffects);
-                    //cout << "4444444444444444444444444444" << endl;
                     checkCollision(choosen_tank, choosen_map);
-                    //cout << "555555555555555555555555555" << endl;
+                    
 
                     while (battleWindow.pollEvent(event5))
                     {
@@ -1130,8 +1147,8 @@ int main()
                     drawEnemies(enemies, battleWindow, choosen_tank);
 
                     battleWindow.draw(closeText);
-                    mapResult(tututu, endwindow, enemies, resultwindow, battleWindow, resulstwin_width, resultwin_height, map1completed,map2completed, map3completed,gamecompleted, mw, gameover, ggwp, choosen_tank, choosen_map,map2,map3,map4, music1, happymusic, gameOver);
-                    //mw.update(map1completed, map2completed, map3completed);
+                    mapResult(tututu, endwindow, enemies, resultwindow, battleWindow, resulstwin_width, resultwin_height, map1completed,map2completed, map3completed,gamecompleted, mw, gameover, ggwp, choosen_tank, choosen_map,map2,map3,map4, music1, happymusic, gameOver,tw);
+                    
                     battleWindow.display();
 
 
@@ -1186,7 +1203,7 @@ int main()
                         if (resultevent.type == Event::Closed)
                         {
                             happymusic.stop();
-                            //music1.play();
+                            music1.play();
                             resultwindow.close();
                             mapwindow.create(VideoMode(window_width, window_height), "Mapwindow", Style::None);
                         }
@@ -1197,7 +1214,7 @@ int main()
                                 if (buttonClicked(soundeffects, resultwindow, resultButton))
                                 {
                                     happymusic.stop();
-                                    //music1.play();
+                                    music1.play();
                                     resultwindow.close();
                                     mapwindow.create(VideoMode(window_width, window_height), "Mapwindow", Style::None); // Return to map window
                                 }
@@ -1211,7 +1228,7 @@ int main()
             }
 
             mapwindow.clear();
-           // mw.update(map1completed, map2completed, map3completed);
+           
             mw.drawGraphics(mapwindow);
             mapwindow.display();
         }

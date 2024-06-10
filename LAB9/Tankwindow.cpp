@@ -5,9 +5,22 @@ Tankwindow::Tankwindow()
     loadAssets();
 }
 
-void Tankwindow::update()
+void Tankwindow::update(bool mc1, bool mc3)
 {
+    if (mc1)
+    {
+        
+        tank2locked.setString("");
+        
+    }
+    if (mc3)
+    {
+        tank3locked.setString("");
+        
+    }
+    
 }
+
 
 void Tankwindow::loadAssets()
 {
@@ -74,6 +87,25 @@ void Tankwindow::loadAssets()
     tank3Text.setPosition(1000, 600);
     tank3Text.setOutlineColor(Color::Black);
     tank3Text.setOutlineThickness(8);
+
+    tank2locked.setFont(font);
+    tank2locked.setString("LOCKED!");
+    tank2locked.setCharacterSize(80);
+    tank2locked.setFillColor(Color::White);
+    tank2locked.setPosition(630, 500);
+    tank2locked.setOutlineColor(Color::Black);
+    tank2locked.setOutlineThickness(8);
+    tank2locked.rotate(-45);
+
+    tank3locked.setFont(font);
+    tank3locked.setString("LOCKED!");
+    tank3locked.setCharacterSize(80);
+    tank3locked.setFillColor(Color::White);
+    tank3locked.setPosition(1030, 500);
+    tank3locked.setOutlineColor(Color::Black);
+    tank3locked.setOutlineThickness(8);
+    tank3locked.rotate(-45);
+
 }
 
 void Tankwindow::drawGraphics(RenderWindow& window)
@@ -86,6 +118,8 @@ void Tankwindow::drawGraphics(RenderWindow& window)
     window.draw(tank2Text);
     window.draw(tank3Text);
     window.draw(closeButton);
+    window.draw(tank2locked);
+    window.draw(tank3locked);
 }
 
 
