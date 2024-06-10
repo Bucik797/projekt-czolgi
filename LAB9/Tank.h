@@ -37,7 +37,7 @@ public:
     void setSpeed(float speed);
     void setHealth(int health);
     void setRotation_speed(float rotation_speed);
-  
+    void setStrength(int s);
 
 private:
     // W³asciwoœci czo³gu

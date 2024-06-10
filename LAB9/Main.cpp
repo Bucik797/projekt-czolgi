@@ -427,6 +427,7 @@ void mapSelect(Map* choosen_map, Map& map1, Map map2, Map& map3, Map& map4, vect
         createEnemiesMap4(enemies);
     }
     battleWindow.create(VideoMode(1600,900), "map1");
+    battleWindow.setKeyRepeatEnabled(false);
     tankwindow.close();
     
 }
@@ -800,13 +801,66 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank* tank,Clock
     
 }
 
+void setgodModeVoice(Sound& demon_sound, SoundBuffer& demon_buffer)
+{
+    
+    if (!demon_buffer.loadFromFile("godmode.wav"))
+    {
+        cout << "error godmode sound" << endl;
+    }
+    else
+    {
+        demon_sound.setBuffer(demon_buffer);
+        
+        
+    }
+
+}
+
+void godModeON(RenderWindow& window,Clock& godmode_clock,Font& font,Tank* choosen_tank,bool& godmodeON,int& current_str,Event& event,Sound& demon_sound)
+{
+    
+    if (!godmodeON)
+    {
+
+        current_str = choosen_tank->getStrength();
+        demon_sound.play();
+    }
+    
+    godmodeON = !godmodeON;
+    cout << "ggggggggggggg" << endl;
+    godmodeON ? choosen_tank->setStrength(200) : choosen_tank->setStrength(current_str);
+    cout << godmodeON << endl;
+    
+    
+    
+}
+
+void setGodmodestring(Font& font1, Text& godmode)
+{
+    if (!font1.loadFromFile("arial.ttf"))
+    {
+        cout << "error" << endl;
+    }
+    godmode.setFont(font1);
+    godmode.setString("GODMODE ON");
+    godmode.setCharacterSize(20);
+    godmode.setFillColor(Color::White);
+    godmode.setPosition(1400, 50);
+    godmode.setOutlineColor(Color::Black);
+    godmode.setOutlineThickness(1);
+}
+
+
+
+
 int main()
 {
     int window_width = 1600;
     int window_height = 900;
     int resulstwin_width = 765;
     int resultwin_height = 474;
-
+    int current_str = 0;
 
     RenderWindow endwindow, battleWindow, loadingwindow, menuwindow, settingswindow, mapwindow, tankwindow, resultwindow;
     bool isFullscreen = false;
@@ -816,6 +870,7 @@ int main()
     bool map2completed = false;
     bool map3completed = false;
     bool gamecompleted = false;
+    bool godmodeON = false;
     Clock clock;
     Clock bulletClock;
     Clock enemy1ShootsClock;
@@ -824,12 +879,12 @@ int main()
     Clock zombie_clock;
     Clock explosion_clock;
     Clock explosion_E_clock;
-
+    Clock godmode_clock;
 
     vector <Bullet> bullets;
     vector <Bullet> enemy_bullets;
     vector <Bullet> enemy2_bullets;
-    //vector <CircleShape> cirlcles;
+    
 
     Direction angle;
 
@@ -839,11 +894,21 @@ int main()
     Texture longWall_texture, shortWall_texture, block1_texture, block2_texture;
     Texture map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_texture, tank2Icon_texture, tank3Icon_texture;
     Text closeText;
+    Text godmode;
     Font font;
+    Font font1;
+
+    Sound demon_sound;
+    SoundBuffer demon_buffer;
+
+    
+    
+
 
     Soundeffects soundeffects;
     Music music1, happymusic, gameOver, tututu;
-
+    setGodmodestring(font1, godmode);
+    setgodModeVoice(demon_sound, demon_buffer);
     setBattleGraphics(map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_texture, tank2Icon_texture, tank3Icon_texture);
 
 
@@ -1128,7 +1193,9 @@ int main()
                          {
                              map4.moveSprites(battleWindow);
                          }
-
+                         
+                         
+                    
                     choosen_tank->driving();
                     choosen_tank->boundCollision(battleWindow);
                     setBulletPosition(choosen_tank, bullets, bulletClock,soundeffects,tank1,tank2,tank3);
@@ -1143,7 +1210,12 @@ int main()
                             tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                             battleWindow.close();
 
-                        }                        
+                        }   
+                        if (event5.type == Event::KeyReleased && event5.key.code == Keyboard::F1)
+                        {
+                            godModeON(battleWindow, godmode_clock, font, choosen_tank, godmodeON, current_str, event5,demon_sound);
+                        }
+                        
                     }
 
                     float dt = explosion_clock.restart().asSeconds();
@@ -1162,7 +1234,13 @@ int main()
 
                     battleWindow.draw(closeText);
                     mapResult(tututu, endwindow, enemies, resultwindow, battleWindow, resulstwin_width, resultwin_height, map1completed,map2completed, map3completed,gamecompleted, mw, gameover, ggwp, choosen_tank, choosen_map,map2,map3,map4, music1, happymusic, gameOver,tw);
-                    
+                    if (godmodeON)
+                    {
+                        
+                        battleWindow.draw(godmode);
+
+                    }
+
                     battleWindow.display();
 
 
