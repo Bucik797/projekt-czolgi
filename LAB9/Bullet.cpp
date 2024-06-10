@@ -8,12 +8,10 @@ using namespace std;
 
    Bullet::Bullet(int v, int d) : velocity(v), damage(d) 
     {
-       
-            
-        
+   
     }
-
-
+   
+   
     // Gettery
     int Bullet::getVelocity()
     { 
