@@ -9,10 +9,10 @@ using namespace std;
 
 class Tank : public Sprite {
 public:
-    // Konstruktor
+    
     Tank(float x, float y, float speed, int health, const sf::Texture& texture, float rs,bool dw, int strength);
 
-    // Metody
+    
     void move(int d);
     void shoot();
     void takeDamage(int damage);
@@ -24,7 +24,7 @@ public:
     
 
 
-    // Gettery
+    
     float getSpeed() const;
     int getHealth() const;
     float getRotation();
@@ -33,18 +33,18 @@ public:
     Vector2f getCurrentPosition();
     int getStrength();
 
-    // Settery
+    
     void setSpeed(float speed);
     void setHealth(int health);
     void setRotation_speed(float rotation_speed);
     void setStrength(int s);
 
 private:
-    // W³asciwoœci czo³gu
+    
     
     bool show_explosion = false;
-    float speed;    // Prêdkoœæ
-    int health;     // Zdrowie
+    float speed;    
+    int health;    
     float rotation_speed;
     float current_angle;
     int strength;

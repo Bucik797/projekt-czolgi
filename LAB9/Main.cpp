@@ -1,3 +1,4 @@
+// Dominik But Grzegorz Białobrzewski
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
@@ -106,8 +107,7 @@ void playMusic(Music& music, Music& happymusic, Music& gameover, Music& tututu)
 
 void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_sprite, Sprite& map3Background_sprite, Sprite& map4Background_sprite, Texture& map1Background_texture, Texture& map2Background_texture, Texture& map3Background_texture, Texture& map4Background_texture, Texture& tank1Icon_texture, Texture& tank2Icon_texture, Texture& tank3Icon_texture)
 {
-    if (//!map1Background_texture.loadFromFile("map11.png")
-         !map2Background_texture.loadFromFile("map1.png")
+    if (!map2Background_texture.loadFromFile("map1.png")
         || !map3Background_texture.loadFromFile("map1.png")
         || !map4Background_texture.loadFromFile("map1.png")
         || !tank1Icon_texture.loadFromFile("yellow1Tank.png")
@@ -130,88 +130,86 @@ void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_spri
     map4Background_sprite.setTexture(map4Background_texture);
 
 
-    //tank1Icon_sprite.setTexture(tank1Icon_texture);
-    //tank1Icon_sprite.setScale(0.3, 0.3);
-    //tank1Icon_sprite.setPosition(200, 800);
+    
 
 }
 
 void checkCollision(Tank* tank, const Map* map) {
-    // Sprawdzenie kolizji czo³gu z ka¿d¹ cian¹ na mapie
+    
     for (const auto& wall : map->getWalls()) {
         if (tank->getGlobalBounds().intersects(wall.getGlobalBounds())) {
-            //return true;  // Jeli wykryto kolizjê, zwróæ true
+            
 
 
             FloatRect tankBounds = tank->getGlobalBounds();
             
             FloatRect wallBounds = wall.getGlobalBounds();
 
-            // Wylicz wektor odbicia (to może wymagać kalibracji w zależności od zachowania, którego oczekujesz)
+            
             float overlapLeft = tankBounds.left + tankBounds.width - wallBounds.left;
             float overlapRight = wallBounds.left + wallBounds.width - tankBounds.left;
             float overlapTop = tankBounds.top + tankBounds.height - wallBounds.top;
             float overlapBottom = wallBounds.top + wallBounds.height - tankBounds.top;
 
-            // Wybierz najmniejsze przecięcie, aby zdecydować, z której strony jest kolizja
+            
             float minOverlap = min({ overlapLeft, overlapRight, overlapTop, overlapBottom });
 
             if (minOverlap == overlapLeft) {
                 tank->setPosition(wallBounds.left - tankBounds.width+32, tank->getPosition().y);
-                //cout << "left" << endl;
+                
             }
             else if (minOverlap == overlapRight) {
                 tank->setPosition(wallBounds.left + wallBounds.width+30, tank->getPosition().y);
-                //cout << "roght" << endl;
+                
             }
             else if (minOverlap == overlapTop) {
                 tank->setPosition(tank->getPosition().x, wallBounds.top - tankBounds.height+30);
-                //cout << "top" << endl;
+                
             }
             else if (minOverlap == overlapBottom) {
                 tank->setPosition(tank->getPosition().x, wallBounds.top + wallBounds.height+25);
-                //cout << "bottom" << endl;
+                
             }
 
 
         }
     }
 
-    // Sprawdzenie kolizji czo³gu z ka¿dym blokiem na mapie
+    
     for (const auto& block : map->getBlocks()) {
         if (tank->getGlobalBounds().intersects(block.getGlobalBounds())) {
             if (tank->getGlobalBounds().intersects(block.getGlobalBounds())) {
-                //return true;  // Jeli wykryto kolizjê, zwróæ true
+                
 
 
                 FloatRect tankBounds = tank->getGlobalBounds();
 
                 FloatRect wallBounds = block.getGlobalBounds();
 
-                // Wylicz wektor odbicia (to może wymagać kalibracji w zależności od zachowania, którego oczekujesz)
+                
                 float overlapLeft = tankBounds.left + tankBounds.width - wallBounds.left;
                 float overlapRight = wallBounds.left + wallBounds.width - tankBounds.left;
                 float overlapTop = tankBounds.top + tankBounds.height - wallBounds.top;
                 float overlapBottom = wallBounds.top + wallBounds.height - tankBounds.top;
 
-                // Wybierz najmniejsze przecięcie, aby zdecydować, z której strony jest kolizja
+                
                 float minOverlap = min({ overlapLeft, overlapRight, overlapTop, overlapBottom });
 
                 if (minOverlap == overlapLeft) {
                     tank->setPosition(wallBounds.left - tankBounds.width + 32, tank->getPosition().y);
-                    //cout << "left" << endl;
+                    
                 }
                 else if (minOverlap == overlapRight) {
                     tank->setPosition(wallBounds.left + wallBounds.width + 30, tank->getPosition().y);
-                    //cout << "roght" << endl;
+                    
                 }
                 else if (minOverlap == overlapTop) {
                     tank->setPosition(tank->getPosition().x, wallBounds.top - tankBounds.height + 32);
-                    //cout << "top" << endl;
+                    
                 }
                 else if (minOverlap == overlapBottom) {
                     tank->setPosition(tank->getPosition().x, wallBounds.top + wallBounds.height + 25);
-                    //cout << "bottom" << endl;
+                    
                 }
 
 
@@ -227,7 +225,7 @@ void checkCollision(Tank* tank, const Map* map) {
         }
     }
 
-    //return false;  // Jeli nie wykryto ¿adnej kolizji, zwróæ false
+    
 }
 
 void setBulletPosition(Tank* tank, vector<Bullet>& bullets, Clock& bulletClock,Soundeffects& sfx,Tank& tank1, Tank& tank2, Tank& tank3)
@@ -281,7 +279,7 @@ void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& windo
     {
         bool isErased = false;
 
-        // Sprawdzenie, czy pocisk opuścił okno
+        
         auto bounds = it->getGlobalBounds();
         if (bounds.left + bounds.width < 0 || bounds.top + bounds.height < 0 ||
             bounds.left > window.getSize().x || bounds.top > window.getSize().y) {
@@ -291,19 +289,19 @@ void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& windo
         }
         if (!isErased)
         {
-            // Sprawdź kolizje z murami
+            
             for (const auto& wall : map->getWalls())
             {
                 if (it->getGlobalBounds().intersects(wall.getGlobalBounds()))
                 {
                     it = bullets.erase(it);
                     isErased = true;
-                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                    break; 
                 }
             }
         }
 
-        // Jeśli pocisk nie został jeszcze usunięty, sprawdź bloki
+       
         if (!isErased)
         {
             for (const auto& block : map->getBlocks())
@@ -312,7 +310,7 @@ void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& windo
                 {
                     it = bullets.erase(it);
                     isErased = true;
-                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                    break; 
                 }
             }
         }
@@ -325,7 +323,7 @@ void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& windo
                 {
                     it = bullets.erase(it);
                     isErased = true;
-                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                    break; 
                 }
             }
         }
@@ -341,25 +339,25 @@ void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& windo
                     sfx.enemydamaged.play();
                     
                     if (enemy->getHp() <= 0) {
-                        enemy.reset(); // Usuń obiekt przeciwnika
+                        enemy.reset(); 
                     }
                     it = bullets.erase(it);
                     isErased = true;
-                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                    break; 
                 }
             }
         }
 
 
 
-        // Jeżeli pocisk nie został usunięty przez żadną z kolizji, przejdź do następnego
+        
         if (!isErased)
         {
             ++it;
         }
 
         enemies.erase(remove(enemies.begin(), enemies.end(), nullptr), enemies.end());
-        //cout << enemies.size() << endl;
+        
 
     }
 }
@@ -501,7 +499,7 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vec
     {
         
         for (const auto& enemy : enemies) {
-            if (enemy->getId() == 3) { /////////////////RZUCA WYJATEK ALE CHUJ TAM NAPRAWI SIE
+            if (enemy->getId() == 3) { 
                 
                 e1sc.restart();
                 e1b.push_back(Bullet(0.15f, 50));
@@ -510,7 +508,7 @@ void setEnemybulletPosition(const vector<unique_ptr<EnemyManager>>& enemies, vec
                 e1b.back().setRadius(5);
                 e1b.back().setAngle(atan2(tank->getPosition().y - e1b.back().getPosition().y, tank->getPosition().x - e1b.back().getPosition().x));
                 sfx.enemyshoot.play();
-                //break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
+                
             }
         }
         
@@ -584,7 +582,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
     {
         bool isErased = false;
 
-        // Sprawdzenie, czy pocisk opuścił okno
+        
         auto bounds = it->getGlobalBounds();
         if (bounds.left + bounds.width < 0 || bounds.top + bounds.height < 0 ||
             bounds.left > window.getSize().x || bounds.top > window.getSize().y) {
@@ -594,19 +592,19 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
         }
          if (!isErased)
         {
-            // Sprawdź kolizje z murami
+            
             for (const auto& wall : map->getWalls())
             {
                 if (it->getGlobalBounds().intersects(wall.getGlobalBounds()))
                 {
                     it = e1b.erase(it);
                     isErased = true;
-                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                    break; 
                 }
             }
         }
          
-        // Jeśli pocisk nie został jeszcze usunięty, sprawdź bloki
+        
         if (!isErased)
         {
             for (const auto& block : map->getBlocks())
@@ -615,7 +613,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
                 {
                     it = e1b.erase(it);
                     isErased = true;
-                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                    break; 
                 }
             }
         }
@@ -628,7 +626,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
                 {
                     it = e1b.erase(it);
                     isErased = true;
-                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                    break; 
                 }
             }
         }
@@ -643,7 +641,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
                         enemy->dealRangeDamageAnimation(*tank);
                         enemy->dealDamage(*tank);
                         sfx.playerdamaged.play();
-                        break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
+                        break;  
                     }
                 }
                 
@@ -655,13 +653,13 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
 
         
 
-        // Jeżeli pocisk nie został usunięty przez żadną z kolizji, przejdź do następnego
+        
         if (!isErased)
         {
             ++it;
         }
 
-        //e1b.erase(remove(e1b.begin(), e1b.end(), nullptr), e1b.end());
+        
        
         
 
@@ -671,7 +669,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
     {
         bool isErased = false;
 
-        // Sprawdzenie, czy pocisk opuścił okno
+        
         auto bounds = it->getGlobalBounds();
         if (bounds.left + bounds.width < 0 || bounds.top + bounds.height < 0 ||
             bounds.left > window.getSize().x || bounds.top > window.getSize().y) {
@@ -681,19 +679,19 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
         }
         if (!isErased)
         {
-            // Sprawdź kolizje z murami
+            
             for (const auto& wall : map->getWalls())
             {
                 if (it->getGlobalBounds().intersects(wall.getGlobalBounds()))
                 {
                     it = e2b.erase(it);
                     isErased = true;
-                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                    break; 
                 }
             }
         }
 
-        // Jeśli pocisk nie został jeszcze usunięty, sprawdź bloki
+        
         if (!isErased)
         {
             for (const auto& block : map->getBlocks())
@@ -702,7 +700,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
                 {
                     it = e2b.erase(it);
                     isErased = true;
-                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                    break; 
                 }
             }
         }
@@ -715,7 +713,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
                 {
                     it = e2b.erase(it);
                     isErased = true;
-                    break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+                    break; 
                 }
             }
         }
@@ -732,7 +730,7 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
                         enemy->dealRangeDamageAnimation(*tank);
                         enemy->dealDamage(*tank);
                         sfx.playerdamaged.play();
-                        break;  // zakończ pętlę po znalezieniu odpowiedniego wroga
+                        break;  
                     }
                 }
                 isErased = true;
@@ -743,13 +741,13 @@ void enemyBulletsCollide(const Map* map, vector<Bullet>& e1b, vector<Bullet>& e2
 
 
 
-        // Jeżeli pocisk nie został usunięty przez żadną z kolizji, przejdź do następnego
+        
         if (!isErased)
         {
             ++it;
         }
 
-        //e2b.erase(remove(e2b.begin(), e2b.end(), nullptr), e2b.end());
+        
 
 
     }
@@ -787,14 +785,13 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank* tank,Clock
             
             if ((*it)->getId() == 3 || (*it)->getId() == 4 || (*it)->getId() == 5) 
             {
-                //(*it)->dealRangeDamageAnimation(tank);
+                
                 sfx.playerdamaged.play();
                 tank->setHealth(0);
                 enemies.erase(it);
                 break;
             }
-             // Bezpieczne usunięcie
-             // Zatrzymaj pętlę po usunięciu elementu
+             
         }
     }
 
@@ -828,7 +825,6 @@ void godModeON(RenderWindow& window,Clock& godmode_clock,Font& font,Tank* choose
     }
     
     godmodeON = !godmodeON;
-    cout << "ggggggggggggg" << endl;
     godmodeON ? choosen_tank->setStrength(200) : choosen_tank->setStrength(current_str);
     cout << godmodeON << endl;
     
@@ -1221,7 +1217,7 @@ int main()
                     float dt = explosion_clock.restart().asSeconds();
                     float dt1 = explosion_E_clock.restart().asSeconds();
 
-                    // Update
+                    
                     boomAnimation(enemies, dt,dt1);
                     battleWindow.draw(*choosen_tank);
                     flyingBullets(bullets, battleWindow);
