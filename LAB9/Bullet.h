@@ -21,7 +21,7 @@ public:
 	void drawBullets(RenderWindow& window);
 	void setAngle(float a);
 	float getAngle();
-	//void setColor1(Tank* tank, Tank& tank1, Tank& tank2, Tank& tank3);
+	
 
 private:
 	int velocity;

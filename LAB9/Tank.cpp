@@ -30,6 +30,10 @@ void Tank::move(int d) {
     
 }
 
+void Tank::setStrength(int s)
+{
+    strength = s;
+}
 
 float Tank::getRotation()
 {
