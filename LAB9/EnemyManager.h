@@ -40,7 +40,7 @@ public:
     void update(float dt,float dt1);
     
 
-    //Gettery 
+    
 
     bool isAnimationFinished();
     int getId() const;
@@ -54,4 +54,4 @@ public:
     
 };
 
-#endif // ENEMY_MANAGER_H
+#endif 

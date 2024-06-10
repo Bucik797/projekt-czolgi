@@ -12,7 +12,7 @@ using namespace std;
     }
    
    
-    // Gettery
+   
     int Bullet::getVelocity()
     { 
         return velocity; 
@@ -28,7 +28,7 @@ using namespace std;
         return angle;
     }
 
-    // Settery
+   
 
     void Bullet::setAngle(float a)
     {

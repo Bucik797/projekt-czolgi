@@ -6,7 +6,7 @@
 using namespace sf;
 using namespace std;
 
-// Konstruktor
+
 Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture, float rs, bool dw, int strength)
     : speed(speed), health(health), rotation_speed(rs), driving_backwards(dw), strength(strength)
 {
@@ -21,7 +21,7 @@ Tank::Tank(float x, float y, float speed, int health, const sf::Texture& texture
     
 }
 
-// Metody
+
 void Tank::move(int d) {
     current_angle = (Sprite::getRotation() - 90) * (3.14159265f / 180.0f);
 
@@ -54,7 +54,7 @@ void Tank::driving()
 
     if (Keyboard::isKeyPressed(Keyboard::Up)) {
         move(1);
-        //driving_backwards = false;
+        
     }
     if (Keyboard::isKeyPressed(Keyboard::Down)) {
         driving_backwards = true;
@@ -126,7 +126,7 @@ void Tank::takeDamage(int damage) {
     }
 }
 
-// Gettery
+
 
 int Tank::getStrength()
 {
@@ -150,7 +150,7 @@ int Tank::getHealth() const {
     return health;
 }
 
-// Settery
+
 void Tank::setSpeed(float speed) {
     this->speed = speed;
 }

@@ -14,7 +14,7 @@ Map::Map(const string& backgroundFile, const string& longWallFile, const string&
     }
     
 
-   // initializeMap3();
+   
 }
 
 Map::Map(const string& result_file)
@@ -26,31 +26,19 @@ Map::Map(const string& result_file)
     else
     {
         this->setTexture(result_texture);
-        //this->setScale(1.5, 1.5);
-        //this->setPosition(100, 0);
+        
 
     }
 }
 
 void Map::initializeMap1()
 {
-    //cout << " init 1" << endl;
+    
     this->setTexture(background_texture);
 
     this->setScale(1.5, 1.5);
     this->setPosition(100, 0);
 
-    // Tworzenie sprite'ów œcian i bloków
-
-    /*
-
-    182.6 57.8 lw
-    117.8 58.6 sw
-    74.6 77.4  b1
-    74.4 75.8  b2
-
-
-    */
     
     Sprite longWall_sprite1(longWall_texture);
     longWall_sprite1.setPosition(700, 600);
@@ -150,7 +138,7 @@ void Map::initializeMap1()
     block24_sprite.setScale(0.2f, 0.2f);
     blocks.push_back(block24_sprite);
 
-    //cout << block2_sprite.getGlobalBounds().height << " " << block2_sprite.getGlobalBounds().width << endl;
+    
     
 }
 
@@ -159,11 +147,11 @@ void Map::initializeMap2()
     
     cout << " init 2" << endl;
     this->setTexture(background_texture);
-    //this->setTextureRect(IntRect(0, 200, 1600, 900));
+    
     this->setScale(2, 2);
     this->setPosition(0, 0);
 
-    // 1600 x 900
+    
     Sprite longWall_sprite1(longWall_texture);
     longWall_sprite1.setPosition(500, 200);
     longWall_sprite1.setScale(0.5f, 0.5f);
@@ -214,7 +202,7 @@ void Map::initializeMap2()
 
 
 
-    //6 blok 8 sciana
+   
 
 
     Sprite shortWall_sprite(shortWall_texture);
@@ -266,13 +254,13 @@ void Map::initializeMap2()
 void Map::initializeMap3()
 {
     
-    //cout << " init 3" << endl;
+    
     this->setTexture(background_texture);
-    //this->setTextureRect(IntRect(0, 200, 1600, 900));
+    
     this->setScale(2, 2);
     this->setPosition(0, 0);
 
-    // 1600 x 900
+   
     Sprite longWall_sprite1(longWall_texture);
     longWall_sprite1.setPosition(750, 150);
     longWall_sprite1.setScale(0.5f, 0.5f);
@@ -297,7 +285,7 @@ void Map::initializeMap3()
 
 
 
-    //6 blok 8 sciana
+    
 
 
     Sprite shortWall_sprite(shortWall_texture);
@@ -318,7 +306,7 @@ void Map::initializeMap3()
     walls.push_back(shortWall3_sprite);
 
     Sprite shortWall4_sprite(shortWall_texture);
-    //shortWall4_sprite.rotate(90);
+    
     shortWall4_sprite.setPosition(666, 666);
     shortWall4_sprite.setScale(0.5f, 0.5f);
     walls.push_back(shortWall4_sprite);
@@ -359,7 +347,7 @@ void Map::initializeMap4()
     this->setScale(1.9, 1.9);
     this->setPosition(0, 0);
 
-    // 1600 x 900
+    
     Sprite longWall_sprite1(longWall_texture);
     longWall_sprite1.rotate(90);
     longWall_sprite1.setPosition(250, 300);
@@ -399,17 +387,16 @@ void Map::initializeMap4()
 void Map::drawGraphics(RenderWindow& window)
 {
 
-    //cout << "DRAAAAAAAAAAAAAAAWING" << endl;
-    // Rysowanie t³a
+    
     window.draw(*this);
 
-    // Rysowanie œcian
+    
     for (const auto& wall : walls)
     {
         window.draw(wall);
     }
 
-    // Rysowanie bloków
+    
     for (const auto& block : blocks)
     {
         window.draw(block);
@@ -426,7 +413,7 @@ void Map::drawGraphics(RenderWindow& window)
 void Map::createMovingSprites()
 {
     Sprite moving_sprite1(longWall_texture);
-    //moving_sprite1.setTexture(longWall_texture);
+    
     moving_sprite1.setPosition(100, 120);
     moving_sprite1.setScale(0.7f, 0.7f);
     movingCars.push_back(moving_sprite1);
@@ -478,11 +465,11 @@ void Map::drawGameOver(RenderWindow& window, RectangleShape& resultButton, vecto
     window.draw(resultButton);
     for (auto& enemy : enemies)
     {
-            enemy.reset(); // Usuń obiekt przeciwnika
-            break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+            enemy.reset(); 
+            break; 
         
     }
-    //cout << enemies.size() << endl;
+    
     enemies.erase(remove(enemies.begin(), enemies.end(), nullptr), enemies.end());
 }
 
@@ -491,8 +478,8 @@ void Map::drawGGWP(RenderWindow& window, RectangleShape& resultButton, vector<un
     
     for (auto& enemy : enemies)
     {
-        enemy.reset(); // Usuń obiekt przeciwnika
-        break; // Wyjdź z wewnętrznej pętli, ponieważ iterator został zmieniony
+        enemy.reset(); 
+        break; 
 
     }
 
