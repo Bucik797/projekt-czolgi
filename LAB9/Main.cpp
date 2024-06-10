@@ -241,7 +241,6 @@ void setBulletPosition(Tank* tank, vector<Bullet>& bullets, Clock& bulletClock,S
         bullets.back().setOrigin(5, 5);
         bullets.back().setRadius(5);
         bullets.back().setRotation(tank->getRotation());
-        //bullets.back().setColor1(tank, tank1, tank2, tank3);
         bulletClock.restart();
         sfx.playershoot.play();
 
@@ -255,7 +254,7 @@ void setBulletPosition(Tank* tank, vector<Bullet>& bullets, Clock& bulletClock,S
         }
         if (tank == &tank3)
         {
-            bullets.back().setFillColor(Color::Blue);
+            bullets.back().setFillColor(Color::Cyan);
         }
         
     }
