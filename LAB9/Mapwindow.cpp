@@ -99,7 +99,7 @@ void Mapwindow::loadAssets()
     mapsText.setOutlineThickness(8);
 
     map1Text.setFont(mapFont);
-    map1Text.setString("BLACK MAP");
+    map1Text.setString("DARK ABBYS");
     map1Text.setCharacterSize(30);
     map1Text.setFillColor(Color::Black);
     map1Text.setPosition(100, 600);
@@ -107,7 +107,7 @@ void Mapwindow::loadAssets()
     map1Text.setOutlineThickness(3);
 
     map2Text.setFont(mapFont);
-    map2Text.setString("DEZERCJA");
+    map2Text.setString("STORMY DESERT");
     map2Text.setCharacterSize(30);
     map2Text.setFillColor(Color::Black);
     map2Text.setPosition(520, 600);
