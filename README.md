@@ -11,24 +11,24 @@ HEAVY – Ciężki i Potężny
 Niebieski czołg to prawdziwy gigant na polu bitwy. Jego potężna siła ognia i wytrzymałość czynią go niezrównanym w walce. Idealny dla tych, którzy preferują bezpośrednią konfrontację i przetrwanie.
 
 Mapy:
-MROCZNA OTCHŁAŃ
+DARK ABBYS
 Wejdź do Mrocznej Otchłani, gdzie czerń i cienie dominują nad każdym zakątkiem. To mapa pełna tajemnic i niebezpieczeństw, idealna dla tych, którzy lubią działanie pod osłoną nocy. Gęste mgły i niewyraźne kontury sprawiają, że każdy zakręt może skrywać niespodziankę.
 Cechy:
 Słaba widoczność: Ograniczone pole widzenia sprawia, że trzeba być zawsze czujnym.
 Gęste cienie: Idealne miejsce na zasadzki i taktyczne uniki.
 
-PUSTYNNA BURZA
+STORMY DESERT
 Pustynna Burza to mapa pełna piasku, wydm i gorącego słońca. Ogromne, otwarte przestrzenie pozwalają na długodystansowe starcia, a burze piaskowe mogą w każdej chwili zmienić bieg bitwy. Znajdź schronienie za skałami i wykorzystaj naturalne bariery terenu.
 Cechy:
 Otwarte przestrzenie: Doskonałe dla graczy preferujących walkę na dystans.
 
-ZIELONE POLA
+PLAIN PLANES
 Zielone Pola to malownicza, ale nie mniej niebezpieczna mapa pełna bujnej trawy, drzew i pagórków. Idealne miejsce do walki na średni dystans, z mnóstwem miejsc do ukrycia się i zaplanowania ataku. Uważaj na naturalne przeszkody i zaskocz swoich przeciwników z ukrycia.
 Cechy:
 Bujna roślinność: Daje możliwość skradania się i zasadzki.
 
-BETONOWA DŻUNGLA
-Betonowa Dżungla to gęsto zabudowane miasto, pełne wąskich uliczek, wysokich budynków i ukrytych przejść. To mapa dla tych, którzy lubią intensywne walki w ciasnych przestrzeniach. Wykorzystaj miejską infrastrukturę do swojej przewagi, zasadzki za rogiem i dynamiczne potyczki to norma.
+MARIANOWO CITY
+Marianowo City to gęsto zabudowane miasto, pełne wąskich uliczek, wysokich budynków i ukrytych przejść. To mapa dla tych, którzy lubią intensywne walki w ciasnych przestrzeniach. Wykorzystaj miejską infrastrukturę do swojej przewagi, zasadzki za rogiem i dynamiczne potyczki to norma.
 Cechy:
 Wąskie uliczki: Idealne do bliskich starć i zasadzki.
 
