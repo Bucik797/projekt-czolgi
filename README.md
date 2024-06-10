@@ -91,3 +91,6 @@ ENJOY!
 
 LINK DO INSTALLERA 
 https://drive.google.com/drive/folders/1KOTwl1rVhr12amFnWK9dsGjTXibMuu-L?usp=sharing
+
+PARE UWAG
+
