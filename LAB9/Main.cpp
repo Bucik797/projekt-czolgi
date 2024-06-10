@@ -230,7 +230,7 @@ void checkCollision(Tank* tank, const Map* map) {
     //return false;  // Jeli nie wykryto ¿adnej kolizji, zwróæ false
 }
 
-void setBulletPosition(Tank* tank, vector<Bullet>& bullets, Clock& bulletClock,Soundeffects& sfx)
+void setBulletPosition(Tank* tank, vector<Bullet>& bullets, Clock& bulletClock,Soundeffects& sfx,Tank& tank1, Tank& tank2, Tank& tank3)
 {
     
     if (Keyboard::isKeyPressed(Keyboard::Space) && bulletClock.getElapsedTime().asSeconds()>1)
@@ -241,8 +241,22 @@ void setBulletPosition(Tank* tank, vector<Bullet>& bullets, Clock& bulletClock,S
         bullets.back().setOrigin(5, 5);
         bullets.back().setRadius(5);
         bullets.back().setRotation(tank->getRotation());
+        //bullets.back().setColor1(tank, tank1, tank2, tank3);
         bulletClock.restart();
         sfx.playershoot.play();
+
+        if (tank == &tank1)
+        {
+            bullets.back().setFillColor(Color::Yellow);
+        }
+        if (tank == &tank2)
+        {
+            bullets.back().setFillColor(Color::Red);
+        }
+        if (tank == &tank3)
+        {
+            bullets.back().setFillColor(Color::Blue);
+        }
         
     }
     
@@ -353,38 +367,39 @@ void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& windo
 
 void createEnemiesMap1(vector<unique_ptr<EnemyManager>>& enemies)
 {
-    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 4.0f, "meleeEnemy.png", 100, 100, 1));
-    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 3.0f, "meleeEnemy.png", 350, 100, 1));
-    enemies.push_back(make_unique<RangeEnemy>(80, 30, 2.0f, "rangeEnemy.png", 300, 300, 3));
-    enemies.push_back(make_unique<RangeEnemy>(80, 30, 2.0f, "rangeEnemy.png", 400, 500, 3));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 6.0f, "meleeEnemy.png", 300, 700, 1));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 5.5f, "meleeEnemy.png", 350, 400, 1));
+    enemies.push_back(make_unique<RangeEnemy>(80, 30, 3.5f, "rangeEnemy.png", 100, 100, 3));
+    enemies.push_back(make_unique<RangeEnemy>(80, 30, 3.5f, "rangeEnemy.png", 150, 600, 3));
 }
 
 void createEnemiesMap2(vector<unique_ptr<EnemyManager>>& enemies)
 {
     cout << "create enemies map 2" << endl;
-    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 4.0f, "meleeEnemy.png", 100, 100, 1));
-    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 3.0f, "meleeEnemy.png", 350, 100, 1));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 400, 350, 4));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 450, 550, 5));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.0f, "meleeEnemy.png", 500, 600, 1));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.5f, "meleeEnemy.png", 650, 400, 1));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 300, 100, 4));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 350, 750, 5));
 }
 
 void createEnemiesMap3(vector<unique_ptr<EnemyManager>>& enemies)
 {
-    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 4.0f, "zombie.png", 100, 100, 2));
-    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 3.0f, "zombie.png", 350, 100, 2));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 400, 350, 4));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 450, 550, 5));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.0f, "zombie.png", 600, 350, 2));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.0f, "zombie.png", 650, 500, 2));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.5f, "zombie.png", 700, 650, 2));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 250, 100, 4));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 300, 750, 5));
 }
 
 void createEnemiesMap4(vector<unique_ptr<EnemyManager>>& enemies)
 {
-    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 4.0f, "zombie.png", 100, 100, 2));
-    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 3.0f, "zombie.png", 450, 100, 2));
-    enemies.push_back(make_unique<RangeEnemy>(80, 30, 2.0f, "rangeEnemy.png", 300, 300, 3));
-    enemies.push_back(make_unique<RangeEnemy>(80, 30, 2.0f, "rangeEnemy.png", 400, 500, 3));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 400, 350, 4));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 650, 550, 4));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 2.0f, "demon.png", 750, 650, 5));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.0f, "zombie.png",850, 150, 2));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.5f, "zombie.png", 800, 700, 2));
+    enemies.push_back(make_unique<RangeEnemy>(80, 30, 3.5f, "rangeEnemy.png", 180, 300, 3));
+    enemies.push_back(make_unique<RangeEnemy>(80, 30, 3.5f, "rangeEnemy.png", 200, 400, 3));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 350, 200, 4));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 150, 500, 4));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 350, 800, 5));
 }
 
 void mapSelect(Map* choosen_map, Map& map1, Map map2, Map& map3, Map& map4, vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& battleWindow, RenderWindow& tankwindow)
@@ -392,24 +407,24 @@ void mapSelect(Map* choosen_map, Map& map1, Map map2, Map& map3, Map& map4, vect
     
     if (choosen_map == &map1)
     {
-        cout << "created enemies 1" << endl;
+        
         createEnemiesMap1(enemies);
     }
 
     if (choosen_map == &map2)
     {
-        cout << "create enemies 2" << endl;
+        
         createEnemiesMap2(enemies);
     }
     if (choosen_map == &map3)
     {
-        cout << "create enemies 3" << endl;
+        
         createEnemiesMap3(enemies);
     }
 
     if (choosen_map == &map4)
     {
-        cout << "create enemies 4" << endl;
+        
         createEnemiesMap4(enemies);
     }
     battleWindow.create(VideoMode(1600,900), "map1");
@@ -430,18 +445,18 @@ void mapResult(Music& tututu, RenderWindow& endwindow, const vector<unique_ptr<E
 {
     if (tank->getHealth() == 0)
     {
-        cout << "TANK DEAD" << endl;
+        
         resultwindow.create(VideoMode(window_width, window_height), "resultwindow", Style::None);
         battleWindow.close();
         music1.pause();
         happymusic.stop();
         gameOver.play(); 
-        cout << "Game over"<< endl;
+        
 
     }
     else if (enemies.size() == 0)
     {
-        cout << "enemies dead" << endl;
+        
         choosen_map->setCompleted(true);
         if (map2.getCompleted())
         {
@@ -473,7 +488,7 @@ void mapResult(Music& tututu, RenderWindow& endwindow, const vector<unique_ptr<E
             battleWindow.close();
             music1.pause();
             happymusic.play();
-            cout << "GG WP" << endl;
+            
 
         }
     }
@@ -1117,7 +1132,7 @@ int main()
 
                     choosen_tank->driving();
                     choosen_tank->boundCollision(battleWindow);
-                    setBulletPosition(choosen_tank, bullets, bulletClock,soundeffects);
+                    setBulletPosition(choosen_tank, bullets, bulletClock,soundeffects,tank1,tank2,tank3);
                     setEnemybulletPosition(enemies, enemy_bullets, enemy2_bullets, enemy1ShootsClock, enemy2ShootsClock, choosen_tank,enemy3ShootsClock,soundeffects);
                     checkCollision(choosen_tank, choosen_map);
                     
