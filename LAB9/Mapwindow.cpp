@@ -71,15 +71,15 @@ void Mapwindow::loadAssets()
     map1button.setSize(Vector2f(350, 350));
     map1button.setPosition(25, 250);
 
-    map2button.setTexture(&map_TXT);
+    map2button.setTexture(&map2_TXT);
     map2button.setSize(Vector2f(350, 350));
     map2button.setPosition(425, 250);
 
-    map3button.setTexture(&map_TXT);
+    map3button.setTexture(&map3_TXT);
     map3button.setSize(Vector2f(350, 350));
     map3button.setPosition(825, 250);
 
-    map4button.setTexture(&map_TXT);
+    map4button.setTexture(&map4_TXT);
     map4button.setSize(Vector2f(350, 350));
     map4button.setPosition(1225, 250);
 
@@ -129,21 +129,75 @@ void Mapwindow::loadAssets()
     map4Text.setPosition(1260, 600);
     map4Text.setOutlineColor(Color::White);
     map4Text.setOutlineThickness(3);
+
+    map2pytajnik.setFont(font);
+    map2pytajnik.setString("?");
+    map2pytajnik.setCharacterSize(300);
+    map2pytajnik.setFillColor(Color::White);
+    map2pytajnik.setPosition(500, 250);
+    map2pytajnik.setOutlineColor(Color::Black);
+    map2pytajnik.setOutlineThickness(8);
+
+    map3pytajnik.setFont(font);
+    map3pytajnik.setString("?");
+    map3pytajnik.setCharacterSize(300);
+    map3pytajnik.setFillColor(Color::White);
+    map3pytajnik.setPosition(900, 250);
+    map3pytajnik.setOutlineColor(Color::Black);
+    map3pytajnik.setOutlineThickness(8);
+
+    map4pytajnik.setFont(font);
+    map4pytajnik.setString("?");
+    map4pytajnik.setCharacterSize(300);
+    map4pytajnik.setFillColor(Color::White);
+    map4pytajnik.setPosition(1300, 250);
+    map4pytajnik.setOutlineColor(Color::Black);
+    map4pytajnik.setOutlineThickness(8);
+
+    map1completedtext.setFont(font);
+    map1completedtext.setString("");
+    map1completedtext.setCharacterSize(60);
+    map1completedtext.setFillColor(Color::Red);
+    map1completedtext.setPosition(30, 500);
+    map1completedtext.setOutlineColor(Color::Black);
+    map1completedtext.setOutlineThickness(8);
+    map1completedtext.rotate(-40);
+
+    map2completedtext.setFont(font);
+    map2completedtext.setString("");
+    map2completedtext.setCharacterSize(60);
+    map2completedtext.setFillColor(Color::Red);
+    map2completedtext.setPosition(430, 500);
+    map2completedtext.setOutlineColor(Color::Black);
+    map2completedtext.setOutlineThickness(8);
+    map2completedtext.rotate(-40);
+
+    map3completedtext.setFont(font);
+    map3completedtext.setString("");
+    map3completedtext.setCharacterSize(60);
+    map3completedtext.setFillColor(Color::Red);
+    map3completedtext.setPosition(830, 500);
+    map3completedtext.setOutlineColor(Color::Black);
+    map3completedtext.setOutlineThickness(8);
+    map3completedtext.rotate(-40);
 }
 
 void Mapwindow::update(bool map1completed, bool map2completed, bool map3completed)
 {
     if (map1completed)
     {
-        map2button.setTexture(&map2_TXT);
-    }
+        map2pytajnik.setString("");
+        map1completedtext.setString("COMPLETED!");
+;    }
     if (map2completed)
     {
-        map3button.setTexture(&map3_TXT);
+        map3pytajnik.setString("");
+        map2completedtext.setString("COMPLETED!");
     }
     if (map3completed)
     {
-        map4button.setTexture(&map4_TXT);
+        map4pytajnik.setString("");
+        map3completedtext.setString("COMPLETED!");
     }
 }
 
@@ -160,4 +214,10 @@ void Mapwindow::drawGraphics(RenderWindow& window)
     window.draw(map2Text);
     window.draw(map3Text);
     window.draw(map4Text);
+    window.draw(map2pytajnik);
+    window.draw(map3pytajnik);
+    window.draw(map4pytajnik);
+    window.draw(map1completedtext);
+    window.draw(map2completedtext);
+    window.draw(map3completedtext);
 }

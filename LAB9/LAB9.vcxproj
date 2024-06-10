@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Endscreen.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Loadingscreen.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Endscreen.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Loadingscreen.h" />
     <ClInclude Include="Map.h" />

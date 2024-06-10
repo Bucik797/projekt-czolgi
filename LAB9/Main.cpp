@@ -16,6 +16,7 @@
 #include "Tankwindow.h"
 #include <math.h>
 #include "Soundeffects.h"
+#include "Endscreen.h"
 
 
 using namespace sf;
@@ -28,21 +29,6 @@ enum Direction
     left_rotation=-1
 };
 
-void closebutton(RectangleShape& button, Text& text, Font& font, string textString, float posX, float posY) {
-    if (!font.loadFromFile("arial.ttf")) {
-        cout << "Failed to load font" << endl;
-    }
-    button.setSize(Vector2f(200, 100));
-	button.setFillColor(Color::Red);
-	button.setPosition(posX, posY);
-
-	text.setFont(font);
-	text.setString(textString);
-	text.setCharacterSize(24);
-	text.setFillColor(Color::White);
-    text.setOutlineColor(Color::Green);
-	text.setPosition(posX + 50, posY + 40);
-}
 
 bool buttonClicked(Soundeffects& sfx,RenderWindow& window, RectangleShape& button) {
     float mouseX = Mouse::getPosition(window).x;
@@ -95,7 +81,7 @@ bool selectedSprite(RenderWindow& window, Sprite& sprite) {
     return false;
 }
 
-void playMusic(Music& music, Music& happymusic, Music& gameover)
+void playMusic(Music& music, Music& happymusic, Music& gameover, Music& tututu)
 {
     if (!music.openFromFile("muzyczka.wav"))
     {
@@ -106,6 +92,10 @@ void playMusic(Music& music, Music& happymusic, Music& gameover)
         cout << "Failed to load happymusic" << endl;
     }
     if (!gameover.openFromFile("gameover.wav"))
+    {
+        cout << "Failed to load game over sound" << endl;
+    }
+    if (!tututu.openFromFile("tututu.wav"))
     {
         cout << "Failed to load game over sound" << endl;
     }
@@ -435,12 +425,12 @@ void drawEnemies(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& 
     }
 }
 
-void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& resultwindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c, bool& m2c, bool& m3c, bool& gmc, Mapwindow& mw, Map& gameover, Map& ggwp, Tank* tank, Map* choosen_map, Map& map2, Map& map3, Map& map4, Music& music1, Music& happymusic, Music& gameOver)
+void mapResult(Music& tututu, RenderWindow& endwindow, const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& resultwindow, RenderWindow& battleWindow, int window_width, int window_height, bool& m1c, bool& m2c, bool& m3c, bool& gmc, Mapwindow& mw, Map& gameover, Map& ggwp, Tank* tank, Map* choosen_map, Map& map2, Map& map3, Map& map4, Music& music1, Music& happymusic, Music& gameOver)
 {
     if (tank->getHealth() == 0)
     {
         cout << "TANK DEAD" << endl;
-        resultwindow.create(VideoMode(window_width, window_height), "resultwindow");
+        resultwindow.create(VideoMode(window_width, window_height), "resultwindow", Style::None);
         battleWindow.close();
         music1.pause();
         happymusic.stop();
@@ -466,12 +456,24 @@ void mapResult(const vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& re
         }
         m1c = true;
         mw.update(m1c, m2c, m3c);
-        resultwindow.create(VideoMode(845, 607), "resultwindow");
-        battleWindow.close();
-        music1.pause();
-        happymusic.play();
-        cout << "GG WP" << endl;
+        if (gmc)
+        {
+            endwindow.create(VideoMode(1024, 1024), "endwindow", Style::None);
+            resultwindow.close();
+            battleWindow.close();
+            music1.pause();
+            happymusic.stop();
+            tututu.play();
+        }
+        else
+        {
+            resultwindow.create(VideoMode(845, 607), "resultwindow", Style::None);
+            battleWindow.close();
+            music1.pause();
+            happymusic.play();
+            cout << "GG WP" << endl;
 
+        }
     }
 }
 
@@ -789,7 +791,7 @@ int main()
     int resultwin_height = 474;
 
 
-    RenderWindow battleWindow, loadingwindow, menuwindow, settingswindow, mapwindow, tankwindow, resultwindow;
+    RenderWindow endwindow, battleWindow, loadingwindow, menuwindow, settingswindow, mapwindow, tankwindow, resultwindow;
     bool isFullscreen = false;
     bool loaded = false;
     bool driving_backwards;
@@ -814,7 +816,7 @@ int main()
 
     Direction angle;
 
-    RectangleShape closeButton, resultButton;
+    RectangleShape  resultButton;
     Sprite map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, tank1Icon_sprite;
     Sprite longWall1_sprite, shortWall_sprite, block1_sprite, block2_sprite;
     Texture longWall_texture, shortWall_texture, block1_texture, block2_texture;
@@ -823,18 +825,17 @@ int main()
     Font font;
 
     Soundeffects soundeffects;
-    Music music1, happymusic, gameOver;
+    Music music1, happymusic, gameOver, tututu;
 
-    closebutton(closeButton, closeText, font, "Close", 1200, 800);
     setBattleGraphics(map1Background_sprite, map2Background_sprite, map3Background_sprite, map4Background_sprite, map1Background_texture, map2Background_texture, map3Background_texture, map4Background_texture, tank1Icon_texture, tank2Icon_texture, tank3Icon_texture);
 
-    playMusic(music1, happymusic, gameOver);
+    playMusic(music1, happymusic, gameOver, tututu);
     music1.play();
 
 
     Tank tank1(1500, 450, 0.25f, 200, tank1Icon_texture, 0.25, false, 30);
     Tank tank2(1500, 450, 0.15f, 400, tank2Icon_texture, 0.15, false, 45);
-    Tank tank3(1500, 450, 0.05f, 600, tank3Icon_texture, 0.05, false, 70);
+    Tank tank3(1500, 450, 0.05f, 6000, tank3Icon_texture, 0.05, false, 70);
     Tank* choosen_tank;
     choosen_tank = &tank1;
     Map map1("map1background.png", "longWall.png", "shortWall.png", "block1.png", "block2.png", false);
@@ -856,7 +857,7 @@ int main()
     }
 
     Loadingscreen ls;
-    loadingwindow.create(VideoMode(1300, 700), "Loadingscreen");
+    loadingwindow.create(VideoMode(1300, 700), "Loadingscreen", Style::None);
     loadingwindow.setVisible(true);
     loadingwindow.requestFocus();
     loadingwindow.clear();
@@ -866,6 +867,7 @@ int main()
     Settings sts;
     Mapwindow mw;
     Tankwindow tw;
+    Endscreen ends;
     battleWindow.setFramerateLimit(30);
 
     while (loadingwindow.isOpen()) {
@@ -878,7 +880,7 @@ int main()
         Time elapsed = clock.getElapsedTime();
 
         if (elapsed.asSeconds() > 6.0f) {
-            menuwindow.create(VideoMode(window_width, window_height), "Menu");
+            menuwindow.create(VideoMode(window_width, window_height), "Menu", Style::None);
             loadingwindow.close();
             break;
         }
@@ -1059,7 +1061,7 @@ int main()
                             if (buttonClicked(soundeffects, tankwindow, tw.tank3button))
                             {
                                 choosen_tank = &tank3; 
-                                choosen_tank->setHealth(600);
+                                choosen_tank->setHealth(6000);
                                 choosen_tank->setPosition(1500, 450);
                                 mapSelect(choosen_map, map1, map2, map3, map4, enemies, battleWindow, tankwindow);
                                 if (choosen_map == &map2)
@@ -1103,16 +1105,7 @@ int main()
                             tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
                             battleWindow.close();
 
-                        }
-                        if (event5.type == Event::MouseButtonPressed) {
-                            if (event5.mouseButton.button == Mouse::Left) {
-                                if (buttonClicked(soundeffects, battleWindow, closeButton))
-                                {
-                                    tankwindow.create(VideoMode(window_width, window_height), "Tankwindow", Style::None);
-                                    battleWindow.close();
-                                }
-                            }
-                        }
+                        }                        
                     }
 
                     float dt = explosion_clock.restart().asSeconds();
@@ -1129,22 +1122,50 @@ int main()
 
                     drawEnemies(enemies, battleWindow, choosen_tank);
 
-                    battleWindow.draw(closeButton);
                     battleWindow.draw(closeText);
-                    mapResult(enemies, resultwindow, battleWindow, resulstwin_width, resultwin_height, map1completed,map2completed, map3completed,gamecompleted, mw, gameover, ggwp, choosen_tank, choosen_map,map2,map3,map4, music1, happymusic, gameOver);
+                    mapResult(tututu, endwindow, enemies, resultwindow, battleWindow, resulstwin_width, resultwin_height, map1completed,map2completed, map3completed,gamecompleted, mw, gameover, ggwp, choosen_tank, choosen_map,map2,map3,map4, music1, happymusic, gameOver);
                     //mw.update(map1completed, map2completed, map3completed);
                     battleWindow.display();
 
 
 
                 }
+                while (endwindow.isOpen())
+                {
+					endwindow.clear();
+					ends.drawGraphics(endwindow);
+					Event endevent;
+
+                    while (endwindow.pollEvent(endevent))
+                    {
+                        if (endevent.type == Event::Closed)
+                        {
+							endwindow.close();
+                            loadingwindow.close();
+						}
+
+                        if (endevent.type == Event::MouseButtonPressed) {
+                            if (endevent.mouseButton.button == Mouse::Left) {
+                                if (buttonClicked(soundeffects, endwindow, ends.closebutton))
+                                {
+									endwindow.close();
+									loadingwindow.close();
+								}
+							}
+						}
+					}
+					endwindow.display();
+				}
+
                 while (resultwindow.isOpen())
                 {
                     resultwindow.clear();
 
                     if (choosen_map->getCompleted())
                     {
+                        
                         ggwp.drawGGWP(resultwindow, resultButton, enemies);
+                        
                     }
                     else
                     {
@@ -1165,12 +1186,13 @@ int main()
 
                         if (resultevent.type == Event::MouseButtonPressed) {
                             if (resultevent.mouseButton.button == Mouse::Left) {
+                                
                                 if (buttonClicked(soundeffects, resultwindow, resultButton))
                                 {
                                     happymusic.stop();
                                     music1.play();
                                     resultwindow.close();
-                                    mapwindow.create(VideoMode(window_width, window_height), "Mapwindow", Style::None);
+                                    mapwindow.create(VideoMode(window_width, window_height), "Mapwindow", Style::None); // Return to map window
                                 }
                             }
                         }

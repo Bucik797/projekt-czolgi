@@ -33,6 +33,8 @@ private:
 	Texture map_TXT, map1_TXT, map2_TXT, map3_TXT, map4_TXT;
 
 	Text mapsText, map1Text, map2Text, map3Text, map4Text;
+	Text map2pytajnik, map3pytajnik, map4pytajnik;
+	Text map1completedtext, map2completedtext, map3completedtext, map4completedtext;
 
 	void loadAssets();
 };
