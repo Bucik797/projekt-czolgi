@@ -81,7 +81,7 @@ Efekty dźwiękowe: https://freesound.org/
 
 PS. WAŻNE!!!
 Na każdej mapie na ścianach występuje niewidzialny śluz, momentami utrudnia poruszanie, zwłaszcza podczas próby jazdy wzdłuż przeszkody
-
+F1 - GODMODE
 
 ENJOY!
 
