@@ -85,7 +85,7 @@ Na każdej mapie na ścianach występuje niewidzialny śluz, momentami utrudnia 
  
 PS2
 
-Omyłkowo zapomnieliśmy zmienić styl okna walki na None. Prosimy aby traktować to okna jakby było stylu None i aby go nie powiekszać ani nie zmiejszać gdyż spowoduje to błedy w hitboxach, texturach itp.
+Ze względy na zamieszanie z instalatorem zapomnieliśmy zmienić styl okna walki na None. Prosimy aby traktować to okna jakby było stylu None i aby go nie powiekszać ani nie zmiejszać gdyż spowoduje to błedy w hitboxach, texturach itp.
 
 F1 - GODMODE
 
