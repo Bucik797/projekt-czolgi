@@ -13,11 +13,11 @@ void Loadingscreen::update()
 
 void Loadingscreen::loadAssets()
 {
-	if (!backgroundTXT.loadFromFile("loadingTanks.png"))
+	if (!backgroundTXT.loadFromFile("Assets/Textures/loadingTanks.png"))
 	{
 		cout << "Failed to load background texture" << endl;
 	}
-	if (!logoTXT.loadFromFile("gameLogo.png"))
+	if (!logoTXT.loadFromFile("Assets/Textures/gameLogo.png"))
 	{
 		cout << "Failed to load logo texture" << endl;
 	}

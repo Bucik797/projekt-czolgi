@@ -50,14 +50,14 @@ void Settings::drawGraphics(RenderWindow& window)
 
 void Settings::loadAssets()
 {
-    if(!background_TXT.loadFromFile("mapinterface.png")) {
+    if(!background_TXT.loadFromFile("Assets/Textures/mapinterface.png")) {
         cout << "Failed to load background texture" << endl;
     }
-    if (!logo_TXT.loadFromFile("gameLogo.png"))
+    if (!logo_TXT.loadFromFile("Assets/Textures/gameLogo.png"))
     {
         cout << "Failed to load logo texture" << endl;
     }
-    if (!button_TXT.loadFromFile("settingsguzior.png"))
+    if (!button_TXT.loadFromFile("Assets/Textures/settingsguzior.png"))
     {
         cout << "Failed to load button texture" << endl;
     }
@@ -148,7 +148,7 @@ void Settings::loadAssets()
     closeButton.setPosition(550, 665);
 
 
-    if (!font.loadFromFile("arial.ttf"))
+    if (!font.loadFromFile("Assets/Fonts/arial.ttf"))
     {
         cout << "Failed to load font" << endl;
     }

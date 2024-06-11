@@ -30,19 +30,19 @@ void Menu::update()
 
 void Menu::loadAssets()
 {
-    if (!background_TXT.loadFromFile("maininterface.png")) {
+    if (!background_TXT.loadFromFile("Assets/Textures/maininterface.png")) {
         cout << "Failed to load background texture" << endl;
     }
-    if (!white_TXT.loadFromFile("lajcior.png")) {
+    if (!white_TXT.loadFromFile("Assets/Textures/lajcior.png")) {
         cout << "Failed to load white texture" << endl;
     }
-    if (!logo_TXT.loadFromFile("gameLogo.png")) {
+    if (!logo_TXT.loadFromFile("Assets/Textures/gameLogo.png")) {
         cout << "Failed to load logo texture" << endl;
     }
-    if (!but_TXT.loadFromFile("bucik.png")) {
+    if (!but_TXT.loadFromFile("Assets/Textures/bucik.png")) {
         cout << "Failed to load bucik texture" << endl;
     }
-    if (!font.loadFromFile("arial.ttf")) {
+    if (!font.loadFromFile("Assets/Fonts/arial.ttf")) {
         cout << "Failed to load font" << endl;
     }
 

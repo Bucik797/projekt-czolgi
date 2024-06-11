@@ -14,7 +14,7 @@ EnemyManager::EnemyManager(int hp, int strength, int speed, const string enemyFi
         this->setTexture(enemy_texture);
         this->setPosition(xPos, yPos);
     }
-    explosion_texture.loadFromFile("boom.png");
+    explosion_texture.loadFromFile("Assets/Textures/boom.png");
     explosion_sprite.setTexture(explosion_texture);
     explosion_sprite2.setTexture(explosion_texture);
 

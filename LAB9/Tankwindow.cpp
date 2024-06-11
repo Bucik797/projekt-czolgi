@@ -24,16 +24,16 @@ void Tankwindow::update(bool mc1, bool mc3)
 
 void Tankwindow::loadAssets()
 {
-    if (!tank1TXT.loadFromFile("ytank.png") ||
-        !tank2TXT.loadFromFile("rtank.png") ||
-        !tank3TXT.loadFromFile("btank.png"))
+    if (!tank1TXT.loadFromFile("Assets/Textures/ytank.png") ||
+        !tank2TXT.loadFromFile("Assets/Textures/rtank.png") ||
+        !tank3TXT.loadFromFile("Assets/Textures/btank.png"))
     {
         cout << "Failed to load textures" << endl;
     }
-    if (!background_TXT.loadFromFile("tankinterface.png")) {
+    if (!background_TXT.loadFromFile("Assets/Textures/tankinterface.png")) {
         cout << "Failed to load background texture" << endl;
     }
-    if (!logo_TXT.loadFromFile("gameLogo.png"))
+    if (!logo_TXT.loadFromFile("Assets/Textures/gameLogo.png"))
     {
         cout << "Failed to load logo texture" << endl;
     }
@@ -59,7 +59,7 @@ void Tankwindow::loadAssets()
     tank3button.setPosition(1000, 250);
     tank3button.setTexture(&tank3TXT);
 
-    if (!font.loadFromFile("arial.ttf"))
+    if (!font.loadFromFile("Assets/Fonts/arial.ttf"))
     {
         cout << "Failed to load font" << endl;
     }

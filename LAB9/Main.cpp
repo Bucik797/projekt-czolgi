@@ -84,19 +84,19 @@ bool selectedSprite(RenderWindow& window, Sprite& sprite) {
 
 void playMusic(Music& music, Music& happymusic, Music& gameover, Music& tututu)
 {
-    if (!music.openFromFile("muzyczka.wav"))
+    if (!music.openFromFile("Assets/Music/muzyczka.wav"))
     {
         cout << "Failed to load music" << endl;
     }
-    if (!happymusic.openFromFile("happymusic.wav"))
+    if (!happymusic.openFromFile("Assets/Music/happymusic.wav"))
     {
         cout << "Failed to load happymusic" << endl;
     }
-    if (!gameover.openFromFile("gameover.wav"))
+    if (!gameover.openFromFile("Assets/Music/gameover.wav"))
     {
         cout << "Failed to load game over sound" << endl;
     }
-    if (!tututu.openFromFile("tututu.wav"))
+    if (!tututu.openFromFile("Assets/Music/tututu.wav"))
     {
         cout << "Failed to load game over sound" << endl;
     }
@@ -107,12 +107,12 @@ void playMusic(Music& music, Music& happymusic, Music& gameover, Music& tututu)
 
 void setBattleGraphics(Sprite& map1Background_sprite,Sprite& map2Background_sprite, Sprite& map3Background_sprite, Sprite& map4Background_sprite, Texture& map1Background_texture, Texture& map2Background_texture, Texture& map3Background_texture, Texture& map4Background_texture, Texture& tank1Icon_texture, Texture& tank2Icon_texture, Texture& tank3Icon_texture)
 {
-    if (!map2Background_texture.loadFromFile("map1.png")
-        || !map3Background_texture.loadFromFile("map1.png")
-        || !map4Background_texture.loadFromFile("map1.png")
-        || !tank1Icon_texture.loadFromFile("yellow1Tank.png")
-        || !tank2Icon_texture.loadFromFile("red1Tank.png")
-        || !tank3Icon_texture.loadFromFile("blue1Tank.png"))
+    if (!map2Background_texture.loadFromFile("Assets/Textures/map1.png")
+        || !map3Background_texture.loadFromFile("Assets/Textures/map1.png")
+        || !map4Background_texture.loadFromFile("Assets/Textures/map1.png")
+        || !tank1Icon_texture.loadFromFile("Assets/Textures/yellow1Tank.png")
+        || !tank2Icon_texture.loadFromFile("Assets/Textures/red1Tank.png")
+        || !tank3Icon_texture.loadFromFile("Assets/Textures/blue1Tank.png"))
         
     {
         cout << "Failed to load textures" << endl;
@@ -364,39 +364,39 @@ void bulletsCollide(const Map* map, vector<Bullet>& bullets, RenderWindow& windo
 
 void createEnemiesMap1(vector<unique_ptr<EnemyManager>>& enemies)
 {
-    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 6.0f, "meleeEnemy.png", 300, 700, 1));
-    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 5.5f, "meleeEnemy.png", 350, 400, 1));
-    enemies.push_back(make_unique<RangeEnemy>(80, 30, 3.5f, "rangeEnemy.png", 100, 100, 3));
-    enemies.push_back(make_unique<RangeEnemy>(80, 30, 3.5f, "rangeEnemy.png", 150, 600, 3));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 6.0f, "Assets/Textures/meleeEnemy.png", 300, 700, 1));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 50, 5.5f, "Assets/Textures/meleeEnemy.png", 350, 400, 1));
+    enemies.push_back(make_unique<RangeEnemy>(80, 30, 3.5f, "Assets/Textures/rangeEnemy.png", 100, 100, 3));
+    enemies.push_back(make_unique<RangeEnemy>(80, 30, 3.5f, "Assets/Textures/rangeEnemy.png", 150, 600, 3));
 }
 
 void createEnemiesMap2(vector<unique_ptr<EnemyManager>>& enemies)
 {
-    cout << "create enemies map 2" << endl;
-    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.0f, "meleeEnemy.png", 500, 600, 1));
-    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.5f, "meleeEnemy.png", 650, 400, 1));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 300, 100, 4));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 350, 750, 5));
+    
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.0f, "Assets/Textures/meleeEnemy.png", 500, 600, 1));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.5f, "Assets/Textures/meleeEnemy.png", 650, 400, 1));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "Assets/Textures/demon.png", 300, 100, 4));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "Assets/Textures/demon.png", 350, 750, 5));
 }
 
 void createEnemiesMap3(vector<unique_ptr<EnemyManager>>& enemies)
 {
-    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.0f, "zombie.png", 600, 350, 2));
-    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.0f, "zombie.png", 650, 500, 2));
-    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.5f, "zombie.png", 700, 650, 2));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 250, 100, 4));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 300, 750, 5));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.0f, "Assets/Textures/zombie.png", 600, 350, 2));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.0f, "Assets/Textures/zombie.png", 650, 500, 2));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.5f, "Assets/Textures/zombie.png", 700, 650, 2));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "Assets/Textures/demon.png", 250, 100, 4));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "Assets/Textures/demon.png", 300, 750, 5));
 }
 
 void createEnemiesMap4(vector<unique_ptr<EnemyManager>>& enemies)
 {
-    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.0f, "zombie.png",850, 150, 2));
-    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.5f, "zombie.png", 800, 700, 2));
-    enemies.push_back(make_unique<RangeEnemy>(80, 30, 3.5f, "rangeEnemy.png", 180, 300, 3));
-    enemies.push_back(make_unique<RangeEnemy>(80, 30, 3.5f, "rangeEnemy.png", 200, 400, 3));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 350, 200, 4));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 150, 500, 4));
-    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "demon.png", 350, 800, 5));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.0f, "Assets/Textures/zombie.png",850, 150, 2));
+    enemies.push_back(make_unique<MeleeEnemy>(100, 80, 6.5f, "Assets/Textures/zombie.png", 800, 700, 2));
+    enemies.push_back(make_unique<RangeEnemy>(80, 30, 3.5f, "Assets/Textures/rangeEnemy.png", 180, 300, 3));
+    enemies.push_back(make_unique<RangeEnemy>(80, 30, 3.5f, "Assets/Textures/rangeEnemy.png", 200, 400, 3));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "Assets/Textures/demon.png", 350, 200, 4));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "Assets/Textures/demon.png", 150, 500, 4));
+    enemies.push_back(make_unique<RangeEnemy>(140, 50, 3.0f, "Assets/Textures/demon.png", 350, 800, 5));
 }
 
 void mapSelect(Map* choosen_map, Map& map1, Map map2, Map& map3, Map& map4, vector<unique_ptr<EnemyManager>>& enemies, RenderWindow& battleWindow, RenderWindow& tankwindow)
@@ -801,7 +801,7 @@ void collisionDamage(vector<unique_ptr<EnemyManager>>& enemies, Tank* tank,Clock
 void setgodModeVoice(Sound& demon_sound, SoundBuffer& demon_buffer)
 {
     
-    if (!demon_buffer.loadFromFile("godmode.wav"))
+    if (!demon_buffer.loadFromFile("Assets/SFX/godmode.wav"))
     {
         cout << "error godmode sound" << endl;
     }
@@ -834,9 +834,9 @@ void godModeON(RenderWindow& window,Clock& godmode_clock,Font& font,Tank* choose
 
 void setGodmodestring(Font& font1, Text& godmode)
 {
-    if (!font1.loadFromFile("arial.ttf"))
+    if (!font1.loadFromFile("Assets/Fonts/arial.ttf"))
     {
-        cout << "error" << endl;
+        cout << "error dupa" << endl;
     }
     godmode.setFont(font1);
     godmode.setString("GODMODE ON");
@@ -846,8 +846,6 @@ void setGodmodestring(Font& font1, Text& godmode)
     godmode.setOutlineColor(Color::Black);
     godmode.setOutlineThickness(1);
 }
-
-
 
 
 int main()
@@ -918,14 +916,14 @@ int main()
     Tank tank3(1500, 450, 0.05f, 6000, tank3Icon_texture, 0.05, false, 70);
     Tank* choosen_tank;
     choosen_tank = &tank1;
-    Map map1("map1background.png", "longWall.png", "shortWall.png", "block1.png", "block2.png", false);
-    Map map2("map2background2.png", "longWallmap2.png", "shortWallmap2.png", "block1map2.png", "block2map2.png", false);
-    Map map3("map3background3.png", "longWallmap3.png", "shortWallmap3.png", "block1map3.png", "block2map3.png", false);
-    Map map4("map4background4.png", "car1map4.png", "car2map4.png", "car3map4.png", "car4map4.png", false);
+    Map map1("Assets/Textures/map1background.png", "Assets/Textures/longWall.png", "Assets/Textures/shortWall.png", "Assets/Textures/block1.png", "Assets/Textures/block2.png", false);
+    Map map2("Assets/Textures/map2background2.png", "Assets/Textures/longWallmap2.png", "Assets/Textures/shortWallmap2.png", "Assets/Textures/block1map2.png", "Assets/Textures/block2map2.png", false);
+    Map map3("Assets/Textures/map3background3.png", "Assets/Textures/longWallmap3.png", "Assets/Textures/shortWallmap3.png", "Assets/Textures/block1map3.png", "Assets/Textures/block2map3.png", false);
+    Map map4("Assets/Textures/map4background4.png", "Assets/Textures/car1map4.png", "Assets/Textures/car2map4.png", "Assets/Textures/car3map4.png", "Assets/Textures/car4map4.png", false);
     Map* choosen_map;
     choosen_map = &map1;
-    Map gameover("gameover.png");
-    Map ggwp("ggwp.png");
+    Map gameover("Assets/Textures/gameover.png");
+    Map ggwp("Assets/Textures/ggwp.png");
 
     vector<unique_ptr<EnemyManager>> enemies;
     
@@ -1327,15 +1325,4 @@ int main()
         menuwindow.display();
     }
     return 0;
-}
-        
-
-    
-
-        
-
-
-
-
-
-        
+}       

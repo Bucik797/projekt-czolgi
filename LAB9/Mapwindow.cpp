@@ -40,19 +40,19 @@ bool Mapwindow::selectedSprite(RenderWindow& window, Sprite& sprite) {
 
 void Mapwindow::loadAssets()
 {
-    if (!map1_TXT.loadFromFile("map1background.png") ||
-        !map2_TXT.loadFromFile("map2background.png") ||
-        !map3_TXT.loadFromFile("map3background.png") ||
-        !map4_TXT.loadFromFile("marianowocity.png") ||
-        !map_TXT.loadFromFile("map1.png"))
+    if (!map1_TXT.loadFromFile("Assets/Textures/map1background.png") ||
+        !map2_TXT.loadFromFile("Assets/Textures/map2background.png") ||
+        !map3_TXT.loadFromFile("Assets/Textures/map3background.png") ||
+        !map4_TXT.loadFromFile("Assets/Textures/marianowocity.png") ||
+        !map_TXT.loadFromFile("Assets/Textures/map1.png"))
 
     {
         cout << "Failed to load textures" << endl;
     }
-    if (!background_TXT.loadFromFile("mapinterface.png")) {
+    if (!background_TXT.loadFromFile("Assets/Textures/mapinterface.png")) {
         cout << "Failed to load background texture" << endl;
     }
-    if (!logo_TXT.loadFromFile("gameLogo.png"))
+    if (!logo_TXT.loadFromFile("Assets/Textures/gameLogo.png"))
     {
         cout << "Failed to load logo texture" << endl;
     }
@@ -84,8 +84,8 @@ void Mapwindow::loadAssets()
     map4button.setPosition(1225, 250);
 
 
-    if (!font.loadFromFile("arial.ttf") ||
-        !mapFont.loadFromFile("mapFont.ttf"))
+    if (!font.loadFromFile("Assets/Fonts/arial.ttf") ||
+        !mapFont.loadFromFile("Assets/Fonts/mapFont.ttf"))
     {
         cout << "Failed to load font" << endl;
     }

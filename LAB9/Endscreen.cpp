@@ -7,7 +7,7 @@ Endscreen::Endscreen()
 
 void Endscreen::loadAssets()
 {
-	if (!backgroundTXT.loadFromFile("endscreen.png"))
+	if (!backgroundTXT.loadFromFile("Assets/Textures/endscreen.png"))
 	{
 		cout << "Error loading Endscreen.png" << endl;
 	}

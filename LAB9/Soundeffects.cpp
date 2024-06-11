@@ -7,27 +7,27 @@ Soundeffects::Soundeffects()
 
 void Soundeffects::loadsounds()
 {
-    if (!buttonclickedbuffer.loadFromFile("buttonclicked.wav"))
+    if (!buttonclickedbuffer.loadFromFile("Assets/SFX/buttonclicked.wav"))
     {
         cout << "Failed to load button sound" << endl;
     }
-    if (!enemydamagedbuffer.loadFromFile("enemydamaged.wav"))
+    if (!enemydamagedbuffer.loadFromFile("Assets/SFX/enemydamaged.wav"))
     {
         cout << "Failed to load enemy dmg sound" << endl;
     }
-    if (!playerdamagedbuffer.loadFromFile("takingdmg.wav"))
+    if (!playerdamagedbuffer.loadFromFile("Assets/SFX/takingdmg.wav"))
     {
         cout << "Failed to load player dmg sound" << endl;
     }
-    if (!enemydeathbuffer.loadFromFile("enemydeath.wav"))
+    if (!enemydeathbuffer.loadFromFile("Assets/SFX/enemydeath.wav"))
     {
         cout << "Failed to load enemy death sound" << endl;
     }
-    if (!enemyshootbuffer.loadFromFile("enemyshot.wav"))
+    if (!enemyshootbuffer.loadFromFile("Assets/SFX/enemyshot.wav"))
     {
         cout << "Failed to load enemy shot sound" << endl;
     }
-    if (!playershootbuffer.loadFromFile("tankshot.wav"))
+    if (!playershootbuffer.loadFromFile("Assets/SFX/tankshot.wav"))
     {
         cout << "Failed to load player shot sound" << endl;
     }
